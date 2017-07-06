@@ -5,7 +5,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -34,7 +33,7 @@ public class RemoveMemberMenu {
 		setup();
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		if(!data.getOwner().equals(player.getName())) {
-			MessageUT.plmessage(player, Locales.get("not_permitted"));
+			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 			SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 			return;
 		}

@@ -24,7 +24,7 @@ public class ConfigPlugin {
 		instance = Core.getThis();
 		config = instance.getConfig();
 	}
-
+	public static Locales locale;
 	@SuppressWarnings("deprecation")
 	public static ItemStack getTool() {
 		String name = getStr("holo.item.head", "&cNot Configured");
@@ -47,7 +47,7 @@ public class ConfigPlugin {
 	}
 	public static void setupSetting() {
 		config = instance.getConfig();
-		Locales.setup();
+		locale = new Locales(Core.getThis(), "EN");
 	}
 	public static double getDefaultOffset() {
 		return getDouble("holo.default_offset",2);

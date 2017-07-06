@@ -17,7 +17,6 @@ import me.onenrico.holoblock.api.HoloPlaceEvent;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.hooker.TownyHook;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
@@ -55,7 +54,7 @@ public class PlaceEvent implements Listener {
 					pu.add("holocount", ""+holocount);
 					pu.add("maxholo", ""+maxholo);
 					if(holocount >= maxholo) {
-						MessageUT.acplmessage(player, pu.t(Locales.get("exceeded_holo")));
+						MessageUT.acplmessage(player, pu.t(ConfigPlugin.locale.getValue("exceeded_holo")));
 						SoundManager.playSound(player, "ENTITY_BLAZE_DEATH");
 						event.setCancelled(true);
 						return;
@@ -97,7 +96,7 @@ public class PlaceEvent implements Listener {
 						int holocount = Datamanager.getDB().getOwned(player.getName());
 						pu.add("maxholo", ""+maxholo);
 						pu.add("holocount", ""+holocount);
-						MessageUT.acplmessage(player, pu.t(Locales.get("add_holo")));
+						MessageUT.acplmessage(player, pu.t(ConfigPlugin.locale.getValue("add_holo")));
 						SoundManager.playSound(player, "BLOCK_ANVIL_PLACE");
 						FireworkUT.random(loc, 1);
 					}

@@ -20,7 +20,6 @@ import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
-import me.onenrico.holoblock.utils.PermissionUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class MainMenu {

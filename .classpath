@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/Vault.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Enrico Fajar/Desktop/Current Project/Towny.jar"/>
 	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/HolographicDisplays.jar"/>
+	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/PlaceholderAPI-2.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

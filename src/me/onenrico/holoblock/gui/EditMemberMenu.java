@@ -9,13 +9,11 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MathUT;
-import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class EditMemberMenu {

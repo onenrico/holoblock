@@ -1,22 +1,13 @@
 package me.onenrico.holoblock.gui;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
-
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
-import me.onenrico.holoblock.utils.MathUT;
-import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class AddLineMenu {

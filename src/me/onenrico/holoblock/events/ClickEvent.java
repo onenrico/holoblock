@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -12,7 +11,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
@@ -26,7 +24,6 @@ import me.onenrico.holoblock.gui.MoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveMemberMenu;
 import me.onenrico.holoblock.locale.Locales;
-import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.MenuItem;
@@ -228,7 +225,7 @@ public class ClickEvent implements Listener {
 			
 			List<String> json = 
 					JsonUT.btnGenerate(
-						Locales.get("editing_line"),
+						ConfigPlugin.locale.getValue("editing_line"),
 						player, 
 						"cancel", 
 						true,
@@ -258,7 +255,7 @@ public class ClickEvent implements Listener {
 			SoundManager.playSound(player,"BLOCK_PISTON_EXTEND",4f,4f);
 			List<String> json = 
 				JsonUT.btnGenerate(
-					Locales.get("adding_line"),
+					ConfigPlugin.locale.getValue("adding_line"),
 					player, 
 					"cancel", 
 					true,
@@ -287,7 +284,7 @@ public class ClickEvent implements Listener {
 			HoloData data = Datamanager.getDataByLoc(action);
 			int count = data.getMembers().size();
 			if(count >= ConfigPlugin.getMaxMember(player, player.getWorld())) {
-				MessageUT.plmessage(player, Locales.get("exceeded_member"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("exceeded_member"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
@@ -300,7 +297,7 @@ public class ClickEvent implements Listener {
 			HoloData data = Datamanager.getDataByLoc(action);
 			int count = data.getLines().size();
 			if(count >= ConfigPlugin.getMaxLine(player, player.getWorld())) {
-				MessageUT.plmessage(player, Locales.get("exceeded_line"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("exceeded_line"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
@@ -322,7 +319,7 @@ public class ClickEvent implements Listener {
 							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 							PlaceholderUT pu = new PlaceholderUT();
 							pu.add("member", member);
-							MessageUT.plmessage(player, pu.t(Locales.get("add_member")));
+							MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("add_member")));
 							EditMemberMenu.open(player, rawloc, 1);
 							CloseEvent.mainMenuPlayers.put(player,rawloc);
 						}
@@ -343,7 +340,7 @@ public class ClickEvent implements Listener {
 							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 							PlaceholderUT pu = new PlaceholderUT();
 							pu.add("member", member);
-							MessageUT.plmessage(player, pu.t(Locales.get("remove_member")));
+							MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("remove_member")));
 							EditMemberMenu.open(player, rawloc, 1);
 							CloseEvent.mainMenuPlayers.put(player,rawloc);
 						}
@@ -364,7 +361,7 @@ public class ClickEvent implements Listener {
 							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 							PlaceholderUT pu = new PlaceholderUT();
 							pu.add("line", ""+(line + 1));
-							MessageUT.plmessage(player, pu.t(Locales.get("remove_line")));
+							MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("remove_line")));
 							EditLineMenu.open(player, rawloc, 1);
 							CloseEvent.mainMenuPlayers.put(player,rawloc);
 						}
@@ -391,7 +388,7 @@ public class ClickEvent implements Listener {
 							PlaceholderUT pu = new PlaceholderUT();
 							pu.add("line", ""+(line + 1));
 							pu.add("lineto", ""+(line2 + 1));
-							MessageUT.plmessage(player, pu.t(Locales.get("move_line")));
+							MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("move_line")));
 							EditLineMenu.open(player, rawloc, 1);
 							CloseEvent.mainMenuPlayers.put(player,rawloc);
 						}
@@ -404,7 +401,7 @@ public class ClickEvent implements Listener {
 			double cost = Double.parseDouble(action.split("<<")[1]); 
 			if(!EconomyUT.has(player, cost)) {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				MessageUT.plmessage(player, Locales.get("insufficient_money"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("insufficient_money"));
 				return;
 			}
 			if(!PermissionUT.check(player, "holoblock.itemline")) {
@@ -427,7 +424,7 @@ public class ClickEvent implements Listener {
 						public void run() {
 							EditLineMenu.open(player, rawloc, 1);
 							SoundManager.playSound(player, "UI_BUTTON_CLICK");
-							List<String> msgs = pu.t(Locales.get("add_line"));
+							List<String> msgs = pu.t(ConfigPlugin.locale.getValue("add_line"));
 							MessageUT.plmessage(player, msgs);
 						}
 				});
@@ -441,7 +438,7 @@ public class ClickEvent implements Listener {
 			
 			List<String> json = 
 					JsonUT.btnGenerate(
-						Locales.get("editing_offset"),
+						ConfigPlugin.locale.getValue("editing_offset"),
 						player, 
 						"cancel", 
 						true,
@@ -467,7 +464,7 @@ public class ClickEvent implements Listener {
 			HoloData data = Datamanager.getDataByLoc(action);
 			if(!data.isAllowCustomSkin()) {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				MessageUT.plmessage(player, Locales.get("not_permitted"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 				return;
 			}
 			MetaUT.setMetaData(player, "EditSkin:", action);
@@ -475,7 +472,7 @@ public class ClickEvent implements Listener {
 			
 			List<String> json = 
 					JsonUT.btnGenerate(
-						Locales.get("editing_skin"),
+						ConfigPlugin.locale.getValue("editing_skin"),
 						player, 
 						"cancel", 
 						true,

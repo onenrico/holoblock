@@ -1,0 +1,137 @@
+#=====-----=====-----=====-----[      Messages Configuration      ]-----=====-----=====-----=====#
+
+messages:
+  item_give:
+  - ""
+  - ""
+  - "&eSuccessfully Given the &6Holo Head &bto {target}"
+  - ""
+  - ""
+  item_get:
+  - ""
+  - ""
+  - "&eSuccessfully Get the &6Holo Head Item"
+  - ""
+  - ""
+
+  add_holo:
+  - "&fSuccessfully Placed New Hologram &8[&e{holocount}&8/&e{maxholo}&8]"
+  remove_holo:
+  - "&eSuccessfully Destroy Hologram &8[&e{holocount}&8/&e{maxholo}&8]"
+  exceeded_holo:
+  - "&cYou can't Place More Hologram &8[&e{holocount}&8/&e{maxholo}&8]"
+  
+  add_member:
+  - ""
+  - ""
+  - "&aSuccessfully Add Member &b{member}"
+  - ""
+  - ""
+  remove_member:
+  - ""
+  - ""
+  - "&eSuccessfully Remove Member &b{member}"
+  - ""
+  - ""
+  exceeded_member:
+  - ""
+  - ""
+  - "&cYou Can't Add More Member"
+  - ""
+  - ""
+
+  add_line:
+  - ""
+  - ""
+  - "&aSuccessfully Added &6Line "
+  - ""
+  - "&8[&r{msg}&8]"
+  - ""
+  - ""
+  edit_line:
+  - ""
+  - ""
+  - "&eSuccessfully Edit &6Line {line} "
+  - ""
+  - "&8[&r{msg}&8]"
+  - ""
+  - ""
+  remove_line:
+  - ""
+  - ""
+  - "&eSuccessfully Cleared &6Line {line}"
+  - ""
+  - ""
+  move_line:
+  - ""
+  - ""
+  - "&eSuccessfully Move &6Line {line} &eto &6Line &6{lineto}"
+  - ""
+  - ""
+  exceeded_line:
+  - ""
+  - ""
+  - "&cYou Can't Add More Line"
+  - ""
+  - ""
+
+  adding_line:
+  - ""
+  - ""
+  - "&7Type {cancel} &7to cancel &fAdding line"
+  - "&7Please Type Anything For The &fLine"
+  - ""
+  - ""
+  editing_line:
+  - ""
+  - ""
+  - "&7Type {cancel} &7to cancel &aEditing line"
+  - "&7Please Type Anything For The &fLine"
+  - ""
+  - ""
+  
+  edit_offset:
+  - ""
+  - ""
+  - "&eSuccessfully Edit &6Offset &eto &8[&r{offset}&8]"
+  - ""
+  - ""
+  
+  editing_offset:
+  - ""
+  - ""
+  - "&7Type {cancel} &7to cancel &bEditing Offset"
+  - "&7Please Type Number ! &8[&fRange &c-5.0 &fto &b5.0 &8]"
+  - ""
+  - ""
+  
+  edit_skin:
+  - ""
+  - ""
+  - "&eSuccessfully Edit &6Skin &eto &8[&r{skin}&8]"
+  - ""
+  - ""
+  
+  editing_skin:
+  - ""
+  - ""
+  - "&7Type {cancel} &7to cancel &bEditing Skin"
+  - "&7Please Type Skin Name !"
+  - ""
+  - ""
+  
+  edit_canceled:
+  - ""
+  - ""
+  - "&cSuccessfully Canceled"
+  - ""
+  - ""
+  
+  insufficient_money:
+  - "&cYou Don't Have Enough Money to use this"
+  no_permission:
+  - "&cYou Don't Have Permission &8[&f{perm}&8] &cTo Use This"
+  not_permitted:
+  - "&cYou Can't Do That To This &bHologram"
+  config_reload:
+  - "&bSuccessfully Reload The Config"

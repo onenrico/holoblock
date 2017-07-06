@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
@@ -38,8 +37,8 @@ public class BreakEvent implements Listener {
 			if(playern == null) {
 				return;
 			}
-			List<String> msg = Locales.get("not_permitted");
-			List<String> msg2 = Locales.get("remove_holo");
+			List<String> msg = ConfigPlugin.locale.getValue("not_permitted");
+			List<String> msg2 = ConfigPlugin.locale.getValue("remove_holo");
 			loc = Seriloc.centered(loc);
 			if(!player.hasPermission("holoblock.admin")) {
 				if(!player.getName().equals(playern)) {

@@ -12,9 +12,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.MainMenu;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
@@ -55,7 +55,7 @@ public class InteractEvent implements Listener {
 						}
 					}
 					if(!pass) {
-						MessageUT.plmessage(player, Locales.get("not_permitted"), true);
+						MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"), true);
 						ParticleUT.send(player, "CLOUD", loc, 0.05f, 0.5f, 0.05f, 0.08f, 25, false);
 						SoundManager.playSound(player, "ENTITY_BLAZE_DEATH",loc);
 						event.setCancelled(true);

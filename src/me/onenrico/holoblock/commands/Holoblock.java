@@ -8,7 +8,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import me.onenrico.holoblock.config.ConfigPlugin;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PermissionUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
@@ -41,7 +40,7 @@ public class Holoblock implements CommandExecutor {
 	public void give(Player player,Player target) {
 		PlaceholderUT pu = new PlaceholderUT();
 		pu.add("target", target.getName());
-		List<String> msg = pu.t(Locales.get("item.give"));
+		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item.give"));
 		if(player == null) {
 			MessageUT.cmessage(msg);
 		}else{
@@ -62,7 +61,7 @@ public class Holoblock implements CommandExecutor {
 				if(args[0].equalsIgnoreCase("reload")) {
 					if(isPlayer(sender)) {
 						if(PermissionUT.check(player,"holoblock.reload")) {
-							MessageUT.plmessage(player, Locales.get("config_reload"));
+							MessageUT.plmessage(player, ConfigPlugin.locale.getValue("config_reload"));
 						}else {
 							return true;
 						}
@@ -73,7 +72,7 @@ public class Holoblock implements CommandExecutor {
 				if(isPlayer(sender)) {
 					if(args[0].equalsIgnoreCase("give")) {
 						if(player.hasPermission("holoblock.give")) {
-							MessageUT.plmessage(player, Locales.get("item_get"));
+							MessageUT.plmessage(player, ConfigPlugin.locale.getValue("item_get"));
 							player.getInventory().addItem(ConfigPlugin.getTool());
 							return true;
 						}

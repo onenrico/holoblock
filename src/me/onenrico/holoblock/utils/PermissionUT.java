@@ -5,7 +5,8 @@ import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import me.onenrico.holoblock.locale.Locales;
+
+import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.MessageUT;
 
@@ -16,7 +17,7 @@ public class PermissionUT {
 		} else {
 			PlaceholderUT pu = new PlaceholderUT();
 			pu.add("perm", perm);
-			List<String> msg = pu.t(Locales.get("no_permission"));
+			List<String> msg = pu.t(ConfigPlugin.locale.getValue("no_permission"));
 			MessageUT.plmessage(player, msg, true);
 			return false;
 		}
