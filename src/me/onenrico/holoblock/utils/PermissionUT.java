@@ -8,9 +8,8 @@ import org.bukkit.entity.Player;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.main.Core;
-import me.onenrico.holoblock.utils.MessageUT;
 
-public class PermissionUT {	
+public class PermissionUT {
 	public static boolean check(Player player, String perm) {
 		if (has(player, perm)) {
 			return true;
@@ -24,13 +23,14 @@ public class PermissionUT {
 	}
 
 	public static boolean has(Player player, String cperm) {
-		if(player.hasPermission(cperm)) {
+		if (player.hasPermission(cperm)) {
 			return true;
 		}
 		return false;
 	}
-	public static boolean has(OfflinePlayer offlineplayer,String perm,World world) {
-		if(Core.v_permission.playerHas(world.getName(), offlineplayer, perm)) {
+
+	public static boolean has(OfflinePlayer offlineplayer, String perm, World world) {
+		if (Core.v_permission.playerHas(world.getName(), offlineplayer, perm)) {
 			return true;
 		}
 		return false;

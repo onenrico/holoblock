@@ -8,10 +8,10 @@ import java.util.Set;
 import org.bukkit.entity.Player;
 
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class JsonUT {
 	public static List<HashMap<String, String>> rawToJson(String text) {
@@ -27,9 +27,10 @@ public class JsonUT {
 		}
 		return end;
 	}
+
 	public static List<List<HashMap<String, String>>> rawToJsons(List<String> text) {
 		List<List<HashMap<String, String>>> end = new ArrayList<>();
-		for(String j : text) {
+		for (String j : text) {
 			end.add(rawToJson(j));
 		}
 		return end;
@@ -42,56 +43,48 @@ public class JsonUT {
 		end.put(text, cmd);
 		return end;
 	}
-	public static List<String> btnGenerate(
-			List<String> json,
-			Player player,
-			String btn, 
-			boolean click,
-			String clicktype,
-			String clickvalue) {
-		return btnGenerate(json,player,btn,false,null,click,clicktype,clickvalue);
+
+	public static List<String> btnGenerate(List<String> json, Player player, String btn, boolean click,
+			String clicktype, String clickvalue) {
+		return btnGenerate(json, player, btn, false, null, click, clicktype, clickvalue);
 	}
-	public static List<String> btnGenerate(
-			List<String> json,
-			Player player,
-			String btn, 
-			boolean hover,
+
+	public static List<String> btnGenerate(List<String> json, Player player, String btn, boolean hover,
 			List<String> hovertext) {
-		return btnGenerate(json,player,btn,hover,hovertext,false,null,null);
+		return btnGenerate(json, player, btn, hover, hovertext, false, null, null);
 	}
-	public static List<String> btnGenerate(
-			List<String> json,
-			Player player,String btn, 
-			Boolean hover,List<String> hovertext,boolean click,
-			String clicktype,String clickvalue) {
+
+	public static List<String> btnGenerate(List<String> json, Player player, String btn, Boolean hover,
+			List<String> hovertext, boolean click, String clicktype, String clickvalue) {
 		PlaceholderUT pu = new PlaceholderUT();
-		String cmd = "<br>&6"+btn+"<cmd>";
-		if(hover) {
+		String cmd = "<br>&6" + btn + "<cmd>";
+		if (hover) {
 			cmd += "#H:$TEXT:";
-			for(int x = 0;x<hovertext.size();x++) {
+			for (int x = 0; x < hovertext.size(); x++) {
 				cmd += hovertext.get(x);
-				if(x + 1 >= hovertext.size()) {
+				if (x + 1 >= hovertext.size()) {
 					break;
 				}
 				cmd += "\n";
 			}
 		}
-		if(click) {
-			if(hover) {
+		if (click) {
+			if (hover) {
 				cmd += "<and>";
 			}
-			cmd += "#C:$"+clicktype.toUpperCase()+":"+clickvalue;
+			cmd += "#C:$" + clicktype.toUpperCase() + ":" + clickvalue;
 		}
 		cmd += "<br>";
 		pu.getAcuan().put(btn, cmd);
 		return pu.t(json);
 	}
-	public static void multiSend(Player player, List<List<HashMap<String, String>>> json) 
-	{
-		for(List<HashMap<String, String>> j : json) {
-			send(player,j);
+
+	public static void multiSend(Player player, List<List<HashMap<String, String>>> json) {
+		for (List<HashMap<String, String>> j : json) {
+			send(player, j);
 		}
 	}
+
 	public static void send(Player player, List<HashMap<String, String>> json) {
 		List<TextComponent> textlist = new ArrayList<>();
 		for (HashMap<String, String> map : json) {

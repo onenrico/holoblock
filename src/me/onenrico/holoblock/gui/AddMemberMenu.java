@@ -26,6 +26,7 @@ public class AddMemberMenu {
 	private static ItemStack AlreadyMember;
 	private static ItemStack PlayerItem;
 	private static ItemStack CancelItem;
+
 	private static void setup() {
 		PrevPageItem = setupItem("PrevPageItem");
 		NextPageItem = setupItem("NextPageItem");
@@ -33,19 +34,21 @@ public class AddMemberMenu {
 		PlayerItem = setupItem("PlayerItem");
 		CancelItem = setupItem("CancelItem");
 	}
+
 	private static ItemStack setupItem(String name) {
-		String prefix = "AddMemberMenu."+name+".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix+"Material", "STONE").toUpperCase());
-		ItemUT.changeDisplayName(result, ConfigPlugin.getStr(prefix+"Displayname", 
-				"&6"+name+" &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix+"Description",
-				ItemUT.createLore("&6"+name+" &fDescription &cNot Configured !")));
+		String prefix = "AddMemberMenu." + name + ".";
+		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemUT.changeDisplayName(result,
+				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-	public static void open(Player player,String rawloc,int page) {
+
+	public static void open(Player player, String rawloc, int page) {
 		setup();
 		HoloData data = Datamanager.getDataByLoc(rawloc);
-		if(!data.getOwner().equals(player.getName())) {
+		if (!data.getOwner().equals(player.getName())) {
 			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 			SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 			return;
@@ -53,95 +56,88 @@ public class AddMemberMenu {
 		Collection<? extends Player> online = Bukkit.getServer().getOnlinePlayers();
 		List<String> players = new ArrayList<>();
 		List<String> members = data.getMembers();
-		for(Player p : online) {
+		for (Player p : online) {
 			players.add(p.getName());
 		}
 		int current = players.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
 		maxpage = MathUT.clamp(maxpage, 1);
 		PlaceholderUT pu = new PlaceholderUT();
-		pu.add("page", ""+page);
-		pu.add("nextpage", ""+(page + 1));
-		pu.add("prevpage", ""+(page - 1));
-		pu.add("maxpage", ""+maxpage);
-		pu.add("player", ""+player.getName());
-		pu.add("owner", ""+data.getOwner());
-		pu.add("onlines", ""+current);
+		pu.add("page", "" + page);
+		pu.add("nextpage", "" + (page + 1));
+		pu.add("prevpage", "" + (page - 1));
+		pu.add("maxpage", "" + maxpage);
+		pu.add("player", "" + player.getName());
+		pu.add("owner", "" + data.getOwner());
+		pu.add("onlines", "" + current);
 		String title = pu.t(ConfigPlugin.getStr("AddMemberMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);
-		if(page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem)
-			.addClick("OpenPagePlayer:"+rawloc+":"+(page - 1)); 
+		if (page > 1) {
+			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page - 1));
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
-			for(int x = 0;x < MathUT.clamp(current, 0, 45);x++) {
-				int newx = (x+multiplier);
+			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
+				int newx = (x + multiplier);
 				String playername = MessageUT.d(players.get(newx));
 				String owner = MessageUT.d(data.getOwner());
 				pu.add("playername", playername);
-				if(members.contains(playername) ||
-						owner.equals(playername)) {
+				if (members.contains(playername) || owner.equals(playername)) {
 					ItemStack amember = AlreadyMember.clone();
 					amember = pu.t(amember);
 					amember = ItemUT.setGlowing(amember, true);
-					if(amember.getItemMeta() instanceof SkullMeta) {
+					if (amember.getItemMeta() instanceof SkullMeta) {
 						SkullMeta meta = (SkullMeta) amember.getItemMeta();
 						meta.setOwner(playername);
 						amember.setItemMeta(meta);
 					}
 					InventoryUT.setItem(inv, x, amember);
-				}else {
+				} else {
 					ItemStack member = PlayerItem.clone();
 					member = pu.t(member);
-					if(member.getItemMeta() instanceof SkullMeta) {
+					if (member.getItemMeta() instanceof SkullMeta) {
 						SkullMeta meta = (SkullMeta) member.getItemMeta();
 						meta.setOwner(playername);
 						member.setItemMeta(meta);
 					}
-					InventoryUT.setItem(inv, x, member)
-					.addClick("PlusMember:"+rawloc+"<<"+(playername));
+					InventoryUT.setItem(inv, x, member).addClick("PlusMember:" + rawloc + "<<" + (playername));
 				}
 			}
-		}else {
-			for(int x = 0;x < MathUT.clamp(current, 0, 45);x++) {
+		} else {
+			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
 				String playername = MessageUT.d(players.get(x));
 				String owner = MessageUT.d(data.getOwner());
 				pu.add("playername", playername);
-				if(members.contains(playername) ||
-						owner.equals(playername)) {
+				if (members.contains(playername) || owner.equals(playername)) {
 					ItemStack amember = AlreadyMember.clone();
 					amember = pu.t(amember);
 					amember = ItemUT.setGlowing(amember, true);
-					if(amember.getItemMeta() instanceof SkullMeta) {
+					if (amember.getItemMeta() instanceof SkullMeta) {
 						SkullMeta meta = (SkullMeta) amember.getItemMeta();
 						meta.setOwner(playername);
 						amember.setItemMeta(meta);
 					}
 					InventoryUT.setItem(inv, x, amember);
-				}else {
+				} else {
 					ItemStack member = PlayerItem.clone();
 					member = pu.t(member);
-					if(member.getItemMeta() instanceof SkullMeta) {
+					if (member.getItemMeta() instanceof SkullMeta) {
 						SkullMeta meta = (SkullMeta) member.getItemMeta();
 						meta.setOwner(playername);
 						member.setItemMeta(meta);
 					}
-					InventoryUT.setItem(inv, x, member)
-					.addClick("PlusMember:"+rawloc+"<<"+(playername));
+					InventoryUT.setItem(inv, x, member).addClick("PlusMember:" + rawloc + "<<" + (playername));
 				}
 			}
 		}
-		if(maxpage > 1) {
-			if(page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem)
-				.addClick("OpenPagePlayer:"+rawloc+":"+(page + 1)); 
+		if (maxpage > 1) {
+			if (page + 1 <= maxpage) {
+				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page + 1));
 			}
 		}
-		for(int x = 0;x<7;x++) {
-			InventoryUT.setItem(inv, x + 46, CancelItem)
-			.addClick("EditMemberMenu:"+rawloc);
+		for (int x = 0; x < 7; x++) {
+			InventoryUT.setItem(inv, x + 46, CancelItem).addClick("EditMemberMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

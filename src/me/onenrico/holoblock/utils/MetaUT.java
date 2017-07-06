@@ -14,18 +14,23 @@ public class MetaUT {
 	public static final MetadataValue createMetadata(Object value) {
 		return new FixedMetadataValue(Core.getThis(), value);
 	}
+
 	public static final MetadataValue createMetadata(Integer value) {
 		return new FixedMetadataValue(Core.getThis(), value);
 	}
+
 	public static final MetadataValue createMetadata(String value) {
 		return new FixedMetadataValue(Core.getThis(), value);
 	}
+
 	public static final MetadataValue createMetadata(Boolean value) {
 		return new FixedMetadataValue(Core.getThis(), value);
 	}
+
 	public static final MetadataValue createMetadata(List<String> value) {
 		return new FixedMetadataValue(Core.getThis(), value);
 	}
+
 	public static final MetadataValue getMetadata(LivingEntity entity, String metadata) {
 		return getMetadata(entity, metadata, 0);
 	}
@@ -41,12 +46,15 @@ public class MetaUT {
 	public static final MetadataValue getMetadata(Block block, String metadata, int index) {
 		return block.getMetadata(metadata).get(index);
 	}
+
 	public static void removeMeta(LivingEntity entity, String metadata) {
 		entity.removeMetadata(metadata, Core.getThis());
 	}
+
 	public static void removeMeta(Block block, String metadata) {
 		block.removeMetadata(metadata, Core.getThis());
 	}
+
 	public static final boolean isExpired(LivingEntity entity, String metadata) {
 		return isExpired(entity, metadata, true);
 	}

@@ -1,6 +1,7 @@
 package me.onenrico.holoblock.utils;
 
 import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -42,13 +43,12 @@ public class MessageUT {
 		plmessage(player, messages, false);
 	}
 
-
-
 	public static void cmessage(String teks) {
 		Core.getThis().getServer().getConsoleSender().sendMessage(t(teks));
 	}
+
 	public static void cmessage(List<String> teks) {
-		for(String tek : teks) {
+		for (String tek : teks) {
 			cmessage(MessageUT.t(tek));
 		}
 	}
@@ -113,6 +113,7 @@ public class MessageUT {
 			acplmessage(player, m, warning);
 		}
 	}
+
 	public static void acmessage(Player player, String teks) {
 		teks = MessageUT.t(teks);
 		ActionBar.sendActionBar(player, teks);

@@ -19,7 +19,7 @@ public class HoloPlaceEvent extends Event {
 	private boolean placeholder;
 	private boolean cancelled = false;
 
-	public HoloPlaceEvent(Player player, List<String> defaultlines, Location loc, int maxline, int currentowned, 
+	public HoloPlaceEvent(Player player, List<String> defaultlines, Location loc, int maxline, int currentowned,
 			int maxowned, boolean placeholder) {
 		this.player = player;
 		this.defaultlines = defaultlines;
@@ -29,40 +29,52 @@ public class HoloPlaceEvent extends Event {
 		this.maxowned = maxowned;
 		this.placeholder = placeholder;
 	}
+
 	@Override
 	public HandlerList getHandlers() {
 		return handlers;
 	}
+
 	public Player getPlayer() {
 		return player;
 	}
+
 	public Location getLoc() {
 		return loc;
 	}
+
 	public List<String> getDefaultlines() {
 		return defaultlines;
 	}
+
 	public int getMaxline() {
 		return maxline;
 	}
+
 	public int getCurrentowned() {
 		return currentowned;
 	}
+
 	public int getMaxowned() {
 		return maxowned;
 	}
+
 	public boolean isPlaceholder() {
 		return placeholder;
 	}
+
 	public boolean isCancelled() {
 		return cancelled;
 	}
+
 	public void setLoc(Location loc) {
 		this.loc = loc;
 	}
+
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
+
 	public void setCancelled(boolean cancelled) {
 		this.cancelled = cancelled;
 	}

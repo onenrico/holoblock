@@ -28,6 +28,7 @@ public class MainMenu {
 	private static ItemStack EditSkinItem;
 	private static ItemStack EditMemberItem;
 	private static ItemStack EditInfoItem;
+
 	private static void setup() {
 		EditInfoItem = setupItem("InfoItem");
 		EditLineItem = setupItem("LineItem");
@@ -35,81 +36,80 @@ public class MainMenu {
 		EditSkinItem = setupItem("SkinItem");
 		EditMemberItem = setupItem("MemberItem");
 	}
+
 	private static ItemStack setupItem(String name) {
-		String prefix = "MainMenu."+name+".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix+"Material", "STONE").toUpperCase());
-		ItemUT.changeDisplayName(result, ConfigPlugin.getStr(prefix+"Displayname", 
-				"&6"+name+" &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix+"Description",
-				ItemUT.createLore("&6"+name+" &fDescription &cNot Configured !")));
+		String prefix = "MainMenu." + name + ".";
+		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemUT.changeDisplayName(result,
+				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
+
 	public static List<Player> animation = new ArrayList<>();
+
 	@SuppressWarnings("deprecation")
-	public static void open(Player player,String rawloc) {
+	public static void open(Player player, String rawloc) {
 		setup();
-		Inventory inv = InventoryUT.createInventory(3, 
-				ConfigPlugin.getStr("MainMenu.Title", "&c&lNot Configured !"));
-		if(!animation.contains(player)) {
+		Inventory inv = InventoryUT.createInventory(3, ConfigPlugin.getStr("MainMenu.Title", "&c&lNot Configured !"));
+		if (!animation.contains(player)) {
 			animation.add(player);
 		}
-		
+
 		CloseEvent.mainMenuPlayers.remove(player);
 		player.removeMetadata("EditLine:", Core.getThis());
 		player.removeMetadata("EditOffset:", Core.getThis());
 		player.removeMetadata("EditSkin:", Core.getThis());
 		player.removeMetadata("AddLine:", Core.getThis());
 		player.removeMetadata("MoveLine:", Core.getThis());
-		
+
 		new BukkitRunnable() {
 			int index = 0;
 			Boolean reverse = false;
 			String item = "DIAMOND";
 			Random r = new Random();
-			String[] items = {"DIAMOND","EMERALD","REDSTONE","COAL","GOLD_INGOT","IRON_INGOT"};
+			String[] items = { "DIAMOND", "EMERALD", "REDSTONE", "COAL", "GOLD_INGOT", "IRON_INGOT" };
 			int data = 0;
+
 			@Override
 			public void run() {
-				if(!animation.contains(player)) {
-					this.cancel();
+				if (!animation.contains(player)) {
+					cancel();
 					return;
 				}
-				for(int x = 0;x<inv.getSize();x++) {
-					if(x != 4 && x != 11 && x != 13 && x != 15 && x != 22) {
-						if(data > 15) {
+				for (int x = 0; x < inv.getSize(); x++) {
+					if (x != 4 && x != 11 && x != 13 && x != 15 && x != 22) {
+						if (data > 15) {
 							data = 0;
 						}
-						InventoryUT.setItem(inv, x, ItemUT.changeDisplayName(ItemUT.getItem("160:"+data), "&r"));
+						InventoryUT.setItem(inv, x, ItemUT.changeDisplayName(ItemUT.getItem("160:" + data), "&r"));
 						data++;
 					}
 				}
-				if(reverse) {
-					if(index <= 0) {
+				if (reverse) {
+					if (index <= 0) {
 						item = items[r.nextInt(items.length)];
-						InventoryUT.setItem(inv, index, 
-								ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
-						reverse = false;	
-					}else {
-						if(index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
-							InventoryUT.setItem(inv, index, 
-									ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
-						}else {
+						InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
+						reverse = false;
+					} else {
+						if (index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
+							InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
+						} else {
 							item = items[r.nextInt(items.length)];
 						}
 						index--;
 					}
-				}else {
-					if(index >= inv.getSize()) {
+				} else {
+					if (index >= inv.getSize()) {
 						item = items[r.nextInt(items.length)];
-						reverse = true;	
+						reverse = true;
 						index--;
-						InventoryUT.setItem(inv, index, 
-								ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
-					}else {
-						if(index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
-							InventoryUT.setItem(inv, index, 
-									ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
-						}else {
+						InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
+					} else {
+						if (index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
+							InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
+						} else {
 							item = items[r.nextInt(items.length)];
 						}
 						index++;
@@ -125,39 +125,39 @@ public class MainMenu {
 		pu.add("owner", owner);
 		int size = 0;
 		List<String> members = data.getMembers();
-		if(!members.isEmpty()) {
+		if (!members.isEmpty()) {
 			size = members.size();
 		}
-		pu.add("members", ""+size);
-		pu.add("lines", ""+data.getLines().size());
-		pu.add("maxlines", ""+ConfigPlugin.getMaxLine(Bukkit.getOfflinePlayer(owner),loc.getWorld()));
-		pu.add("maxmembers", ""+ConfigPlugin.getMaxMember(Bukkit.getOfflinePlayer(owner),loc.getWorld()));
-		pu.add("offset", ""+data.getOffset());
-		pu.add("skin", ""+data.getSkin());
-		pu.add("color", ""+data.isAllowColor());
-		pu.add("placeholder", ""+data.isAllowPlaceholders());
-		pu.add("itemline", ""+data.isAllowItemLine());
-		pu.add("customskin", ""+data.isAllowCustomSkin());
+		pu.add("members", "" + size);
+		pu.add("lines", "" + data.getLines().size());
+		pu.add("maxlines", "" + ConfigPlugin.getMaxLine(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
+		pu.add("maxmembers", "" + ConfigPlugin.getMaxMember(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
+		pu.add("offset", "" + data.getOffset());
+		pu.add("skin", "" + data.getSkin());
+		pu.add("color", "" + data.isAllowColor());
+		pu.add("placeholder", "" + data.isAllowPlaceholders());
+		pu.add("itemline", "" + data.isAllowItemLine());
+		pu.add("customskin", "" + data.isAllowCustomSkin());
 		EditInfoItem = pu.t(EditInfoItem);
 		EditLineItem = pu.t(EditLineItem);
 		EditOffSetItem = pu.t(EditOffSetItem);
 		EditSkinItem = pu.t(EditSkinItem);
 		EditMemberItem = pu.t(EditMemberItem);
-		if(EditInfoItem.getItemMeta() instanceof SkullMeta) {
+		if (EditInfoItem.getItemMeta() instanceof SkullMeta) {
 			SkullMeta meta = (SkullMeta) EditInfoItem.getItemMeta();
 			meta.setOwner(owner);
 			EditInfoItem.setItemMeta(meta);
 		}
-		if(EditSkinItem.getItemMeta() instanceof SkullMeta) {
+		if (EditSkinItem.getItemMeta() instanceof SkullMeta) {
 			SkullMeta meta = (SkullMeta) EditSkinItem.getItemMeta();
 			meta.setOwner(data.getSkin());
 			EditSkinItem.setItemMeta(meta);
 		}
 		InventoryUT.setItem(inv, 4, EditInfoItem);
-		InventoryUT.setItem(inv, 11, EditLineItem).addClick("EditLineMenu:"+rawloc);
-		InventoryUT.setItem(inv, 13, EditOffSetItem).addClick("EditOffSet:"+rawloc);
-		InventoryUT.setItem(inv, 15, EditMemberItem).addClick("EditMemberMenu:"+rawloc);
-		InventoryUT.setItem(inv, 22, EditSkinItem).addClick("EditSkin:"+rawloc);
+		InventoryUT.setItem(inv, 11, EditLineItem).addClick("EditLineMenu:" + rawloc);
+		InventoryUT.setItem(inv, 13, EditOffSetItem).addClick("EditOffSet:" + rawloc);
+		InventoryUT.setItem(inv, 15, EditMemberItem).addClick("EditMemberMenu:" + rawloc);
+		InventoryUT.setItem(inv, 22, EditSkinItem).addClick("EditSkin:" + rawloc);
 		player.openInventory(inv);
 	}
 }

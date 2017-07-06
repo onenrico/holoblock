@@ -2,8 +2,8 @@ package me.onenrico.holoblock.utils;
 
 public class LoadingbarUT {
 
-	public static String getBar(int totalBar, float value, float maxvalue, barType bar, Boolean reverse, String filledColor,
-			String unfilledColor) {
+	public static String getBar(int totalBar, float value, float maxvalue, barType bar, Boolean reverse,
+			String filledColor, String unfilledColor) {
 		String hasil = "";
 		String barSymbol = barCheck(bar);
 		int persentase = (int) MathUT.getPersentase(value, maxvalue);

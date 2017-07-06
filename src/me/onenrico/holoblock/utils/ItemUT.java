@@ -11,10 +11,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.onenrico.holoblock.utils.ItemUT;
-import me.onenrico.holoblock.utils.MathUT;
-import me.onenrico.holoblock.utils.MessageUT;
-
 public class ItemUT {
 	@SuppressWarnings("deprecation")
 	public static ItemStack getItem(String data) {

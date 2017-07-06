@@ -25,39 +25,40 @@ import me.onenrico.holoblock.utils.PermissionUT;
 
 public class InteractEvent implements Listener {
 	private List<Player> interacted = new ArrayList<>();
+
 	@EventHandler
 	public void playerInteract(final PlayerInteractEvent event) {
-		if(interacted.contains(event.getPlayer())) {
+		if (interacted.contains(event.getPlayer())) {
 			interacted.remove(event.getPlayer());
 			return;
 		}
 		interacted.add(event.getPlayer());
-		if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 			Player player = event.getPlayer();
 			Block block = event.getClickedBlock();
 			Location loc = block.getLocation();
 			String rawloc = Seriloc.Serialize(loc);
 			HoloData data = Datamanager.getDataByLoc(rawloc);
-			if(data == null) {
+			if (data == null) {
 				return;
 			}
 			String playern = data.getOwner();
-			if(playern == null) {
+			if (playern == null) {
 				return;
 			}
 			loc = Seriloc.centered(loc);
-			if(!PermissionUT.has(player, "holoblock.admin")) {
-				if(!player.getName().equals(playern)) {
+			if (!PermissionUT.has(player, "holoblock.admin")) {
+				if (!player.getName().equals(playern)) {
 					Boolean pass = false;
-					for(String member : data.getMembers()) {
-						if(player.getName().equals(member)) {
+					for (String member : data.getMembers()) {
+						if (player.getName().equals(member)) {
 							pass = true;
 						}
 					}
-					if(!pass) {
+					if (!pass) {
 						MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"), true);
 						ParticleUT.send(player, "CLOUD", loc, 0.05f, 0.5f, 0.05f, 0.08f, 25, false);
-						SoundManager.playSound(player, "ENTITY_BLAZE_DEATH",loc);
+						SoundManager.playSound(player, "ENTITY_BLAZE_DEATH", loc);
 						event.setCancelled(true);
 						return;
 					}
@@ -68,7 +69,7 @@ public class InteractEvent implements Listener {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					if(interacted.contains(event.getPlayer())) {
+					if (interacted.contains(event.getPlayer())) {
 						interacted.remove(event.getPlayer());
 					}
 				}

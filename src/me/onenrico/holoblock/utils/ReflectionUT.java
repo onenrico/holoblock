@@ -12,15 +12,17 @@ public class ReflectionUT {
 
 	public static Class<?> getNMSClass(String nmsClassString) throws ClassNotFoundException {
 		String version = Core.nmsver;
-		String name = "net.minecraft.server." + version +"."+ nmsClassString;
+		String name = "net.minecraft.server." + version + "." + nmsClassString;
 		Class<?> nmsClass = Class.forName(name);
 		return nmsClass;
 	}
-	public static Object getConnection(Player player) throws SecurityException, NoSuchMethodException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+
+	public static Object getConnection(Player player) throws SecurityException, NoSuchMethodException,
+			NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		Method getHandle = player.getClass().getMethod("getHandle");
 		Object nmsPlayer = getHandle.invoke(player);
 		Field conField = nmsPlayer.getClass().getField("playerConnection");
 		Object con = conField.get(nmsPlayer);
 		return con;
-	} 
+	}
 }

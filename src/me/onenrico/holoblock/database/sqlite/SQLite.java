@@ -1,16 +1,15 @@
 package me.onenrico.holoblock.database.sqlite;
 
-import java.util.HashMap;
-
-import me.onenrico.holoblock.main.Core;
-import me.onenrico.holoblock.utils.MessageUT;
-
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+
+import me.onenrico.holoblock.main.Core;
+import me.onenrico.holoblock.utils.MessageUT;
 
 public class SQLite extends Database {
 	public static String dbname;
@@ -40,51 +39,51 @@ public class SQLite extends Database {
 				result += "`" + key + "` " + map.get(key) + " NOT NULL,";
 			}
 		}
-//		result += ",PRIMARY KEY (`Key`)";
-//		result += ");";
-		 result += ",PRIMARY KEY (`"+indexer+"`));";
+		// result += ",PRIMARY KEY (`Key`)";
+		// result += ");";
+		result += ",PRIMARY KEY (`" + indexer + "`));";
 		return result;
 	}
 
 	public String SQLiteCreateTokensTable = "";
-    @Override
+
+	@Override
 	public Connection getSQLConnection() {
-        File dataFolder = new File(Core.getThis().getDataFolder() + "/data/");
-        File dataFile = new File(Core.getThis().getDataFolder() + "/data/", dbname+".db");
-        if (!dataFolder.exists()){
-            try {
-            	dataFolder.mkdir();
-                dataFile.createNewFile();
-            } catch (IOException e) {
-                MessageUT.debug("File write error: "+dbname+".db");
-            }
-        }
-        try {
-            if(connection!=null&&!connection.isClosed()){
-                return connection;
-            }
-            Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
-            return connection;
-        } catch (SQLException ex) {
-            MessageUT.debug("G: SQLite exception on initialize");
-        } catch (ClassNotFoundException ex) {
-        	MessageUT.debug("H: SQLite exception on initialize");
-        }
-        return null;
-    }
+		File dataFolder = new File(Core.getThis().getDataFolder() + "/data/");
+		File dataFile = new File(Core.getThis().getDataFolder() + "/data/", dbname + ".db");
+		if (!dataFolder.exists()) {
+			try {
+				dataFolder.mkdir();
+				dataFile.createNewFile();
+			} catch (IOException e) {
+				MessageUT.debug("File write error: " + dbname + ".db");
+			}
+		}
+		try {
+			if (connection != null && !connection.isClosed()) {
+				return connection;
+			}
+			Class.forName("org.sqlite.JDBC");
+			connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
+			return connection;
+		} catch (SQLException ex) {
+			MessageUT.debug("G: SQLite exception on initialize");
+		} catch (ClassNotFoundException ex) {
+			MessageUT.debug("H: SQLite exception on initialize");
+		}
+		return null;
+	}
 
-    @Override
+	@Override
 	public void load() {
-        connection = getSQLConnection();  
-        try {
-            Statement s = connection.createStatement();
-            s.executeUpdate(SQLiteCreateTokensTable);
-            s.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        initialize();
-    }
+		connection = getSQLConnection();
+		try {
+			Statement s = connection.createStatement();
+			s.executeUpdate(SQLiteCreateTokensTable);
+			s.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		initialize();
+	}
 }
-

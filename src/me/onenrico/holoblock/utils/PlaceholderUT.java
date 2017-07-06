@@ -6,9 +6,7 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.onenrico.holoblock.utils.MessageUT;
-
-public class PlaceholderUT { 
+public class PlaceholderUT {
 	private HashMap<String, String> acuan;
 
 	public PlaceholderUT(HashMap<String, String> acuan) {
@@ -26,14 +24,17 @@ public class PlaceholderUT {
 	public void setAcuan(HashMap<String, String> acuan) {
 		this.acuan = acuan;
 	}
+
 	public void remove(String data) {
-		if(acuan.containsKey(data)) {
+		if (acuan.containsKey(data)) {
 			acuan.remove(data);
 		}
 	}
-	public void add(String placeholder,String data) {
+
+	public void add(String placeholder, String data) {
 		acuan.put(placeholder, data);
 	}
+
 	public List<String> t(List<String> data) {
 		List<String> result = new ArrayList<>();
 		for (String b : data) {
@@ -42,6 +43,7 @@ public class PlaceholderUT {
 		}
 		return result;
 	}
+
 	public List<String> tf(List<String> data) {
 		List<String> result = new ArrayList<>();
 		for (String b : data) {
@@ -64,9 +66,10 @@ public class PlaceholderUT {
 		}
 		return MessageUT.t(data);
 	}
+
 	public ItemStack t(ItemStack item) {
-		item = ItemUT.createItem(item.getType(), t(ItemUT.getName(item)), 
-				t(ItemUT.getLore(item)), item.getAmount(), item.getDurability());
+		item = ItemUT.createItem(item.getType(), t(ItemUT.getName(item)), t(ItemUT.getLore(item)), item.getAmount(),
+				item.getDurability());
 		return item;
 	}
 }

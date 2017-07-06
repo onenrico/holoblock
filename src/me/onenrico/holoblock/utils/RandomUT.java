@@ -7,8 +7,7 @@ public class RandomUT {
 
 		Random rand = new Random();
 		int number = rand.nextInt(100) + 1;
-		if(number >= percent)
-		{
+		if (number >= percent) {
 			return true;
 		}
 		return false;

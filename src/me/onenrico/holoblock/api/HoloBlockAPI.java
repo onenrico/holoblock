@@ -6,7 +6,7 @@ import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.actionbar.ActionBar;
 import me.onenrico.holoblock.nms.particle.ParticleManager;
 
-public class HoloBlockAPI  {
+public class HoloBlockAPI {
 	public HoloBlockAPI() {
 		Core.nmsver = Bukkit.getServer().getClass().getPackage().getName();
 		Core.nmsver = Core.nmsver.substring(Core.nmsver.lastIndexOf(".") + 1);

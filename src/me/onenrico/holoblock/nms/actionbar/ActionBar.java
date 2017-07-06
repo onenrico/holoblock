@@ -23,6 +23,7 @@ public class ActionBar {
 	private static Class<?> c5;
 	private static Class<?> c6;
 	private static Method m1;
+
 	public static void setup() {
 		plugin = Core.getThis();
 
@@ -35,11 +36,11 @@ public class ActionBar {
 			if (useOldMethods) {
 				c2 = Class.forName("net.minecraft.server." + Core.nmsver + ".ChatSerializer");
 				c3 = Class.forName("net.minecraft.server." + Core.nmsver + ".IChatBaseComponent");
-			}else {
+			} else {
 				c2 = Class.forName("net.minecraft.server." + Core.nmsver + ".ChatComponentText");
 				c3 = Class.forName("net.minecraft.server." + Core.nmsver + ".IChatBaseComponent");
 			}
-			if(Core.nmsver.startsWith("v1_12_")) {
+			if (Core.nmsver.startsWith("v1_12_")) {
 				c6 = Class.forName("net.minecraft.server." + Core.nmsver + ".ChatMessageType");
 			}
 			m1 = c1.getDeclaredMethod("getHandle");
@@ -48,6 +49,7 @@ public class ActionBar {
 			e.printStackTrace();
 		}
 	}
+
 	public static void sendActionBar(Player player, String message) {
 		if (!player.isOnline()) {
 			return; // Player may have logged out
@@ -55,7 +57,7 @@ public class ActionBar {
 		// Call the event, if cancelled don't send Action Bar
 		ActionBarMessageEvent actionBarMessageEvent = new ActionBarMessageEvent(player, message);
 		Bukkit.getPluginManager().callEvent(actionBarMessageEvent);
-		
+
 		if (actionBarMessageEvent.isCancelled()) {
 			return;
 		}
@@ -69,16 +71,16 @@ public class ActionBar {
 				ppoc = c4.getConstructor(new Class<?>[] { c3, byte.class }).newInstance(cbc, (byte) 2);
 			} else {
 				Object o = c2.getConstructor(new Class<?>[] { String.class }).newInstance(message);
-				if(Core.nmsver.startsWith("v1_12_")) {
+				if (Core.nmsver.startsWith("v1_12_")) {
 					Object[] chatMessageTypes = c6.getEnumConstants();
 					Object chatMessageType = chatMessageTypes[2];
-//					for (Object obj : chatMessageTypes) {
-//						if (obj.toString().equals("GAME_INFO")) {
-//							chatMessageType = obj;
-//						}
-//					}
-					ppoc = c4.getConstructor(new Class<?>[]{c3, c6}).newInstance(o, chatMessageType);
-				}else {
+					// for (Object obj : chatMessageTypes) {
+					// if (obj.toString().equals("GAME_INFO")) {
+					// chatMessageType = obj;
+					// }
+					// }
+					ppoc = c4.getConstructor(new Class<?>[] { c3, c6 }).newInstance(o, chatMessageType);
+				} else {
 					ppoc = c4.getConstructor(new Class<?>[] { c3, byte.class }).newInstance(o, (byte) 2);
 				}
 			}

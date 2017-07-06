@@ -15,8 +15,9 @@ public class MathUT {
 	}
 
 	public static int strInt(String str) {
-		if (str == null || str.length() == 0)
+		if (str == null || str.length() == 0) {
 			return 0;
+		}
 		str = str.trim();
 		double result = 0;
 		int flag = 0;
@@ -31,8 +32,9 @@ public class MathUT {
 			result = result * 10 + (str.charAt(i) - '0');
 			i++;
 		}
-		if (flag == 1)
+		if (flag == 1) {
 			result = -result;
+		}
 		result = clamp((int) result, Integer.MIN_VALUE, Integer.MAX_VALUE);
 		return (int) result;
 	}
@@ -107,7 +109,7 @@ public class MathUT {
 		}
 		return result;
 
-	} 
+	}
 
 	private static void setup() {
 		map.put(1, "I");

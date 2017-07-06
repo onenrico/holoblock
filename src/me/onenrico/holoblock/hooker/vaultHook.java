@@ -29,10 +29,11 @@ public class vaultHook {
 	}
 
 	public boolean setupChat() {
-        RegisteredServiceProvider<Chat> rsp = instance.getServer().getServicesManager().getRegistration(Chat.class);
-        Core.v_chat = rsp.getProvider();
-        return Core.v_chat != null;
-    }
+		RegisteredServiceProvider<Chat> rsp = instance.getServer().getServicesManager().getRegistration(Chat.class);
+		Core.v_chat = rsp.getProvider();
+		return Core.v_chat != null;
+	}
+
 	public boolean setupPermissions() {
 		RegisteredServiceProvider<Permission> rsp = instance.getServer().getServicesManager()
 				.getRegistration(Permission.class);

@@ -39,29 +39,30 @@ public class Core extends JavaPlugin {
 	public ConfigPlugin theconfig;
 	public vaultHook v_hook;
 	public static String nmsver;
+
 	public static Core getThis() {
 		return instance;
-	}	
+	}
+
 	public static HoloBlockAPI getAPI() {
 		return holoapi;
-	}	
-
+	}
 
 	@Override
 	public void onDisable() {
-		papi = (PlaceholderAPIPlugin) 
-				Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
-		if(papi != null) {
+		papi = (PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+		if (papi != null) {
 			PlaceholderAPI.unregisterPlaceholderHook(this);
 		}
 		Datamanager.unloadHolo();
 		instance = null;
 	}
+
 	@Override
 	public void onEnable() {
 		instance = this;
 		holoapi = new HoloBlockAPI();
-		this.getServer().getPluginCommand("HoloBlock").setExecutor(new Holoblock());
+		getServer().getPluginCommand("HoloBlock").setExecutor(new Holoblock());
 		saveDefaultConfig();
 		setupConstructor();
 		if (!v_hook.setupEconomy()) {
@@ -76,7 +77,7 @@ public class Core extends JavaPlugin {
 		}
 		setupEvent();
 		setupDepedency();
-	    Datamanager.loadHolo();
+		Datamanager.loadHolo();
 	}
 
 	private void setupEvent() {
@@ -88,6 +89,7 @@ public class Core extends JavaPlugin {
 		Bukkit.getServer().getPluginManager().registerEvents(new CloseEvent(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new DropEvent(), this);
 	}
+
 	private void setupConstructor() {
 		thedata = new Datamanager();
 		theconfig = new ConfigPlugin();
@@ -95,6 +97,7 @@ public class Core extends JavaPlugin {
 		ConfigPlugin.setupSetting();
 		Datamanager.setup();
 	}
+
 	private Boolean setupHologram() {
 
 		if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
@@ -102,35 +105,36 @@ public class Core extends JavaPlugin {
 		}
 		return true;
 	}
-	
+
 	public static Boolean useHolo = true;
 	public static Towny towny;
 	public static PlaceholderAPIPlugin papi;
+
 	private void setupDepedency() {
 		towny = (Towny) Bukkit.getPluginManager().getPlugin("Towny");
 		useHolo = setupHologram();
-		if(useHolo) {
-			if(!HologramsAPI.getHolograms(Core.getThis()).isEmpty()) {
-				for(Hologram holo : HologramsAPI.getHolograms(Core.getThis())) {
+		if (useHolo) {
+			if (!HologramsAPI.getHolograms(Core.getThis()).isEmpty()) {
+				for (Hologram holo : HologramsAPI.getHolograms(Core.getThis())) {
 					holo.delete();
 				}
 			}
 			papi = (PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
-			if(papi != null) {
+			if (papi != null) {
 				new PlaceholderAPIHook(this).hook();
 			}
-			if(!Bukkit.getPluginManager().isPluginEnabled("HolographicExtension")) {
+			if (!Bukkit.getPluginManager().isPluginEnabled("HolographicExtension")) {
 				papi = null;
 			}
-		}else {
-			MessageUT.cmessage(Locales.pluginPrefix+" &cHolographicDisplay Not Found Disabling Holo Block !");
-			this.getServer().getPluginManager().disablePlugin(this);
+		} else {
+			MessageUT.cmessage(Locales.pluginPrefix + " &cHolographicDisplay Not Found Disabling Holo Block !");
+			getServer().getPluginManager().disablePlugin(this);
 		}
 		new BukkitRunnable() {
-			
+
 			@Override
 			public void run() {
-				if(papi != null) {
+				if (papi != null) {
 					MessageUT.cmessage("&f<&bHoloBlock&f> Hologram Extension Found !");
 					MessageUT.cmessage("&f<&bHoloBlock&f> You Can Make Cool Animation Hologram");
 				}
