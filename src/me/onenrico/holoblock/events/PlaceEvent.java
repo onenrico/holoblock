@@ -22,6 +22,7 @@ import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
+import me.onenrico.holoblock.utils.FireworkUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
@@ -73,15 +74,6 @@ public class PlaceEvent implements Listener {
 					final Player nplayer = placee.getPlayer();
 					Location bloc = placee.getLoc();
 					place(nplayer,bloc);
-					new BukkitRunnable() {
-						@Override
-						public void run() {
-							int holocount = Datamanager.getDB().getOwned(nplayer.getName());
-							pu.add("holocount", ""+holocount);
-							MessageUT.acplmessage(nplayer, pu.t(Locales.get("add_holo")));
-							SoundManager.playSound(nplayer, "BLOCK_ANVIL_PLACE");
-						}
-					}.runTaskLater(Core.getThis(), 4);
 				}
 			}
 		}
@@ -96,7 +88,20 @@ public class PlaceEvent implements Listener {
 		for(String line : ConfigPlugin.getDefaultLine()) {
 			data.setLine(index++, line);
 		}
-		data.saveHolo(null);
+		data.saveHolo(
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						PlaceholderUT pu = new PlaceholderUT();
+						int maxholo = ConfigPlugin.getMaxOwned(player, loc.getWorld());
+						int holocount = Datamanager.getDB().getOwned(player.getName());
+						pu.add("maxholo", ""+maxholo);
+						pu.add("holocount", ""+holocount);
+						MessageUT.acplmessage(player, pu.t(Locales.get("add_holo")));
+						SoundManager.playSound(player, "BLOCK_ANVIL_PLACE");
+						FireworkUT.random(loc, 1);
+					}
+				});
 	}
 
 }
