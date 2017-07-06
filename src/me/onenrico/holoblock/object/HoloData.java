@@ -281,9 +281,6 @@ public class HoloData {
 		updatePerm();
 		hologram.setAllowPlaceholders(allowPlaceholders); 
 	}
-	public void dewa() {
-		
-	}
 	public void setRawloc(String rawloc) {
 		this.rawloc = rawloc;
 	}
