@@ -15,6 +15,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
@@ -213,7 +214,7 @@ public class HoloData {
 		realloc.getBlock().setType(Material.AIR, true);
 		realloc.getBlock().getState().update(true);
 	}
-	public void saveHolo() {
+	public void saveHolo(BukkitRunnable callback) {
 		new BukkitRunnable() {
 			String rawlines = "";
 			String rawmembers = "";
@@ -248,8 +249,11 @@ public class HoloData {
 				}
 				Datamanager.getDB().setHolo(owner, rawloc, rawlines, 
 						rawmembers,offset,skin,rotation);
+				if(callback != null) {
+					callback.runTaskLater(Core.getThis(), 0);
+				}
 			}
-		}.runTaskLater(Core.getThis(), 3);
+		}.runTaskLater(Core.getThis(), 1);
 	}
 	public List<String> getMembers() {
 		return members;

@@ -96,7 +96,7 @@ public class PlaceEvent implements Listener {
 		for(String line : ConfigPlugin.getDefaultLine()) {
 			data.setLine(index++, line);
 		}
-		data.saveHolo();
+		data.saveHolo(null);
 	}
 
 }

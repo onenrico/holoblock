@@ -315,20 +315,20 @@ public class ClickEvent implements Listener {
 			String member = action.split("<<")[1];
 			HoloData data = Datamanager.getDataByLoc(rawloc);
 			data.addMember(member);
-			data.saveHolo();
+			data.saveHolo(
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+							PlaceholderUT pu = new PlaceholderUT();
+							pu.add("member", member);
+							MessageUT.plmessage(player, pu.t(Locales.get("add_member")));
+							EditMemberMenu.open(player, rawloc, 1);
+							CloseEvent.mainMenuPlayers.put(player,rawloc);
+						}
+					});
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
-					PlaceholderUT pu = new PlaceholderUT();
-					pu.add("member", member);
-					MessageUT.plmessage(player, pu.t(Locales.get("add_member")));
-					EditMemberMenu.open(player, rawloc, 1);
-					CloseEvent.mainMenuPlayers.put(player,rawloc);
-				}
-			}.runTaskLater(Core.getThis(), 4);
 		}
 		else if(action.contains("MinusMember:")) {
 			action = action.split(":")[1];
@@ -336,20 +336,20 @@ public class ClickEvent implements Listener {
 			String member = action.split("<<")[1];
 			HoloData data = Datamanager.getDataByLoc(rawloc);
 			data.removeMember(member);
-			data.saveHolo();
+			data.saveHolo(
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+							PlaceholderUT pu = new PlaceholderUT();
+							pu.add("member", member);
+							MessageUT.plmessage(player, pu.t(Locales.get("remove_member")));
+							EditMemberMenu.open(player, rawloc, 1);
+							CloseEvent.mainMenuPlayers.put(player,rawloc);
+						}
+					});
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
-					PlaceholderUT pu = new PlaceholderUT();
-					pu.add("member", member);
-					MessageUT.plmessage(player, pu.t(Locales.get("remove_member")));
-					EditMemberMenu.open(player, rawloc, 1);
-					CloseEvent.mainMenuPlayers.put(player,rawloc);
-				}
-			}.runTaskLater(Core.getThis(), 4);
 		}
 		else if(action.contains("RemoveLine:")) {
 			action = action.split(":")[1];
@@ -357,20 +357,20 @@ public class ClickEvent implements Listener {
 			int line = MathUT.strInt(action.split("<<")[1]);
 			HoloData data = Datamanager.getDataByLoc(rawloc);
 			data.removeLine(line);
-			data.saveHolo();
+			data.saveHolo(
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+							PlaceholderUT pu = new PlaceholderUT();
+							pu.add("line", ""+(line + 1));
+							MessageUT.plmessage(player, pu.t(Locales.get("remove_line")));
+							EditLineMenu.open(player, rawloc, 1);
+							CloseEvent.mainMenuPlayers.put(player,rawloc);
+						}
+					});
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
-					PlaceholderUT pu = new PlaceholderUT();
-					pu.add("line", ""+(line + 1));
-					MessageUT.plmessage(player, pu.t(Locales.get("remove_line")));
-					EditLineMenu.open(player, rawloc, 1);
-					CloseEvent.mainMenuPlayers.put(player,rawloc);
-				}
-			}.runTaskLater(Core.getThis(), 4);
 		}
 		else if(action.contains("MoveLine:")) {
 			action = action.split(":")[1];
@@ -383,20 +383,20 @@ public class ClickEvent implements Listener {
 
 			data.setLine(line, strline2);
 			data.setLine(line2, strline);
-			data.saveHolo();
+			data.saveHolo(
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+							PlaceholderUT pu = new PlaceholderUT();
+							pu.add("line", ""+(line + 1));
+							pu.add("lineto", ""+(line2 + 1));
+							MessageUT.plmessage(player, pu.t(Locales.get("move_line")));
+							EditLineMenu.open(player, rawloc, 1);
+							CloseEvent.mainMenuPlayers.put(player,rawloc);
+						}
+					});
 			player.closeInventory();
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
-					PlaceholderUT pu = new PlaceholderUT();
-					pu.add("line", ""+(line + 1));
-					pu.add("lineto", ""+(line2 + 1));
-					MessageUT.plmessage(player, pu.t(Locales.get("move_line")));
-					EditLineMenu.open(player, rawloc, 1);
-					CloseEvent.mainMenuPlayers.put(player,rawloc);
-				}
-			}.runTaskLater(Core.getThis(), 4);
 		}
 		else if(action.contains("ItemLine<i>")) {
 			action = action.split("<i>")[1];
@@ -421,17 +421,16 @@ public class ClickEvent implements Listener {
 				pu.add("line", ""+(line + 1));
 				pu.add("msg", ""+"Icon:"+material);
 				temp.setLine(line, "$ItemStack:"+material);
-				temp.saveHolo();
-				String rloc = rawloc;
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						EditLineMenu.open(player, rloc, 1);
-					}
-				}.runTaskLater(Core.getThis(), 4);
-				SoundManager.playSound(player, "UI_BUTTON_CLICK");
-				List<String> msgs = pu.t(Locales.get("add_line"));
-				MessageUT.plmessage(player, msgs);
+				temp.saveHolo(
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							EditLineMenu.open(player, rawloc, 1);
+							SoundManager.playSound(player, "UI_BUTTON_CLICK");
+							List<String> msgs = pu.t(Locales.get("add_line"));
+							MessageUT.plmessage(player, msgs);
+						}
+				});
 				EconomyUT.subtractBal(player, cost);
 			}
 		}
