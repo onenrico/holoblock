@@ -1,19 +1,13 @@
 package me.onenrico.holoblock.gui;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
-
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -47,7 +41,7 @@ public class ItemLineMenu {
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		if(!data.isAllowItemLine()) {
 			SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-			MessageUT.plmessage(player, Locales.get("not_permitted"));
+			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 			return;
 		}
 		List<String> itemlines = ConfigPlugin.getStrList("LineItems", new ArrayList<>());
@@ -73,8 +67,8 @@ public class ItemLineMenu {
 			for(int x = 0;x < MathUT.clamp(current, 0, 45);x++) {
 				int newx = (x+multiplier);
 				String d = MessageUT.d(itemlines.get(newx));
-				ItemStack ite = ItemUT.getItem(d.split("<")[0]);
-				double cost = Double.parseDouble(d.split("<")[1]);
+				ItemStack ite = ItemUT.getItem(d.split(">")[0]);
+				double cost = Double.parseDouble(d.split(">")[1]);
 				String material = ""+ite.getType();
 				pu.add("material", ""+ite.getType());
 				pu.add("cost", ""+cost);
