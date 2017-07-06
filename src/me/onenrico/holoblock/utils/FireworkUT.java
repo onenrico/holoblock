@@ -12,13 +12,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 public class FireworkUT {
-	public static void random(Player player) { 
-		 random(player.getLocation()); 
+	public static void random(Player player, int count) { 
+		 random(player.getLocation(),count); 
 	}
-	public static void random(Location loc) { 
+	public static void random(Location loc, int count) { 
 		Random r = new Random(); 
-		int rani = r.nextInt(5) + 8; 
-		for(int i = 0; i <= rani;i++) {
+		int rani = count; 
+		for(int i = 0; i < rani;i++) {
 			float x = r.nextInt(3);
 			float z = r.nextInt(3); 
 			boolean randx = r.nextBoolean();
