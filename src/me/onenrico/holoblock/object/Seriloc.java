@@ -36,6 +36,7 @@ public class Seriloc {
 		return serializedLoc;
 	}
 	public static Location Deserialize(String rawLoc)  { 
+		rawLoc = rawLoc.replace("<r>", "<>");
 		String[] deserializedLoc = rawLoc.split("<>");
 		World world = null; 
 		for(World w : Bukkit.getWorlds()){
