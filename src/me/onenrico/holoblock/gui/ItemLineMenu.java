@@ -69,10 +69,12 @@ public class ItemLineMenu {
 				String d = MessageUT.d(itemlines.get(newx));
 				ItemStack ite = ItemUT.getItem(d.split(">")[0]);
 				double cost = Double.parseDouble(d.split(">")[1]);
-				String material = ""+ite.getType();
+				String material = d.split(">")[0];
 				pu.add("material", ""+ite.getType());
 				pu.add("cost", ""+cost);
 				ItemStack itemline = ItemLine.clone();
+				itemline.setType(ite.getType());
+				itemline = ItemUT.changeData(itemline, ite.getDurability());
 				itemline = pu.t(itemline);
 				InventoryUT.setItem(inv, x, itemline)
 				.addClick("ItemLine<i>"+rawloc+"<<"+cost+"<<"+material+"<<"+line);

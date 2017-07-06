@@ -2,11 +2,14 @@ package me.onenrico.holoblock.main;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.palmergames.bukkit.towny.Towny;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.commands.Holoblock;
 import me.onenrico.holoblock.config.ConfigPlugin;
@@ -18,6 +21,7 @@ import me.onenrico.holoblock.events.CloseEvent;
 import me.onenrico.holoblock.events.DropEvent;
 import me.onenrico.holoblock.events.InteractEvent;
 import me.onenrico.holoblock.events.PlaceEvent;
+import me.onenrico.holoblock.hooker.PlaceholderAPIHook;
 import me.onenrico.holoblock.hooker.vaultHook;
 import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.utils.MessageUT;
@@ -45,6 +49,11 @@ public class Core extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		papi = (PlaceholderAPIPlugin) 
+				Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+		if(papi != null) {
+			PlaceholderAPI.unregisterPlaceholderHook(this);
+		}
 		Datamanager.unloadHolo();
 		instance = null;
 	}
@@ -93,9 +102,10 @@ public class Core extends JavaPlugin {
 		}
 		return true;
 	}
+	
 	public static Boolean useHolo = true;
-	public static HologramsAPI api;
 	public static Towny towny;
+	public static PlaceholderAPIPlugin papi;
 	private void setupDepedency() {
 		towny = (Towny) Bukkit.getPluginManager().getPlugin("Towny");
 		useHolo = setupHologram();
@@ -105,21 +115,26 @@ public class Core extends JavaPlugin {
 					holo.delete();
 				}
 			}
+			papi = (PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+			if(papi != null) {
+				new PlaceholderAPIHook(this).hook();
+			}
+			if(!Bukkit.getPluginManager().isPluginEnabled("HolographicExtension")) {
+				papi = null;
+			}
 		}else {
 			MessageUT.cmessage(Locales.pluginPrefix+" &cHolographicDisplay Not Found Disabling Holo Block !");
 			this.getServer().getPluginManager().disablePlugin(this);
-//			for(World w : Bukkit.getWorlds()) {
-//				List<Entity> e = w.getEntities();
-//				for(Entity en : e) {
-//					if(en instanceof ArmorStand) {
-//						String name = en.getCustomName();
-//						if(name.startsWith(MessageUT.t(MoreHolo.identifier))) {
-//							en.remove();
-//						}
-//					}
-//				}
-//			}
 		}
-
+		new BukkitRunnable() {
+			
+			@Override
+			public void run() {
+				if(papi != null) {
+					MessageUT.cmessage("&f<&bHoloBlock&f> Hologram Extension Found !");
+					MessageUT.cmessage("&f<&bHoloBlock&f> You Can Make Cool Animation Hologram");
+				}
+			}
+		}.runTaskLater(Core.getThis(), 20);
 	}
 }

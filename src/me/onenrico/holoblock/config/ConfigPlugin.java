@@ -2,6 +2,7 @@ package me.onenrico.holoblock.config;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -143,5 +144,26 @@ public class ConfigPlugin {
 			}
 		}
 		return 0;
+	}
+
+	public static boolean isAllowColor(OfflinePlayer ofp,World world) {
+		return PermissionUT.has(
+				ofp, 
+				"holoblock.use.color", world);
+	}
+	public static boolean isAllowPlaceholder(OfflinePlayer ofp,World world) {
+		return PermissionUT.has(
+				ofp, 
+				"holoblock.use.placeholder", world);
+	}
+	public static boolean isAllowItemLine(OfflinePlayer ofp,World world) {
+		return PermissionUT.has(
+				ofp, 
+				"holoblock.use.itemline", world);
+	}
+	public static boolean isAllowCustomSkin(OfflinePlayer ofp,World world) {
+		return PermissionUT.has(
+				ofp, 
+				"holoblock.use.customskin", world);
 	}
 }

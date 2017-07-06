@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.EditLineMenu;
@@ -48,8 +49,9 @@ public class ChatEvent implements Listener {
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if(temp != null) {
 				PlaceholderUT pu = new PlaceholderUT();
-				pu.add("line", ""+(line + 1));
+				pu.add("line", ""+(MathUT.strInt(line) + 1));
 				pu.add("msg", ""+msg);
+				temp.removeLine(MathUT.strInt(line));
 				temp.setLine(MathUT.strInt(line), msg);
 				temp.saveHolo(
 						new BukkitRunnable() {

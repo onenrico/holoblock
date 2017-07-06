@@ -52,7 +52,7 @@ holo:
   #Permission per player holoblock.maxmember.<number> | Example: holoblock.maxmember.2 (For 2 member only)
   #Permission holoblock.maxmember.* will return max value
   
-  max_text: 40
+  max_text: 1000
   #This is Max Text For The Hologram
   
   item:

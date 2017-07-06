@@ -15,6 +15,8 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
@@ -24,7 +26,9 @@ import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.HoloUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
+import me.onenrico.holoblock.utils.ParticleUT;
 import me.onenrico.holoblock.utils.PermissionUT;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 
 public class HoloData {
@@ -37,6 +41,7 @@ public class HoloData {
 	private Hologram hologram;
 	private Location cloc;
 	private String skin;
+	private BukkitTask particle;
 	private double offset;
 	private boolean allowPlaceholders = false;
 	private boolean allowColor = false;
@@ -66,6 +71,10 @@ public class HoloData {
 		updatePerm();
 		updateSkin();
 		updateHolo();
+		float toffset = (float)(offset * -1)+.1f;
+		particle = ParticleUT.circleParticle
+				(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
+//		Particle.SPELL_WITCH
 	}
 	public void updatePerm() {
 		OfflinePlayer ofp = Bukkit.getOfflinePlayer(owner);
@@ -128,7 +137,9 @@ public class HoloData {
 				lines.add("$ItemStack:"+stack);
 			}else if(line instanceof TextLine) {
 				TextLine text = (TextLine) line;
-				lines.add(text.getText());
+				String ltext = text.getText();
+				ltext = ltext.replace("{refresh:fastest}", "");
+				lines.add(ltext);
 			}
 		}
 	}
@@ -152,6 +163,14 @@ public class HoloData {
 				ItemStack item = ItemUT.getItem(line);
 				HoloUT.setLine(hologram, index, item);
 			}else {
+				if(Core.papi != null) {
+					line = line.replace("{refresh:fastest}", "");
+					if(isAllowPlaceholders()) {
+						if(PlaceholderAPI.containsBracketPlaceholders(line)) {
+							line = "{refresh:fastest}"+line;
+						}
+					}
+				}
 				if(color) {
 					HoloUT.setLine(hologram, index, MessageUT.t(line));
 				}else {
@@ -178,6 +197,14 @@ public class HoloData {
 			HoloUT.setLine(hologram, line, item);
 		}
 		else {
+			if(Core.papi != null) {
+				data = data.replace("{refresh:fastest}", "");
+				if(isAllowPlaceholders()) {
+					if(PlaceholderAPI.containsBracketPlaceholders(data)) {
+						data = "{refresh:fastest}"+data;
+					}
+				}
+			}
 			Boolean color = allowColor;
 			try{
 				if(color) {
@@ -199,6 +226,11 @@ public class HoloData {
 
 	}
 	public void destroyHolo() {
+		if(particle != null) {
+			if(particle.isSync()) {
+				particle.cancel();
+			}
+		}
 		if(hologram == null) {
 			return;
 		}
@@ -231,7 +263,7 @@ public class HoloData {
 						
 					}else if(line instanceof TextLine) {
 						TextLine text = (TextLine) line;
-						rawlines += text.getText();
+						rawlines += text.getText().replace("{refresh:fastest}", "");
 					}
 					if(hologram.size() - x > 1) {
 						rawlines += "<#";
@@ -248,10 +280,10 @@ public class HoloData {
 				Datamanager.getDB().setHolo(owner, rawloc, rawlines, 
 						rawmembers,offset,skin,rotation);
 				if(callback != null) {
-					callback.runTaskLater(Core.getThis(), 0);
+					callback.runTaskLater(Core.getThis(), 1);
 				}
 			}
-		}.runTaskLater(Core.getThis(), 1);
+		}.runTaskLater(Core.getThis(), 2);
 	}
 	public List<String> getMembers() {
 		return members;

@@ -37,7 +37,13 @@ public class ParticleUT {
 	public static void send(Player player, String effect,Boolean all) {
 		send(player,effect,player.getLocation(),all);
 	}
-	public static BukkitTask circleParticle(Location loc, float radius, float height,float maxheight,float speed,String particle) {
+	public static BukkitTask circleParticle(
+			Location loc, 
+			float radius, 
+			float height,
+			float maxheight,
+			float speed,
+			String particle) {
 		String particleOne = particle;
 		return new BukkitRunnable() {
 			World world = loc.getWorld();
@@ -50,16 +56,26 @@ public class ParticleUT {
 				if(first) {
 					if(height > maxheight) reversed = true;
 				}
-				for(int x = 0;x<30;x++) {
-					Double xcos = Math.cos(x) * radius;
-					Double zsin = Math.sin(x) * radius;
+				if(radius > 0) {
+					for(int x = 0;x<30;x++) {
+						Double xcos = Math.cos(x) * radius;
+						Double zsin = Math.sin(x) * radius;
+						send(null,
+								particleOne.toUpperCase(),
+								new Location(world,
+										loc.getX() + xcos,
+										loc.getY() + newheight,
+										loc.getZ() + zsin)
+								,1,true);
+					}
+				}else {
 					send(null,
 							particleOne.toUpperCase(),
 							new Location(world,
-									loc.getX() + xcos,
+									loc.getX(),
 									loc.getY() + newheight,
-									loc.getZ() + zsin)
-							,1,true);
+									loc.getZ())
+							,3,true);
 				}
 				if(reversed) {
 					if(add) {
@@ -89,6 +105,6 @@ public class ParticleUT {
 					}
 				}
 			}
-		}.runTaskTimerAsynchronously(Core.getThis(), 0, 1);
+		}.runTaskTimerAsynchronously(Core.getThis(), 0, 5);
 	}
 } 

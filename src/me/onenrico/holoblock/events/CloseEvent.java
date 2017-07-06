@@ -99,41 +99,43 @@ public class CloseEvent implements Listener {
 			MainMenu.animation.remove(player);
 		}
 		InventoryUT.checkSteal(player);
-//		if(event.getInventory().getTitle().contains("Manage Lore")) {
-//			List<String> lore = new ArrayList<>();
-//			int last = -1;
-//			for(int x = 0;
-//				x < event.getInventory().getSize();
-//				x++) {
-//				if(event.getInventory().getItem(x) == null) {
-//					lore.add("&r");
-//				}else {
-//					lore.add(ItemUT.getLore(event.getInventory().getItem(x)).get(0).replace(InventoryUT.steal, ""));
-//					last = x;
-//				}
-//			}
-//			if(last == -1) {
-//				return;
-//			}
-//			if(last + 1 < lore.size()) {
-//				List<String> newl = new ArrayList<>();
-//				for(int x = 0;x<=last;x++) {
-//					newl.add(lore.get(x));
-//				}
-//				lore = newl;
-//			}
-//			ItemUT.changeLore(PlayerUT.getHand(player), lore);
-//		}
 		if(mainMenuPlayers.containsKey(player)) {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
 					SoundManager.playSound(player, "UI_BUTTON_CLICK");
-					MainMenu.open(player, mainMenuPlayers.get(player));
-					mainMenuPlayers.remove(player);
+					if(mainMenuPlayers.containsKey(player)) {
+						MainMenu.open(player, mainMenuPlayers.get(player));
+						mainMenuPlayers.remove(player);
+					}
 				}
 			}.runTaskLater(Core.getThis(),1);
 		}
+//		if(event.getInventory().getTitle().contains("Manage Lore")) {
+//		List<String> lore = new ArrayList<>();
+//		int last = -1;
+//		for(int x = 0;
+//			x < event.getInventory().getSize();
+//			x++) {
+//			if(event.getInventory().getItem(x) == null) {
+//				lore.add("&r");
+//			}else {
+//				lore.add(ItemUT.getLore(event.getInventory().getItem(x)).get(0).replace(InventoryUT.steal, ""));
+//				last = x;
+//			}
+//		}
+//		if(last == -1) {
+//			return;
+//		}
+//		if(last + 1 < lore.size()) {
+//			List<String> newl = new ArrayList<>();
+//			for(int x = 0;x<=last;x++) {
+//				newl.add(lore.get(x));
+//			}
+//			lore = newl;
+//		}
+//		ItemUT.changeLore(PlayerUT.getHand(player), lore);
+//	}
 	}
 
 }
