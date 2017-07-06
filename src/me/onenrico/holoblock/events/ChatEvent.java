@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.EditLineMenu;
 import me.onenrico.holoblock.locale.Locales;
@@ -36,11 +37,14 @@ public class ChatEvent implements Listener {
 				return;
 			}
 			msg = msg.replace("$ItemStack:", "");
+			int length = ConfigPlugin.getMaxText();
+			if(msg.length() > length) {
+				msg = msg.substring(0, length - 1);
+			}
 			String data = MetaUT.getMetadata(player, "EditLine:").asString();
 			player.removeMetadata("EditLine:", Core.getThis());
 			String[] datas = data.split("<<");
-			String rawloc = datas[0];
-			rawloc = rawloc.replace("<r>", "<>");
+			String rawloc = datas[0].replace("<r>", "<>");
 			String line = datas[1];
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if(temp != null) {
@@ -48,14 +52,13 @@ public class ChatEvent implements Listener {
 				pu.add("line", ""+(line + 1));
 				pu.add("msg", ""+msg);
 				temp.setLine(MathUT.strInt(line), msg);
-				temp.saveHolo();
-				String rloc = rawloc;
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						EditLineMenu.open(player, rloc, 1);
-					}
-				}.runTaskLater(Core.getThis(), 4);
+				temp.saveHolo(
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								EditLineMenu.open(player, rawloc, 1);
+							}
+						});
 				SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 				List<String> le = pu.t(Locales.get("edit_line"));
 				MessageUT.plmessage(player, le);
@@ -73,11 +76,14 @@ public class ChatEvent implements Listener {
 				return;
 			}
 			msg = msg.replace("$ItemStack:", "");
+			int length = ConfigPlugin.getMaxText();
+			if(msg.length() > length) {
+				msg = msg.substring(0, length - 1);
+			}
 			String data = MetaUT.getMetadata(player, "AddLine:").asString();
 			player.removeMetadata("AddLine:", Core.getThis());
 			String[] datas = data.split("<<");
-			String rawloc = datas[0];
-			rawloc = rawloc.replace("<r>", "<>");
+			String rawloc = datas[0].replace("<r>", "<>");
 			String line = datas[1];
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if(temp != null) {
@@ -85,14 +91,13 @@ public class ChatEvent implements Listener {
 				pu.add("line", ""+(line + 1));
 				pu.add("msg", ""+msg);
 				temp.setLine(MathUT.strInt(line), msg);
-				temp.saveHolo();
-				String rloc = rawloc;
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						EditLineMenu.open(player, rloc, 1);
-					}
-				}.runTaskLater(Core.getThis(), 4);
+				temp.saveHolo(
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								EditLineMenu.open(player, rawloc, 1);
+							}
+						});
 				SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 				List<String> msgs = pu.t(Locales.get("add_line"));
 				MessageUT.plmessage(player, msgs);
@@ -131,14 +136,14 @@ public class ChatEvent implements Listener {
 				PlaceholderUT pu = new PlaceholderUT();
 				pu.add("offset", ""+num);
 				temp.setOffset(num);
-				temp.saveHolo();
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						temp.updateHolo();
-						SoundManager.playSound(player, "BLOCK_ANVIL_USE");
-					}
-				}.runTaskLater(Core.getThis(), 4);
+				temp.saveHolo(
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								temp.updateHolo();
+								SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+							}
+						});
 				List<String> msgs = pu.t(Locales.get("edit_offset"));
 				MessageUT.plmessage(player, msgs);
 				event.setCancelled(true);
@@ -146,7 +151,10 @@ public class ChatEvent implements Listener {
 		}
 		else if(MetaUT.isThere(player, "EditSkin:")) {
 			String msg = event.getMessage().split(" ")[0];
-
+			int length = ConfigPlugin.getMaxText();
+			if(msg.length() > length) {
+				msg = msg.substring(0, length - 1);
+			}
 			if(msg.equalsIgnoreCase("cancel")) {
 				CloseEvent.mainMenuPlayers.remove(player);
 				player.removeMetadata("EditSkin:", Core.getThis());
@@ -157,20 +165,19 @@ public class ChatEvent implements Listener {
 			}
 			String data = MetaUT.getMetadata(player, "EditSkin:").asString();
 			player.removeMetadata("EditSkin:", Core.getThis());
-			String rawloc = data;
-			rawloc = rawloc.replace("<r>", "<>");
+			String rawloc = data.replace("<r>", "<>");
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if(temp != null) {
 				PlaceholderUT pu = new PlaceholderUT();
 				pu.add("skin", ""+msg);
 				temp.setSkin(msg);
-				temp.saveHolo();
-				new BukkitRunnable() {
-					@Override
-					public void run() {
-						SoundManager.playSound(player, "BLOCK_ANVIL_USE");
-					}
-				}.runTaskLater(Core.getThis(), 4);
+				temp.saveHolo(
+						new BukkitRunnable() {
+							@Override
+							public void run() {
+								SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+							}
+						});
 				List<String> msgs = pu.t(Locales.get("edit_skin"));
 				MessageUT.plmessage(player, msgs);
 				event.setCancelled(true);
