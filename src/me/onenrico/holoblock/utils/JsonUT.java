@@ -45,17 +45,17 @@ public class JsonUT {
 		return end;
 	}
 
-	public static List<String> btnGenerate(List<String> json, Player player, String btn, boolean click,
+	public static List<String> btnGenerate(List<String> json, String btn, boolean click,
 			String clicktype, String clickvalue) {
-		return btnGenerate(json, player, btn, false, null, click, clicktype, clickvalue);
+		return btnGenerate(json, btn, false, null, click, clicktype, clickvalue);
 	}
 
-	public static List<String> btnGenerate(List<String> json, Player player, String btn, boolean hover,
+	public static List<String> btnGenerate(List<String> json, String btn, boolean hover,
 			List<String> hovertext) {
-		return btnGenerate(json, player, btn, hover, hovertext, false, null, null);
+		return btnGenerate(json, btn, hover, hovertext, false, null, null);
 	}
 
-	public static List<String> btnGenerate(List<String> json, Player player, String btn, Boolean hover,
+	public static List<String> btnGenerate(List<String> json, String btn, Boolean hover,
 			List<String> hovertext, boolean click, String clicktype, String clickvalue) {
 		PlaceholderUT pu = new PlaceholderUT();
 		List<String> newjson = new ArrayList<>();

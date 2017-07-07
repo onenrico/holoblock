@@ -369,7 +369,7 @@ ItemLineMenu:
   Title: "&lChoose Item Of Line"
   PrevPageItem:
     Material: SIGN
-    Displayname: "e<< &f&lGo To Page &b{prevpage}"
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
     Description:
     - "&8&m------------------------------"
     - ""

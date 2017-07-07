@@ -71,7 +71,7 @@ messages:
   edit_line:
   - "<np>{plusline}"
   - "<np>"
-  - "<center>&eSuccessfully Edit &6Line {doneline} {edit}"
+  - "<center>&eSuccessfully Edit &6Line {line} {edit}"
   - "<np>"
   - "<np><center>&8[&r{msg}&8]"
   - "<np>"
@@ -79,13 +79,13 @@ messages:
   remove_line:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&eSuccessfully Cleared &6Line {doneline} {not}"
+  - "<center>&eSuccessfully Cleared &6Line {line} {not}"
   - "<np>"
   - "<np>{errline}"
   move_line:
   - "<np>{plusline}"
   - "<np>"
-  - "<center>&eSuccessfully Move &6Line {doneline} &eto &6Line &6{lineto} {edit}"
+  - "<center>&eSuccessfully Move &6Line {line} &eto &6Line &6{lineto} {edit}"
   - "<np>"
   - "<np>{plusline}"
   exceeded_line:

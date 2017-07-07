@@ -51,7 +51,13 @@ public class ChatEvent implements Listener {
 				pu.add("line", "" + (MathUT.strInt(line) + 1));
 				pu.add("msg", "" + msg);
 				temp.removeLine(MathUT.strInt(line));
-				temp.setLine(MathUT.strInt(line), msg);
+				String smsg = msg;
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						temp.insertLine(MathUT.strInt(line),smsg);
+					}
+				}.runTask(Core.getThis());
 				temp.saveHolo(new BukkitRunnable() {
 					@Override
 					public void run() {

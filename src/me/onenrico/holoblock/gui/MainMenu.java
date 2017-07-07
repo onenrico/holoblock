@@ -153,7 +153,7 @@ public class MainMenu {
 			meta.setOwner(data.getSkin());
 			EditSkinItem.setItemMeta(meta);
 		}
-		InventoryUT.setItem(inv, 4, EditInfoItem);
+		InventoryUT.setItem(inv, 4, EditInfoItem).addClick("Refresh:"+ rawloc);
 		InventoryUT.setItem(inv, 11, EditLineItem).addClick("EditLineMenu:" + rawloc);
 		InventoryUT.setItem(inv, 13, EditOffSetItem).addClick("EditOffSet:" + rawloc);
 		InventoryUT.setItem(inv, 15, EditMemberItem).addClick("EditMemberMenu:" + rawloc);

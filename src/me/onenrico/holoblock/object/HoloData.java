@@ -230,16 +230,13 @@ public class HoloData {
 		members.remove(member);
 	}
 
-	@SuppressWarnings("deprecation")
 	public void setLine(int line, String data) {
 		if (hologram == null) {
 			if (hologram.isDeleted()) {
 				return;
 			}
 		}
-		if (data.equalsIgnoreCase("cancel")) {
-			HoloUT.removeLine(hologram, line);
-		} else if (data.contains("$ItemStack:")) {
+		if (data.contains("$ItemStack:")) {
 			data = data.replace("$ItemStack:", "");
 			ItemStack item = ItemUT.getItem(data);
 			HoloUT.setLine(hologram, line, item);
@@ -253,14 +250,37 @@ public class HoloData {
 				}
 			}
 			Boolean color = allowColor;
-			try {
-				if (color) {
-					HoloUT.setLine(hologram, line, MessageUT.t(data));
-				} else {
-					HoloUT.setLine(hologram, line, MessageUT.u(data));
-				}
-			} catch (Exception ex) {
+			if (color) {
 				HoloUT.setLine(hologram, line, MessageUT.t(data));
+			} else {
+				HoloUT.setLine(hologram, line, MessageUT.u(data));
+			}
+		}
+	}
+	public void insertLine(int line, String data) {
+		if (hologram == null) {
+			if (hologram.isDeleted()) {
+				return;
+			}
+		}
+		if (data.contains("$ItemStack:")) {
+			data = data.replace("$ItemStack:", "");
+			ItemStack item = ItemUT.getItem(data);
+			HoloUT.insertLine(hologram, line, item);
+		} else {
+			if (Core.papi != null) {
+				data = data.replace("{refresh:fastest}", "");
+				if (isAllowPlaceholders()) {
+					if (PlaceholderAPI.containsBracketPlaceholders(data)) {
+						data = "{refresh:fastest}" + data;
+					}
+				}
+			}
+			Boolean color = allowColor;
+			if (color) {
+				HoloUT.insertLine(hologram, line, MessageUT.t(data));
+			} else {
+				HoloUT.insertLine(hologram, line, MessageUT.u(data));
 			}
 		}
 	}
@@ -337,7 +357,7 @@ public class HoloData {
 					callback.runTaskLater(Core.getThis(), 1);
 				}
 			}
-		}.runTaskLater(Core.getThis(), 2);
+		}.runTaskLater(Core.getThis(), 3);
 	}
 
 	public List<String> getMembers() {

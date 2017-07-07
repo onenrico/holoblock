@@ -106,12 +106,17 @@ public class HoloUT {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					for (int current = holo.size(); current < line; current++) {
-						holo.appendTextLine("");
+					try {
+						for (int current = holo.size(); current < line; current++) {
+							holo.appendTextLine("");
+							holo.teleport(
+									new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
+						}
+						holo.appendItemLine(item);
 						holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
+					} catch (Exception ex) {
+						return;
 					}
-					holo.appendItemLine(item);
-					holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
 				}
 			}.runTaskLater(Core.getThis(), 2);
 			return null;
@@ -124,6 +129,7 @@ public class HoloUT {
 		String temp = MessageUT.t(text);
 		try {
 			holo.insertTextLine(line, temp);
+			holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
 		} catch (IndexOutOfBoundsException ex) {
 			new BukkitRunnable() {
 				@Override
@@ -143,7 +149,7 @@ public class HoloUT {
 	public static void insertLine(Hologram holo, int line, ItemStack item) {
 		try {
 			holo.insertItemLine(line, item);
-			;
+			holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
 		} catch (IndexOutOfBoundsException ex) {
 			new BukkitRunnable() {
 				@Override

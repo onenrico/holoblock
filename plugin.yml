@@ -3,7 +3,7 @@ author: Onenrico
 version: 4.0_Beta
 description: Hologram Above Blocks !
 main: me.onenrico.holoblock.main.Core
-softdepend: [Vault, HolographicDisplays, HolographicExtension, Towny, Multiverse-Core, PlaceholderAPI]
+softdepend: [Vault, HolographicDisplays, PlaceholderAPI, HolographicExtension, Multiverse-Core, Towny]
 commands:
   holoblock:
     description: The main command of holo block plugin
