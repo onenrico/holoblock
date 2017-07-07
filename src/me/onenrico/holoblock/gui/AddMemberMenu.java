@@ -74,6 +74,7 @@ public class AddMemberMenu {
 		Inventory inv = InventoryUT.createInventory(6, title);
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);
+		CancelItem = pu.t(CancelItem);
 		if (page > 1) {
 			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page - 1));
 			int multiplier = 45 * (page - 1);

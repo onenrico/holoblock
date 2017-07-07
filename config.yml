@@ -157,7 +157,7 @@ MainMenu:
     - ""
     - "&6Current Line: &8[&e{lines}&8/&e{maxlines}&8]"
     - " "
-    - "&8[ &6Click &fHere To Edit Hologram &bLine &8]"
+    - "&8[ &6Click &fHere To Edit Hologram &bLine {edit} &8]"
     - ""
     - "&8&m------------------------------"
   OffSetItem:
@@ -168,7 +168,7 @@ MainMenu:
     - ""
     - "&6Current Offset: &8[&e{offset}&8]"
     - " "
-    - "&8[ &6Click &fHere To Edit Hologram &cHeight &8]"
+    - "&8[ &6Click &fHere To Edit Hologram &cHeight {edit} &8]"
     - ""
     - "&8&m------------------------------"
   SkinItem:
@@ -179,7 +179,7 @@ MainMenu:
     - ""
     - "&6Current Skin: &8[&e{skin}&8]"
     - " "
-    - "&8[ &6Click &fHere To Edit Hologram &cSkin &8]"
+    - "&8[ &6Click &fHere To Edit Hologram &cSkin {edit} &8]"
     - ""
     - "&8&m------------------------------"
   MemberItem:
@@ -190,7 +190,7 @@ MainMenu:
     - ""
     - "&6Current Member: &8[&e{members}/{maxmembers}&8]"
     - " "
-    - "&8[ &6Click &fHere To Manage &aMember &8]"
+    - "&8[ &6Click &fHere To Manage &aMember {edit} &8]"
     - ""
     - "&8&m------------------------------"
 
@@ -225,7 +225,7 @@ EditLineMenu:
     - ""
     - "&6Current Line: &8[&e{lines}&8/&e{maxlines}&8]"
     - " "
-    - "&8[ &6Click &fHere To &bAdd Line &8]"
+    - "&8[ &6Click &fHere To &bAdd Line {done} &8]"
     - ""
     - "&8&m------------------------------"
   LineItem:
@@ -236,9 +236,9 @@ EditLineMenu:
     - ""
     - "&e'&r{content}&e'"
     - " "
-    - "&8[ &6Left-Click &fTo &6Edit &fThis Line &8]"
-    - "&8[ &aRight-Click &fTo &aMove &fThis Line &8]"
-    - "&8[ &cShift-Right-Click &fTo &cDelete &fThis Line &8]"
+    - "&8[ &6Left-Click &fTo &6Edit &fThis Line {edit} &8]"
+    - "&8[ &aRight-Click &fTo &aMove &fThis Line {edit} &8]"
+    - "&8[ &cShift-Right-Click &fTo &cDelete &fThis Line {not} &8]"
     - ""
     - "&8&m------------------------------"
 
@@ -271,7 +271,7 @@ EditMemberMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&8[ &cShift-Right-Click &fTo &cRemove &fThis Member &8]"
+    - "&8[ &cShift-Right-Click &fTo &cRemove &fThis Member {not} &8]"
     - ""
     - "&8&m------------------------------"
   AddMemberItem:
@@ -282,7 +282,7 @@ EditMemberMenu:
     - ""
     - "&6Current Member: &8[&e{members}&8/&e{maxmembers}&8]"
     - " "
-    - "&8[ &6Click &fHere To &bAdd Member &8]"
+    - "&8[ &6Click &fHere To &bAdd Member {done} &8]"
     - ""
     - "&8&m------------------------------"
 
@@ -313,7 +313,7 @@ AddMemberMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&8[ &6Click &fTo &6Add &fThis Player &8]"
+    - "&8[ &6Click &fTo &6Add &fThis Player {done} &8]"
     - ""
     - "&8&m------------------------------"
   AlreadyMember:
@@ -322,7 +322,7 @@ AddMemberMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&8[ &6This Player Already Your Member &8]"
+    - "&8[ &6This Player Already Your Member {not} &8]"
     - ""
     - "&8&m------------------------------"
   CancelItem:
@@ -331,7 +331,7 @@ AddMemberMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Cancel &e>>"
+    - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"
 
@@ -343,7 +343,7 @@ AddLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&8[ &6Click &fTo &6Add &6&lText Line &8]"
+    - "&8[ &6Click &fTo &6Add &6&lText Line {done} &8]"
     - ""
     - "&8&m------------------------------"
   ItemLine:
@@ -352,7 +352,7 @@ AddLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&8[ &6Click &fTo &6Add &b&lItem Line &8]"
+    - "&8[ &6Click &fTo &6Add &b&lItem Line {done} &8]"
     - ""
     - "&8&m------------------------------"
   CancelItem:
@@ -361,7 +361,7 @@ AddLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Cancel &e>>"
+    - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"
 
@@ -393,7 +393,7 @@ ItemLineMenu:
     - ""
     - "&6Cost: &f$&e{cost}"
     - ""
-    - "&8[ &6Click &fTo &6This &6&lItem Line &8]"
+    - "&8[ &6Click &fTo Add &6This &6&lItem Line {done} &8]"
     - ""
     - "&8&m------------------------------"
   CancelItem:
@@ -402,7 +402,7 @@ ItemLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Cancel &e>>"
+    - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"
 
@@ -437,7 +437,7 @@ MoveLineMenu:
     - ""
     - "&e'&r{content}&e'"
     - " "
-    - "&8[ &fThis Is Your Current Line &8]"
+    - "&8[ &fThis Is Your Current Line {not} &8]"
     - ""
     - "&8&m------------------------------"
   ReplacePosition:
@@ -448,7 +448,7 @@ MoveLineMenu:
     - ""
     - "&e'&8{content}&e'"
     - " "
-    - "&8[ &6Click &fHere To &fMove Line &8]"
+    - "&8[ &6Click &fHere To &fMove Line {edit} &8]"
     - ""
     - "&8&m------------------------------"
   CancelItem:
@@ -457,7 +457,7 @@ MoveLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Cancel &e>>"
+    - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"
 
@@ -472,7 +472,7 @@ RemoveLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Proceed &e<<"
+    - "&6Click Here To Proceed {done} &e<<"
     - ""
     - "&8&m------------------------------"
   NoItem:
@@ -481,7 +481,7 @@ RemoveLineMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Cancel &e>>"
+    - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"
 
@@ -496,7 +496,7 @@ RemoveMemberMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Proceed &e<<"
+    - "&6Click Here To Proceed {done} &e<<"
     - ""
     - "&8&m------------------------------"
   NoItem:
@@ -505,6 +505,6 @@ RemoveMemberMenu:
     Description:
     - "&8&m------------------------------"
     - ""
-    - "&6Click Here To Cancel &e>>"
+    - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"

@@ -23,7 +23,6 @@ import me.onenrico.holoblock.gui.ItemLineMenu;
 import me.onenrico.holoblock.gui.MoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveMemberMenu;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.MenuItem;
@@ -215,11 +214,6 @@ public class ClickEvent implements Listener {
 					ItemUT.createLore("&7&m--------------------%n%%n%" + "&6Click To &cCancel"
 							+ "%n%%n%&7&m--------------------"),
 					true, "run", "cancel");
-			int index = 0;
-			for (String j : json) {
-				json.set(index, Locales.pluginPrefix + "<br>" + j);
-				index++;
-			}
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 
 			String cache = CloseEvent.mainMenuPlayers.get(player);
@@ -234,11 +228,6 @@ public class ClickEvent implements Listener {
 					ItemUT.createLore("&7&m--------------------%n%%n%" + "&6Click To &cCancel"
 							+ "%n%%n%&7&m--------------------"),
 					true, "run", "cancel");
-			int index = 0;
-			for (String j : json) {
-				json.set(index, Locales.pluginPrefix + "<br>" + j);
-				index++;
-			}
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 
 			String cache = CloseEvent.mainMenuPlayers.get(player);
@@ -378,7 +367,7 @@ public class ClickEvent implements Listener {
 					@Override
 					public void run() {
 						EditLineMenu.open(player, rawloc, 1);
-						SoundManager.playSound(player, "UI_BUTTON_CLICK");
+						SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 						List<String> msgs = pu.t(ConfigPlugin.locale.getValue("add_line"));
 						MessageUT.plmessage(player, msgs);
 					}
@@ -394,11 +383,6 @@ public class ClickEvent implements Listener {
 					true, ItemUT.createLore("&7&m--------------------%n%%n%" + "&6Click To &cCancel"
 							+ "%n%%n%&7&m--------------------"),
 					true, "run", "cancel");
-			int index = 0;
-			for (String j : json) {
-				json.set(index, Locales.pluginPrefix + "<br>" + j);
-				index++;
-			}
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 
 			player.closeInventory();
@@ -412,16 +396,10 @@ public class ClickEvent implements Listener {
 			}
 			MetaUT.setMetaData(player, "EditSkin:", action);
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
-
-			List<String> json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_skin"), player, "cancel", true,
-					ItemUT.createLore("&7&m--------------------%n%%n%" + "&6Click To &cCancel"
-							+ "%n%%n%&7&m--------------------"),
-					true, "run", "cancel");
-			int index = 0;
-			for (String j : json) {
-				json.set(index, Locales.pluginPrefix + "<br>" + j);
-				index++;
-			}
+			List<String> temp = ConfigPlugin.locale.getValue("editing_skin");
+			List<String> json = JsonUT.btnGenerate(temp, player, "cancel", true, ItemUT.createLore(
+					"&7&m--------------------%n%%n%" + "&6Click To &cCancel" + "%n%%n%&7&m--------------------"), true,
+					"run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 
 			player.closeInventory();

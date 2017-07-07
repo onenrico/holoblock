@@ -76,8 +76,9 @@ public class HoloData {
 		particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
 		// Particle.SPELL_WITCH
 	}
+
 	@SuppressWarnings("deprecation")
-	public HoloData(String loc,Boolean async) {
+	public HoloData(String loc, Boolean async) {
 		rawloc = loc;
 		realloc = Seriloc.Deserialize(loc);
 		owner = Datamanager.getDB().getOwner(loc);
@@ -104,8 +105,7 @@ public class HoloData {
 				updateSkin();
 				updateHolo();
 				float toffset = (float) (offset * -1) + .1f;
-				particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, 
-						"SPELL_WITCH");
+				particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
 			}
 		}.runTaskLater(Core.getThis(), 0);
 	}
@@ -157,8 +157,8 @@ public class HoloData {
 			lines.clear();
 		}
 		for (int x = 0; x < hologram.size(); x++) {
-			if(hologram == null) {
-				if(hologram.isDeleted()) {
+			if (hologram == null) {
+				if (hologram.isDeleted()) {
 					return;
 				}
 			}
@@ -194,8 +194,8 @@ public class HoloData {
 		}
 		Boolean color = allowColor;
 		for (String line : lines) {
-			if(hologram == null) {
-				if(hologram.isDeleted()) {
+			if (hologram == null) {
+				if (hologram.isDeleted()) {
 					break;
 				}
 			}
@@ -232,8 +232,8 @@ public class HoloData {
 
 	@SuppressWarnings("deprecation")
 	public void setLine(int line, String data) {
-		if(hologram == null) {
-			if(hologram.isDeleted()) {
+		if (hologram == null) {
+			if (hologram.isDeleted()) {
 				return;
 			}
 		}
@@ -266,8 +266,8 @@ public class HoloData {
 	}
 
 	public void removeLine(int line) {
-		if(hologram == null) {
-			if(hologram.isDeleted()) {
+		if (hologram == null) {
+			if (hologram.isDeleted()) {
 				return;
 			}
 		}

@@ -75,7 +75,7 @@ public class Datamanager {
 		}
 		if (!HologramsAPI.getHolograms(Core.getThis()).isEmpty()) {
 			for (Hologram holo : HologramsAPI.getHolograms(Core.getThis())) {
-				if(holo.isDeleted()) {
+				if (holo.isDeleted()) {
 					continue;
 				}
 				holo.delete();
@@ -163,12 +163,13 @@ public class Datamanager {
 					tasks.add(new BukkitRunnable() {
 						int id = num + 1;
 						int max = maxasli;
+
 						@Override
 						public void run() {
 							if (id == times) {
 								max = left;
 							}
-							for(int index = 0;index < max;index++) {
+							for (int index = 0; index < max; index++) {
 								String temp = databaseHolos.get(index + (maxasli * num));
 								LoadedHoloData.add(new HoloData(temp));
 							}

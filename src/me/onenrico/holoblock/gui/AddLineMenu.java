@@ -38,6 +38,9 @@ public class AddLineMenu {
 		PlaceholderUT pu = new PlaceholderUT();
 		pu.add("player", "" + player.getName());
 		pu.add("owner", "" + data.getOwner());
+		CancelItem = pu.t(CancelItem);
+		TextLine = pu.t(TextLine);
+		ItemLine = pu.t(ItemLine);
 		String title = pu.t(ConfigPlugin.getStr("AddLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(2, title);
 		InventoryUT.setItem(inv, 2, TextLine).addClick("AddLine:" + rawloc + "<<" + (data.getLines().size()));

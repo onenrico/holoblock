@@ -68,7 +68,8 @@ public class HoloUT {
 					public void run() {
 						for (int current = holo.size(); current < line; current++) {
 							holo.appendTextLine("");
-							holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
+							holo.teleport(
+									new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
 						}
 						holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
 						holo.appendTextLine(temp);
@@ -78,7 +79,9 @@ public class HoloUT {
 				}.runTaskLater(Core.getThis(), 2);
 				return null;
 			}
-		}catch(Exception ex) {return null;}
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 	public static ItemLine setLine(Hologram holo, int line, ItemStack item) {
@@ -112,7 +115,7 @@ public class HoloUT {
 				}
 			}.runTaskLater(Core.getThis(), 2);
 			return null;
-		}catch(Exception ex) {
+		} catch (Exception ex) {
 			return null;
 		}
 	}

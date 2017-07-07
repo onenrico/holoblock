@@ -9,6 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -52,7 +53,7 @@ public class ItemLineMenu {
 		int current = itemlines.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
 		maxpage = MathUT.clamp(maxpage, 1);
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = Locales.pub;
 		pu.add("page", "" + page);
 		pu.add("nextpage", "" + (page + 1));
 		pu.add("prevpage", "" + (page - 1));
@@ -63,6 +64,7 @@ public class ItemLineMenu {
 		Inventory inv = InventoryUT.createInventory(6, title);
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);
+		CancelItem = pu.t(CancelItem);
 		if (page > 1) {
 			InventoryUT.setItem(inv, 45, PrevPageItem)
 					.addClick("OpenPageItemLine:" + rawloc + ":" + (page - 1) + ":" + line);

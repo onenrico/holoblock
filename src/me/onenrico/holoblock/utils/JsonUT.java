@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.bukkit.entity.Player;
 
+import me.onenrico.holoblock.locale.Locales;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -57,6 +58,20 @@ public class JsonUT {
 	public static List<String> btnGenerate(List<String> json, Player player, String btn, Boolean hover,
 			List<String> hovertext, boolean click, String clicktype, String clickvalue) {
 		PlaceholderUT pu = new PlaceholderUT();
+		List<String> newjson = new ArrayList<>();
+		for (String j : json) {
+			j = MessageUT.t(j);
+			if (j.contains("<np>")) {
+				j = j.replace("<np>", "");
+			} else {
+				j = Locales.pluginPrefix + "<br>" + j;
+			}
+			if (j.contains("<center>")) {
+				j = j.replace("<center>", "");
+				j = MessageUT.centered(j);
+			}
+			newjson.add(j);
+		}
 		String cmd = "<br>&6" + btn + "<cmd>";
 		if (hover) {
 			cmd += "#H:$TEXT:";
@@ -76,7 +91,7 @@ public class JsonUT {
 		}
 		cmd += "<br>";
 		pu.getAcuan().put(btn, cmd);
-		return pu.t(json);
+		return pu.t(newjson);
 	}
 
 	public static void multiSend(Player player, List<List<HashMap<String, String>>> json) {

@@ -14,9 +14,12 @@ import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
+import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class Locales extends YamlConfiguration {
 	private static HashMap<String, List<String>> map = new HashMap<>();
+	private static HashMap<String, String> map2 = new HashMap<>();
+	public static PlaceholderUT pub = null;
 
 	public Locales(JavaPlugin plugin, String locale) {
 		file = new File(plugin.getDataFolder(), "lang_" + locale + ".yml");
@@ -48,9 +51,18 @@ public class Locales extends YamlConfiguration {
 			}
 		}
 		Set<String> nkeys = getConfigurationSection("messages").getKeys(false);
-		for (String key : nkeys) {
-			map.put(key, getStringList("messages." + key));
+		if (nkeys != null) {
+			for (String key : nkeys) {
+				map.put(key, getStringList("messages." + key));
+			}
 		}
+		Set<String> nkeys2 = getConfigurationSection("custom-placeholder").getKeys(false);
+		if (nkeys2 != null) {
+			for (String key : nkeys2) {
+				map2.put(key, getString("custom-placeholder." + key));
+			}
+		}
+		pub = new PlaceholderUT();
 		pluginPrefix = ConfigPlugin.getStr("pluginPrefix", "&cNot Configured");
 	}
 
@@ -61,6 +73,10 @@ public class Locales extends YamlConfiguration {
 			save();
 		}
 		return map.get(msg);
+	}
+
+	public static HashMap<String, String> getPlaceholder() {
+		return map2;
 	}
 
 	private List<String> getStrList(String path, List<String> def) {
