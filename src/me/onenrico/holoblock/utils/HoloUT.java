@@ -42,41 +42,43 @@ public class HoloUT {
 	}
 
 	public static TextLine setLine(Hologram holo, int line, String text) {
-		text = MessageUT.t(text);
-		String temp = text;
 		try {
-			Object cline = holo.getLine(line);
-			if (cline instanceof TextLine) {
-				TextLine tline = (TextLine) holo.getLine(line);
-				tline.setText(text);
-				return tline;
-			} else {
+			text = MessageUT.t(text);
+			String temp = text;
+			try {
+				Object cline = holo.getLine(line);
+				if (cline instanceof TextLine) {
+					TextLine tline = (TextLine) holo.getLine(line);
+					tline.setText(text);
+					return tline;
+				} else {
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							insertLine(holo, line, temp);
+							holo.removeLine(line + 1);
+						}
+
+					}.runTaskLater(Core.getThis(), 2);
+					return null;
+				}
+			} catch (IndexOutOfBoundsException ex) {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						insertLine(holo, line, temp);
-						holo.removeLine(line + 1);
+						for (int current = holo.size(); current < line; current++) {
+							holo.appendTextLine("");
+							holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
+						}
+						holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
+						holo.appendTextLine(temp);
+
 					}
 
 				}.runTaskLater(Core.getThis(), 2);
 				return null;
 			}
-		} catch (IndexOutOfBoundsException ex) {
-			new BukkitRunnable() {
-				@Override
-				public void run() {
-					for (int current = holo.size(); current < line; current++) {
-						holo.appendTextLine("");
-						holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
-					}
-					holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
-					holo.appendTextLine(temp);
-
-				}
-
-			}.runTaskLater(Core.getThis(), 2);
-			return null;
-		}
+		}catch(Exception ex) {return null;}
 	}
 
 	public static ItemLine setLine(Hologram holo, int line, ItemStack item) {
@@ -109,6 +111,8 @@ public class HoloUT {
 					holo.teleport(new Location(holo.getWorld(), holo.getX(), holo.getY() + offset, holo.getZ()));
 				}
 			}.runTaskLater(Core.getThis(), 2);
+			return null;
+		}catch(Exception ex) {
 			return null;
 		}
 	}
@@ -164,7 +168,7 @@ public class HoloUT {
 
 				}.runTaskLater(Core.getThis(), 2);
 			}
-		} catch (IndexOutOfBoundsException ex) {
+		} catch (Exception ex) {
 		}
 	}
 }

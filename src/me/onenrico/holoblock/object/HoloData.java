@@ -76,6 +76,39 @@ public class HoloData {
 		particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
 		// Particle.SPELL_WITCH
 	}
+	@SuppressWarnings("deprecation")
+	public HoloData(String loc,Boolean async) {
+		rawloc = loc;
+		realloc = Seriloc.Deserialize(loc);
+		owner = Datamanager.getDB().getOwner(loc);
+		lines = Datamanager.getDB().getLine(loc);
+		members = Datamanager.getDB().getMember(loc);
+		skin = Datamanager.getDB().getSkin(loc);
+		rotation = Datamanager.getDB().getRotation(loc);
+		if (members == null) {
+			members = new ArrayList<>();
+		}
+		if (lines == null) {
+			lines = new ArrayList<>();
+		}
+		if (owner == null) {
+			owner = "Prepared";
+		}
+		if (skin == null) {
+			skin = ConfigPlugin.getStr("holo.item.head", "SecurityCamera");
+		}
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				updatePerm();
+				updateSkin();
+				updateHolo();
+				float toffset = (float) (offset * -1) + .1f;
+				particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, 
+						"SPELL_WITCH");
+			}
+		}.runTaskLater(Core.getThis(), 0);
+	}
 
 	public void updatePerm() {
 		OfflinePlayer ofp = Bukkit.getOfflinePlayer(owner);
@@ -101,8 +134,8 @@ public class HoloData {
 			skull.update();
 		} else {
 			block.setType(Material.SKULL);
-			block.getState().update();
-			updateSkin();
+			state.update();
+			updateSkinOnly();
 		}
 	}
 
@@ -124,6 +157,11 @@ public class HoloData {
 			lines.clear();
 		}
 		for (int x = 0; x < hologram.size(); x++) {
+			if(hologram == null) {
+				if(hologram.isDeleted()) {
+					return;
+				}
+			}
 			Object line = hologram.getLine(x);
 			if (line instanceof ItemLine) {
 				ItemLine item = (ItemLine) line;
@@ -156,6 +194,11 @@ public class HoloData {
 		}
 		Boolean color = allowColor;
 		for (String line : lines) {
+			if(hologram == null) {
+				if(hologram.isDeleted()) {
+					break;
+				}
+			}
 			if (line.contains("$ItemStack:")) {
 				line = line.replace("$ItemStack:", "");
 				ItemStack item = ItemUT.getItem(line);
@@ -172,7 +215,7 @@ public class HoloData {
 				if (color) {
 					HoloUT.setLine(hologram, index, MessageUT.t(line));
 				} else {
-					HoloUT.setLine(hologram, index, MessageUT.d(line));
+					HoloUT.setLine(hologram, index, MessageUT.u(line));
 				}
 			}
 			index++;
@@ -189,6 +232,11 @@ public class HoloData {
 
 	@SuppressWarnings("deprecation")
 	public void setLine(int line, String data) {
+		if(hologram == null) {
+			if(hologram.isDeleted()) {
+				return;
+			}
+		}
 		if (data.equalsIgnoreCase("cancel")) {
 			HoloUT.removeLine(hologram, line);
 		} else if (data.contains("$ItemStack:")) {
@@ -209,7 +257,7 @@ public class HoloData {
 				if (color) {
 					HoloUT.setLine(hologram, line, MessageUT.t(data));
 				} else {
-					HoloUT.setLine(hologram, line, MessageUT.d(data));
+					HoloUT.setLine(hologram, line, MessageUT.u(data));
 				}
 			} catch (Exception ex) {
 				HoloUT.setLine(hologram, line, MessageUT.t(data));
@@ -218,6 +266,11 @@ public class HoloData {
 	}
 
 	public void removeLine(int line) {
+		if(hologram == null) {
+			if(hologram.isDeleted()) {
+				return;
+			}
+		}
 		try {
 			HoloUT.removeLine(hologram, line);
 		} catch (Exception ex) {

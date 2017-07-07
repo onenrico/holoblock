@@ -75,6 +75,9 @@ public class Datamanager {
 		}
 		if (!HologramsAPI.getHolograms(Core.getThis()).isEmpty()) {
 			for (Hologram holo : HologramsAPI.getHolograms(Core.getThis())) {
+				if(holo.isDeleted()) {
+					continue;
+				}
 				holo.delete();
 			}
 		}
@@ -83,10 +86,10 @@ public class Datamanager {
 		tasks = new ArrayList<>();
 		if (LoadedHoloData != null) {
 			for (HoloData data : LoadedHoloData) {
-				data.destroy();
+				data.destroyHolo();
 			}
+			LoadedHoloData.clear();
 		}
-		LoadedHoloData = new ArrayList<>();
 
 	}
 
@@ -141,14 +144,13 @@ public class Datamanager {
 		last = System.currentTimeMillis();
 		MessageUT.cmessage("&f<&bHoloBlock&f> Start Load Database");
 		new BukkitRunnable() {
-
 			@Override
 			public void run() {
 				List<String> databaseHolos = db.getAll();
 				if (databaseHolos == null) {
 					return;
 				}
-				int maxasli = 100;
+				int maxasli = 1000;
 				int count = databaseHolos.size();
 				int times = (int) Math.ceil((double) count / (double) maxasli);
 				int left = count % maxasli;
@@ -160,33 +162,29 @@ public class Datamanager {
 					int num = x;
 					tasks.add(new BukkitRunnable() {
 						int id = num + 1;
-						int index = 0;
 						int max = maxasli;
-
 						@Override
 						public void run() {
 							if (id == times) {
 								max = left;
 							}
-							if (index < max) {
+							for(int index = 0;index < max;index++) {
 								String temp = databaseHolos.get(index + (maxasli * num));
 								LoadedHoloData.add(new HoloData(temp));
-							} else {
-								if (id + 1 == times && times > 1) {
-									count(count);
-								} else if (times < 2) {
-									count(count);
-								}
-								cancel();
-								return;
 							}
-							index++;
+							if (id + 1 == times && times > 1) {
+								count(count);
+							} else if (times < 2) {
+								count(count);
+							}
+							cancel();
+							return;
 						}
 
-					}.runTaskTimer(Core.getThis(), 0, 1));
+					}.runTaskLater(Core.getThis(), 0));
 				}
 			}
 
-		}.runTaskLater(Core.getThis(), 1);
+		}.runTaskLater(Core.getThis(), 0);
 	}
 }
