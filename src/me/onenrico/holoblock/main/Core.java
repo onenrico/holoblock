@@ -47,7 +47,6 @@ public class Core extends JavaPlugin {
 	public static HoloBlockAPI getAPI() {
 		return holoapi;
 	}
-
 	@Override
 	public void onDisable() {
 		papi = (PlaceholderAPIPlugin) Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
