@@ -2,7 +2,10 @@ package me.onenrico.holoblock.database;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -19,6 +22,7 @@ import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class Datamanager {
 	private static List<HoloData> LoadedHoloData = new ArrayList<>();
+	public static Set<String> loadedOwner = new HashSet<>();
 	static Core instance;
 	private static SQLite db;
 
@@ -90,6 +94,9 @@ public class Datamanager {
 			}
 			LoadedHoloData.clear();
 		}
+		if(loadedOwner != null) {
+			loadedOwner.clear();
+		}
 
 	}
 
@@ -109,6 +116,10 @@ public class Datamanager {
 	}
 
 	public static void deleteHolo(HoloData data) {
+		String owner = data.getOwner();
+		if(db.getOwned(owner) < 2) {
+			loadedOwner.remove(owner);
+		}
 		data.destroy();
 		db.deleteHolo(data.getRawloc());
 		LoadedHoloData.remove(data);
@@ -128,6 +139,8 @@ public class Datamanager {
 		for (HoloData temp : destroy) {
 			deleteHolo(temp);
 		}
+		String owner = newdata.getOwner();
+		loadedOwner.add(owner);
 		LoadedHoloData.add(newdata);
 	}
 
@@ -171,7 +184,9 @@ public class Datamanager {
 							}
 							for (int index = 0; index < max; index++) {
 								String temp = databaseHolos.get(index + (maxasli * num));
-								LoadedHoloData.add(new HoloData(temp));
+								HoloData data = new HoloData(temp);
+								LoadedHoloData.add(data);
+								loadedOwner.add(data.getOwner());
 							}
 							if (id + 1 == times && times > 1) {
 								count(count);

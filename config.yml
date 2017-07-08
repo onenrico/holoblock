@@ -508,3 +508,81 @@ RemoveMemberMenu:
     - "&6Click Here To Cancel {not} &e>>"
     - ""
     - "&8&m------------------------------"
+
+
+
+#--------------------------------------------------------------------------
+AdminHologramMenu:
+  Title: "Manage Hologram &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  PlayerItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&6{playername}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Owned Hologram: &8[&e{owned}&8/&e{maxowned}&8]"
+    - "&6Maxline: &e{maxlines}"
+    - "&6Maxmember: &e{maxmembers}"
+    - "&6Placeholder Allowed: &e{placeholder}"
+    - "&6Color Allowed: &e{color}"
+    - "&6ItemLine Allowed: &e{itemline}"
+    - "&6CustomSkin Allowed: &e{customskin}"
+    - ""
+    - "&8[ &6Click &fHere To Manage This Player &aHolograms {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+
+ManageHologramMenu:
+  Title: "{playername} Hologram &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  HoloItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&6&lHologram"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Skin: &e{skin}"
+    - "&6Member Count: &8[&e{members}&8/&e{maxmembers}&8]"
+    - "&6Line Count: &8[&e{lines}&8/&e{maxlines}&8]"
+    - "&6Offset: &8[&e{offset}&8]"
+    - ""
+    - "&8[ &6Left-Click &fHere To Manage This &aHolograms {edit} &8]"
+    - "&8[ &aRight-Click &fHere To Teleport to This &aHolograms {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+#--------------------------------------------------------------------------

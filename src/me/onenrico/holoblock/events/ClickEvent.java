@@ -18,9 +18,12 @@ import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.AddLineMenu;
 import me.onenrico.holoblock.gui.AddMemberMenu;
+import me.onenrico.holoblock.gui.AdminHologramMenu;
 import me.onenrico.holoblock.gui.EditLineMenu;
 import me.onenrico.holoblock.gui.EditMemberMenu;
 import me.onenrico.holoblock.gui.ItemLineMenu;
+import me.onenrico.holoblock.gui.MainMenu;
+import me.onenrico.holoblock.gui.ManageHologramMenu;
 import me.onenrico.holoblock.gui.MoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveMemberMenu;
@@ -29,6 +32,7 @@ import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.MenuItem;
+import me.onenrico.holoblock.object.Seriloc;
 import me.onenrico.holoblock.utils.EconomyUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.JsonUT;
@@ -141,11 +145,32 @@ public class ClickEvent implements Listener {
 								+ "%n%%n%&7&m--------------------");
 		PlaceholderUT pu = Locales.pub;
 		switch(prefix) {
+		case "Teleport":
+			if(!PermissionUT.check(player, "holoblock.remote.teleport")) {
+				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+				return;
+			}
+			if(CloseEvent.adminPlayers.contains(player)) {
+				CloseEvent.adminPlayers.remove(player);
+			}
+			player.closeInventory();
+			player.teleport(Seriloc.Deserialize(data));
+			break;
 		case "Refresh":
 			hdata = Datamanager.getDataByLoc(data);
 			hdata.updatePerm();
 			hdata.updateSkinOnly();
 			hdata.updateHolo();
+			break;
+		case "MainMenu":
+			if(!PermissionUT.check(player, "holoblock.remote.manage")) {
+				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+				return;
+			}
+			CloseEvent.adminPlayers.remove(player);
+			MainMenu.open(player, data);
+			SoundManager.playSound(player, "UI_BUTTON_CLICK");
+			break;
 		case "EditLineMenu":
 			EditLineMenu.open(player, data, 1);
 			CloseEvent.mainMenuPlayers.put(player, data);
@@ -154,6 +179,11 @@ public class ClickEvent implements Listener {
 		case "EditMemberMenu":
 			EditMemberMenu.open(player, data, 1);
 			CloseEvent.mainMenuPlayers.put(player, data);
+			SoundManager.playSound(player, "UI_BUTTON_CLICK");
+			break;
+		case "ManageHologramMenu":
+			ManageHologramMenu.open(player, data, 1);
+			CloseEvent.adminPlayers.add(player);
 			SoundManager.playSound(player, "UI_BUTTON_CLICK");
 			break;
 		case "ItemLineMenu":
@@ -169,6 +199,26 @@ public class ClickEvent implements Listener {
 			CloseEvent.mainMenuPlayers.remove(player);
 			EditLineMenu.open(player, loc, page);
 			CloseEvent.mainMenuPlayers.put(player, loc);
+			SoundManager.playSound(player, "UI_BUTTON_CLICK");
+			break;
+		case "OpenPageAdmin":
+			page = MathUT.strInt(action.split(":")[1]);
+			CloseEvent.adminPlayers.remove(player);
+			AdminHologramMenu.open(player, page);
+			CloseEvent.adminPlayers.add(player);
+			SoundManager.playSound(player, "UI_BUTTON_CLICK");
+			break;
+		case "OpenPageHolo":
+			page = MathUT.strInt(action.split(":")[1]);
+			Boolean admin = false;
+			if(CloseEvent.adminPlayers.contains(player)) {
+				CloseEvent.adminPlayers.remove(player);
+				admin = true;
+			}
+			AdminHologramMenu.open(player, page);
+			if(admin) {
+				CloseEvent.adminPlayers.add(player);
+			}
 			SoundManager.playSound(player, "UI_BUTTON_CLICK");
 			break;
 		case "OpenPageItemLine":

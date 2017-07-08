@@ -25,6 +25,12 @@ messages:
   - "<center>&eSuccessfully Get the &6Holo Head Item {done}"
   - "<np>"
   - "<np>{doneline}"
+  item_gived:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&eYou get the &6Holo Head Item &8&l[&ex{amount}&8&l] {done}"
+  - "<np>"
+  - "<np>{doneline}"
 
   add_holo:
   - "&fSuccessfully Placed New Hologram &8[&e{holocount}&8/&e{maxholo}&8 {done}"
