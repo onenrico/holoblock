@@ -75,6 +75,6 @@ public class ConfigPlugin extends ConfigUT implements ConfigSet {
 
 	public void setupSetting() {
 		config = instance.getConfig();
-		locale = new Locales(Core.getThis(), "EN");
+		locale = new Locales(Core.getThis(), getStr("locales","EN").toUpperCase());
 	}
 }

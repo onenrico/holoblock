@@ -318,7 +318,8 @@ MoveLineMenu:
     - ""
     - "&e'&8{content}&e'"
     - " "
-    - "&8[ &6Click &fHere To &fMove Line {edit} &8]"
+    - "&8[ &6Left-Click &fHere To &fMove Line {edit} &8]"
+    - "&8[ &aRight-Click &fHere To &fSwap Line {edit} &8]"
     - ""
     - "&8&m------------------------------"
   CancelItem:
@@ -448,8 +449,8 @@ ManageHologramMenu:
     - "&6Line Count: &8[&e{lines}&8/&e{maxlines}&8]"
     - "&6Offset: &8[&e{offset}&8]"
     - ""
-    - "&8[ &6Left-Click &fHere To Manage This &aHolograms {edit} &8]"
-    - "&8[ &aRight-Click &fHere To Teleport to This &aHolograms {edit} &8]"
+    - "&8[ &6Left-Click &fManage &aHolograms {edit} &8]"
+    - "&8[ &aRight-Click &fTeleport &aHolograms {edit} &8]"
     - ""
     - "&8&m------------------------------"
 #--------------------------------------------------------------------------

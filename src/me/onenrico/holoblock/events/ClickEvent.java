@@ -308,9 +308,11 @@ public class ClickEvent implements Listener {
 			last = hdata.getSkin();
 			MetaUT.setMetaData(player, "EditSkin:", action);
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
-			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_skin"), "edit", Locales.pub.t("{edit}"),
+			json = JsonUT.btnGenerate(
+					ConfigPlugin.locale.getValue("editing_skin"), "edit", Locales.pub.t("{edit}"),
 					true, ItemUT.createLore(last), true, "suggest", MessageUT.u(last));
-			json = JsonUT.btnGenerate(json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
+			json = JsonUT.btnGenerate(
+					json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			player.closeInventory();
 			break;

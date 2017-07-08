@@ -1,0 +1,208 @@
+#=====-----=====-----=====-----[      Messages Configuration      ]-----=====-----=====-----=====#
+#
+# Option List:
+# <center> : Center The Message on that line
+# <np> : Disable prefix on that line
+# 
+# Custom Placeholder Can be Used for Text Line hologram too
+# Use curly bracket { } to use placeholder in Text Line
+# Example: {heart} will be replace by defined placeholder
+# Don't forget to encode as UTF-8 
+# Below is pre-made plaeholder , you can make as many as you want XD
+
+custom-placeholder:
+  doneline: "&b&m-----------------------------------------------------"
+  errline: "&c&m-----------------------------------------------------"
+  plusline: "&e&m+++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  done: "&8&l[&a✔&8&l]"
+  not: "&8&l[&c✘&8&l]"
+  edit: "&8&l[&e✎&8&l]"
+  peace: "✌"
+  heart: "❤"
+  cloud: "☁"
+  poison: "☠"
+  star: "★"
+  x: "█"
+  x/: "▌"
+  x\: "▐"
+  rarrow: "►"
+  larrow: "◀"
+  diamond: "◇"
+  melody: "♫"
+  crown: "♚"
+  plane: "✈"
+  snowman: "☃"
+  snow: "❆"
+  sword: "⚔"
+  health: "✚"
+  checklist: "✔"
+  cross: "✘"
+  copyright: "©"
+  tm: "™"
+  empty: ""
+  
+messages:
+  item_give:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<center>&eBerhasil Mengirim &6Holo Head &bke {target} {done}"
+  - "<np>"
+  - "<np>{plusline}"
+  item_get:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&eBerhasil Mendapatkan &6Holo Head Item {done}"
+  - "<np>"
+  - "<np>{doneline}"
+  item_gived:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&eKamu Mendapat &6Holo Head Item &8&l[&ex{amount}&8&l] {done}"
+  - "<np>"
+  - "<np>{doneline}"
+
+  add_holo:
+  - "&fHologram Berhasil Dipasang &8[&e{holocount}&8/&e{maxholo}&8 {done}"
+  remove_holo:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&eHologram Berhasil Dihancurkan &8[&e{holocount}&8/&e{maxholo}&8] {not}"
+  - "<np>"
+  - "<np>{errline}"
+  exceeded_holo:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cKamu tidak bisa memasang Hologram lagi &8[&e{holocount}&8/&e{maxholo}&8] {not}"
+  - "<np>"
+  - "<np>{errline}"
+  
+  add_member:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&aBerhasil Menambah Member &b{member} {done}"
+  - "<np>"
+  - "<np>{doneline}"
+  remove_member:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&eBerhasil Menghapus member &b{member} {edit}"
+  - "<np>"
+  - "<np>{errline}"
+  exceeded_member:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cKamu Tidak Bisa Menambah Member Lagi {not}"
+  - "<np>"
+  - "<np>{errline}"
+
+  add_line:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&aBerhasil Menambah Line &6Line {done}"
+  - "<np>"
+  - "<np><center>&8[&r{msg}&8]"
+  - "<np>"
+  - "<np>{doneline}"
+  edit_line:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<center>&eBerhasil Mengedit &6Line {line} {edit}"
+  - "<np>"
+  - "<np><center>&8[&r{msg}&8]"
+  - "<np>"
+  - "<np>{plusline}"
+  remove_line:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&eBerhasil Menghapus &6Line {line} {not}"
+  - "<np>"
+  - "<np>{errline}"
+  move_line:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<center>&eBerhasil Memindahkan &6Line {line} &eke &6Line &6{lineto} {edit}"
+  - "<np>"
+  - "<np>{plusline}"
+  exceeded_line:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cKamu tidak bisa menambah Line lagi {not}"
+  - "<np>"
+  - "<np>{errline}"
+
+  adding_line:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<np><center>&7Tulis {cancel} &7Untuk Membatalkan &fAdding line"
+  - "<np><center>&7Tulis Teks Apa Saja Untuk &fLine {edit}"
+  - "<np>"
+  - "<np>{plusline}"
+  editing_line:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<np><center>&7Tulis {cancel} &7Untuk Membatalkan &aEditing line"
+  - "<np><center>&7Tulis Teks Apa Saja Untuk &fLine {edit}"
+  - "<np>"
+  - "<np>{plusline}"
+  
+  edit_offset:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&eBerhasil Mengedit &6Offset &eke &8[&r{offset}&8] {done}"
+  - "<np>"
+  - "<np>{doneline}"
+  
+  editing_offset:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<np><center>&7Tulis {cancel} &7Untuk Membatalkan &bEditing Offset"
+  - "<np><center>&7Ketik Angka ! &8[&fAntara &c-5.0 &fto &b5.0 &8] {edit}"
+  - "<np>"
+  - "<np>{plusline}"
+  
+  edit_skin:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&eberhasil Edit &6Skin &eto &8[&r{skin}&8] {done}"
+  - "<np>"
+  - "<np>{doneline}"
+  
+  editing_skin:
+  - "<np>{plusline}"
+  - "<np>"
+  - "<np><center>&7Tulis {cancel} &7Untuk Membatalkan &bEditing Skin"
+  - "<np><center>&7Tulis Nama Skin ! {edit}"
+  - "<np>"
+  - "<np>{plusline}"
+  
+  edit_canceled:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cBerhasil Membatalkan {not}"
+  - "<np>"
+  - "<np>{errline}"
+  
+  insufficient_money:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cKamu tidak punya cukup Uang {not}"
+  - "<np>"
+  - "<np>{errline}"
+  no_permission:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cKamu tidak punya permission &8[&f{perm}&8] &cuntuk melakukan ini {not}"
+  - "<np>"
+  - "<np>{errline}"
+  not_permitted:
+  - "<np>{errline}"
+  - "<np>"
+  - "<center>&cKamu tidak bisa melakukan itu ke &bHologram Ini {not}"
+  - "<np>"
+  - "<np>{errline}"
+  config_reload:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&bBerhasil Reload {done}"
+  - "<np>"
+  - "<np>{doneline}"

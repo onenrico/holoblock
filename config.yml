@@ -26,10 +26,11 @@
 # ────────────────────────────────────────────────────────────────────────────────
 
 pluginPrefix: "&8&l<&bHoloBlock&8&l> &e"
+locales: EN
 
 #=====-----=====-----=====-----[      Holo Configuration      ]-----=====-----=====-----=====#
 holo:
-  default_offset: 2.8
+  default_offset: 1.8
   #This is default hologram height offset
   
   default_line:

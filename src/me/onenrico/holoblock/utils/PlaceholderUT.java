@@ -9,8 +9,9 @@ import org.bukkit.inventory.ItemStack;
 public class PlaceholderUT {
 	private HashMap<String, String> acuan;
 
+	@SuppressWarnings("unchecked")
 	public PlaceholderUT(HashMap<String, String> acuan) {
-		this.acuan = acuan;
+		this.acuan = (HashMap<String, String>) acuan.clone();
 	}
 
 	public PlaceholderUT() {

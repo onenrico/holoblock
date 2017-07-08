@@ -21,6 +21,7 @@ import me.onenrico.holoblock.events.ClickEvent;
 import me.onenrico.holoblock.events.CloseEvent;
 import me.onenrico.holoblock.events.DropEvent;
 import me.onenrico.holoblock.events.InteractEvent;
+import me.onenrico.holoblock.events.JoinEvent;
 import me.onenrico.holoblock.events.PlaceEvent;
 import me.onenrico.holoblock.hooker.PlaceholderAPIHook;
 import me.onenrico.holoblock.hooker.vaultHook;
@@ -83,6 +84,7 @@ public class Core extends JavaPlugin {
 	}
 
 	private void setupEvent() {
+		Bukkit.getServer().getPluginManager().registerEvents(new JoinEvent(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new PlaceEvent(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new BreakEvent(), this);
 		Bukkit.getServer().getPluginManager().registerEvents(new ClickEvent(), this);
