@@ -1,0 +1,456 @@
+#=====-----=====-----=====-----[      GUI Configuration      ]-----=====-----=====-----=====#
+
+MainMenu:
+  Title: "&2Hologram &1&lMain Menu"
+  InfoItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&f&lHologram Info"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Owner: &e{owner}"
+    - "&6Skin: &e{skin}"
+    - "&6Member Count: &8[&e{members}&8/&e{maxmembers}&8]"
+    - "&6Line Count: &8[&e{lines}&8/&e{maxlines}&8]"
+    - "&6Offset: &8[&e{offset}&8]"
+    - "&6Placeholder Allowed: &e{placeholder}"
+    - "&6Color Allowed: &e{color}"
+    - "&6ItemLine Allowed: &e{itemline}"
+    - "&6CustomSkin Allowed: &e{customskin}"
+    - ""
+    - "&8&m------------------------------"
+  LineItem:
+    Material: 175
+    Displayname: "&f&lEdit &bLines"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Current Line: &8[&e{lines}&8/&e{maxlines}&8]"
+    - " "
+    - "&8[ &6Click &fHere To Edit Hologram &bLine {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+  OffSetItem:
+    Material: 332
+    Displayname: "&f&lEdit &cOffSet"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Current Offset: &8[&e{offset}&8]"
+    - " "
+    - "&8[ &6Click &fHere To Edit Hologram &cHeight {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+  SkinItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&f&lEdit &cSkin"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Current Skin: &8[&e{skin}&8]"
+    - " "
+    - "&8[ &6Click &fHere To Edit Hologram &cSkin {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+  MemberItem:
+    Material: BOOK
+    Displayname: "&f&lManage &aMember"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Current Member: &8[&e{members}/{maxmembers}&8]"
+    - " "
+    - "&8[ &6Click &fHere To Manage &aMember {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+
+
+
+
+EditLineMenu:
+  Title: "Hologram Line &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  AddLineItem:
+    Material: 399
+    Displayname: "&f&lAdd Line"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Current Line: &8[&e{lines}&8/&e{maxlines}&8]"
+    - " "
+    - "&8[ &6Click &fHere To &bAdd Line {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+  LineItem:
+    Material: 175
+    Displayname: "&f&lLine &8[&a{line}&8]"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e'&r{content}&e'"
+    - " "
+    - "&8[ &6Left-Click &fTo &6Edit &fThis Line {edit} &8]"
+    - "&8[ &aRight-Click &fTo &aMove &fThis Line {edit} &8]"
+    - "&8[ &cShift-Right-Click &fTo &cDelete &fThis Line {not} &8]"
+    - ""
+    - "&8&m------------------------------"
+
+
+
+
+EditMemberMenu:
+  Title: "Hologram Members &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  MemberItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&6{membername}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&8[ &cShift-Right-Click &fTo &cRemove &fThis Member {not} &8]"
+    - ""
+    - "&8&m------------------------------"
+  AddMemberItem:
+    Material: 399
+    Displayname: "&f&lAdd Member"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Current Member: &8[&e{members}&8/&e{maxmembers}&8]"
+    - " "
+    - "&8[ &6Click &fHere To &bAdd Member {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+
+
+AddMemberMenu:
+  Title: "&lChoose Online Players:"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  PlayerItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&6{playername}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&8[ &6Click &fTo &6Add &fThis Player {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+  AlreadyMember:
+    Material: SKULL_ITEM:3
+    Displayname: "&b{playername}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&8[ &6This Player Already Your Member {not} &8]"
+    - ""
+    - "&8&m------------------------------"
+  CancelItem:
+    Material: BARRIER
+    Displayname: "&c&lCancel !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
+
+AddLineMenu:
+  Title: "&lChoose Type Of Line"
+  TextLine:
+    Material: SIGN
+    Displayname: "&6&lText Line"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&8[ &6Click &fTo &6Add &6&lText Line {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+  ItemLine:
+    Material: DIAMOND
+    Displayname: "&b&lItem Line"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&8[ &6Click &fTo &6Add &b&lItem Line {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+  CancelItem:
+    Material: BARRIER
+    Displayname: "&c&lCancel !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
+
+ItemLineMenu:
+  Title: "&lChoose Item Of Line"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  ItemLine:
+    Material: STONE
+    Displayname: "&6&l{material}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Cost: &f$&e{cost}"
+    - ""
+    - "&8[ &6Click &fTo Add &6This &6&lItem Line {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+  CancelItem:
+    Material: BARRIER
+    Displayname: "&c&lCancel !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
+
+
+
+
+MoveLineMenu:
+  Title: "Hologram Line &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  CurrentPosition:
+    Material: 368
+    Displayname: "&f&lCurrent Line &8[&a{line}&8]"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e'&r{content}&e'"
+    - " "
+    - "&8[ &fThis Is Your Current Line {not} &8]"
+    - ""
+    - "&8&m------------------------------"
+  ReplacePosition:
+    Material: 341
+    Displayname: "&f&lLine &8[&a{line}&8]"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e'&8{content}&e'"
+    - " "
+    - "&8[ &6Left-Click &fHere To &fMove Line {edit} &8]"
+    - "&8[ &aRight-Click &fHere To &fSwap Line {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+  CancelItem:
+    Material: BARRIER
+    Displayname: "&c&lCancel !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
+
+
+
+
+RemoveLineMenu:
+  Title: "Are You Sure Remove This Line?"
+  YesItem:
+    Material: 165
+    Displayname: "&b&lYES !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Proceed {done} &e<<"
+    - ""
+    - "&8&m------------------------------"
+  NoItem:
+    Material: BARRIER
+    Displayname: "&c&lNo !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
+
+
+
+
+RemoveMemberMenu:
+  Title: "Are You Sure Remove This Member?"
+  YesItem:
+    Material: 165
+    Displayname: "&b&lYES !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Proceed {done} &e<<"
+    - ""
+    - "&8&m------------------------------"
+  NoItem:
+    Material: BARRIER
+    Displayname: "&c&lNo !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
+
+AdminHologramMenu:
+  Title: "Manage Hologram &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  PlayerItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&6{playername}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Owned Hologram: &8[&e{owned}&8/&e{maxowned}&8]"
+    - "&6Maxline: &e{maxlines}"
+    - "&6Maxmember: &e{maxmembers}"
+    - "&6Placeholder Allowed: &e{placeholder}"
+    - "&6Color Allowed: &e{color}"
+    - "&6ItemLine Allowed: &e{itemline}"
+    - "&6CustomSkin Allowed: &e{customskin}"
+    - ""
+    - "&8[ &6Click &fHere To Manage This Player &aHolograms {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+
+ManageHologramMenu:
+  Title: "{playername} Hologram &1Page: &8[&1{page}&8/&1{maxpage}&8]"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  HoloItem:
+    Material: SKULL_ITEM:3
+    Displayname: "&6&lHologram"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Skin: &e{skin}"
+    - "&6Member Count: &8[&e{members}&8/&e{maxmembers}&8]"
+    - "&6Line Count: &8[&e{lines}&8/&e{maxlines}&8]"
+    - "&6Offset: &8[&e{offset}&8]"
+    - ""
+    - "&8[ &6Left-Click &fManage &aHolograms {edit} &8]"
+    - "&8[ &aRight-Click &fTeleport &aHolograms {edit} &8]"
+    - ""
+    - "&8&m------------------------------"
+#--------------------------------------------------------------------------

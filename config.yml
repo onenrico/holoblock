@@ -1,0 +1,130 @@
+# ────────────────────────────────────────────────────────────────
+# ─██████──██████─██████████████─██████─────────██████████████────
+# ─██░░██──██░░██─██░░░░░░░░░░██─██░░██─────────██░░░░░░░░░░██────
+# ─██░░██──██░░██─██░░██████░░██─██░░██─────────██░░██████░░██────
+# ─██░░██──██░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
+# ─██░░██████░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
+# ─██░░░░░░░░░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
+# ─██░░██████░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
+# ─██░░██──██░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
+# ─██░░██──██░░██─██░░██████░░██─██░░██████████─██░░██████░░██────
+# ─██░░██──██░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██────
+# ─██████──██████─██████████████─██████████████─██████████████────
+# ────────────────────────────────────────────────────────────────
+# ────────────────────────────────────────────────────────────────────────────────
+# ─██████████████───██████─────────██████████████─██████████████─██████──████████─
+# ─██░░░░░░░░░░██───██░░██─────────██░░░░░░░░░░██─██░░░░░░░░░░██─██░░██──██░░░░██─
+# ─██░░██████░░██───██░░██─────────██░░██████░░██─██░░██████████─██░░██──██░░████─
+# ─██░░██──██░░██───██░░██─────────██░░██──██░░██─██░░██─────────██░░██──██░░██───
+# ─██░░██████░░████─██░░██─────────██░░██──██░░██─██░░██─────────██░░██████░░██───
+# ─██░░░░░░░░░░░░██─██░░██─────────██░░██──██░░██─██░░██─────────██░░░░░░░░░░██───
+# ─██░░████████░░██─██░░██─────────██░░██──██░░██─██░░██─────────██░░██████░░██───
+# ─██░░██────██░░██─██░░██─────────██░░██──██░░██─██░░██─────────██░░██──██░░██───
+# ─██░░████████░░██─██░░██████████─██░░██████░░██─██░░██████████─██░░██──██░░████─
+# ─██░░░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░██──██░░░░██─
+# ─████████████████─██████████████─██████████████─██████████████─██████──████████─
+# ────────────────────────────────────────────────────────────────────────────────
+
+pluginPrefix: "&8&l<&bHoloBlock&8&l> &e"
+locales: EN
+
+#=====-----=====-----=====-----[      Holo Configuration      ]-----=====-----=====-----=====#
+holo:
+  default_offset: 1.8
+  #This is default hologram height offset
+  
+  default_line:
+  - "&7Right-Click On My Head To Edit Me"
+  #Default Line When Hologram Placed On
+  
+  max_line: 100
+  #This is Max Line for the hologram
+  #Permission per player holoblock.maxline.<number> | Example: holoblock.maxline.5 (For 5 line only)
+  #Permission holoblock.maxline.* will return max value
+  
+  max_owned: 10
+  #This is Max Owned for the hologram
+  #Permission per player holoblock.maxowned.<number> | Example: holoblock.maxowned.1 (For 1 holo only
+  #Permission holoblock.maxowned.* will return max value
+  
+  max_member: 5
+  #This is Max Member for the hologram
+  #Permission per player holoblock.maxmember.<number> | Example: holoblock.maxmember.2 (For 2 member only)
+  #Permission holoblock.maxmember.* will return max value
+  
+  max_text: 1000
+  #This is Max Text For The Hologram
+  
+  item:
+    head: 'SecurityCamera'
+    #default skin name Used for the head
+    
+    displayname: '&7&k||&r &6&lHologram Head &7&k||'
+    #item name
+    
+    description: 
+    - '&7&m------------------------------'
+    - ''
+    - '&eThis Is Portable &6Hologram Head'
+    - '&eInvented By &6&lEnrico &7Company'
+    - '&ePlace It Anywhere You Want'
+    - ''
+    - '&7&m------------------------------'
+    #item lore
+
+#=====-----=====-----=====-----[      Line Items      ]-----=====-----=====-----=====#
+LineItems:
+- "DIAMOND>2500"
+- "IRON_INGOT>1500"
+- "GOLD_INGOT>1500"
+- "COAL>900"
+- "REDSTONE>2000"
+- "EMERALD>3000"
+- "WOOL>500"
+- "WOOL:2>500"
+- "WOOL:3>500"
+- "WOOL:4>500"
+- "WOOL:5>500"
+- "WOOL:6>500"
+- "WOOL:7>500"
+- "WOOL:8>500"
+- "WOOL:9>500"
+- "WOOL:10>500"
+- "WOOL:11>500"
+- "WOOL:12>500"
+- "WOOL:13>500"
+- "WOOL:14>500"
+- "WOOL:15>500"
+- "STAINED_GLASS>500"
+- "STAINED_GLASS:1>500"
+- "STAINED_GLASS:2>500"
+- "STAINED_GLASS:3>500"
+- "STAINED_GLASS:4>500"
+- "STAINED_GLASS:5>500"
+- "STAINED_GLASS:6>500"
+- "STAINED_GLASS:7>500"
+- "STAINED_GLASS:8>500"
+- "STAINED_GLASS:9>500"
+- "STAINED_GLASS:10>500"
+- "STAINED_GLASS:11>500"
+- "STAINED_GLASS:12>500"
+- "STAINED_GLASS:13>500"
+- "STAINED_GLASS:14>500"
+- "STAINED_GLASS:15>500"
+- "STAINED_GLASS_PANE>500"
+- "STAINED_GLASS_PANE:1>500"
+- "STAINED_GLASS_PANE:2>500"
+- "STAINED_GLASS_PANE:3>500"
+- "STAINED_GLASS_PANE:4>500"
+- "STAINED_GLASS_PANE:5>500"
+- "STAINED_GLASS_PANE:6>500"
+- "STAINED_GLASS_PANE:7>500"
+- "STAINED_GLASS_PANE:8>500"
+- "STAINED_GLASS_PANE:9>500"
+- "STAINED_GLASS_PANE:10>500"
+- "STAINED_GLASS_PANE:11>500"
+- "STAINED_GLASS_PANE:12>500"
+- "STAINED_GLASS_PANE:13>500"
+- "STAINED_GLASS_PANE:14>500"
+- "STAINED_GLASS_PANE:15>500"
+# format [material]>[price]
