@@ -45,25 +45,23 @@ public class JsonUT {
 		return end;
 	}
 
-	public static List<String> btnGenerate(List<String> json, String btn, boolean click,
+	public static List<String> btnGenerate(List<String> json, String btn, String to, boolean click,
 			String clicktype, String clickvalue) {
-		return btnGenerate(json, btn, false, null, click, clicktype, clickvalue);
+		return btnGenerate(json, btn, to, false, null, click, clicktype, clickvalue);
 	}
 
-	public static List<String> btnGenerate(List<String> json, String btn, boolean hover,
+	public static List<String> btnGenerate(List<String> json, String btn, String to, boolean hover,
 			List<String> hovertext) {
-		return btnGenerate(json, btn, hover, hovertext, false, null, null);
+		return btnGenerate(json, btn, to, hover, hovertext, false, null, null);
 	}
 
-	public static List<String> btnGenerate(List<String> json, String btn, Boolean hover,
+	public static List<String> btnGenerate(List<String> json, String btn, String to, Boolean hover,
 			List<String> hovertext, boolean click, String clicktype, String clickvalue) {
 		PlaceholderUT pu = new PlaceholderUT();
 		List<String> newjson = new ArrayList<>();
 		for (String j : json) {
 			j = MessageUT.t(j);
-			if (j.contains("<np>")) {
-				j = j.replace("<np>", "");
-			} else {
+			if (!j.contains("<np>")) {
 				j = Locales.pluginPrefix + "<br>" + j;
 			}
 			if (j.contains("<center>")) {
@@ -72,7 +70,7 @@ public class JsonUT {
 			}
 			newjson.add(j);
 		}
-		String cmd = "<br>&6" + btn + "<cmd>";
+		String cmd = "<br>" + to + "<cmd>";
 		if (hover) {
 			cmd += "#H:$TEXT:";
 			for (int x = 0; x < hovertext.size(); x++) {
@@ -107,6 +105,9 @@ public class JsonUT {
 			for (String text : key) {
 				String cache = map.get(text);
 				text = MessageUT.t(text);
+				if (text.contains("<np>")) {
+					text = text.replace("<np>", "");
+				}
 				TextComponent single = new TextComponent(text);
 				String[] temp = cache.split("<and>");
 				for (String eventstr : temp) {

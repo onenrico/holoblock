@@ -4,6 +4,12 @@
 # <center> : Center The Message on that line
 # <np> : Disable prefix on that line
 # 
+# Custom Placeholder Can be Used for Text Line hologram too
+# Use curly bracket { } to use placeholder in Text Line
+# Example: {heart} will be replace by defined placeholder
+# Don't forget to encode as UTF-8 
+# Below is pre-made plaeholder , you can make as many as you want XD
+
 custom-placeholder:
   doneline: "&b&m-----------------------------------------------------"
   errline: "&c&m-----------------------------------------------------"
@@ -11,7 +17,30 @@ custom-placeholder:
   done: "&8&l[&a✔&8&l]"
   not: "&8&l[&c✘&8&l]"
   edit: "&8&l[&e✎&8&l]"
-
+  peace: "✌"
+  heart: "❤"
+  cloud: "☁"
+  poison: "☠"
+  star: "★"
+  x: "█"
+  x/: "▌"
+  x\: "▐"
+  rarrow: "►"
+  larrow: "◀"
+  diamond: "◇"
+  melody: "♫"
+  crown: "♚"
+  plane: "✈"
+  snowman: "☃"
+  snow: "❆"
+  sword: "⚔"
+  health: "✚"
+  checklist: "✔"
+  cross: "✘"
+  copyright: "©"
+  tm: "™"
+  empty: ""
+  
 messages:
   item_give:
   - "<np>{plusline}"

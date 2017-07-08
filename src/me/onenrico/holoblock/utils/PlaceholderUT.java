@@ -16,7 +16,7 @@ public class PlaceholderUT {
 	}
 
 	public PlaceholderUT() {
-		acuan = Locales.getPlaceholder();
+		acuan = (HashMap<String, String>) Locales.getPlaceholder().clone();
 	}
 
 	public HashMap<String, String> getAcuan() {

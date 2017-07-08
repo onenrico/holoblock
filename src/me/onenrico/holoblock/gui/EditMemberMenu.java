@@ -108,8 +108,8 @@ public class EditMemberMenu {
 				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPageMember:" + rawloc + ":" + (page + 1));
 			}
 		}
-		for (int x = 0; x < 7; x++) {
-			InventoryUT.setItem(inv, x + 46, AddMemberItem).addClick("AddMember:" + rawloc);
+		for (int x = 0; x < 5; x++) {
+			InventoryUT.setItem(inv, x + 47, AddMemberItem).addClick("AddMember:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

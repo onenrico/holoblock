@@ -130,12 +130,14 @@ public class ClickEvent implements Listener {
 	}
 	public void actionHandle(String action, Player player) {
 		String prefix = action.split(":")[0];
-		String data = action.split(":")[1];
+		String data = "";
 		if(prefix.contains("<i>")) {
 			prefix = prefix.split("<i>")[0];
+		}else {
+			data = action.split(":")[1];
 		}
 		HoloData hdata = null;
-		String loc,member,strline,strline2 = "";
+		String loc,member,strline,strline2,last = "";
 		int page,line,line2,count = 0;
 		List<String> json = new ArrayList<>();
 		List<String> hoverl = 
@@ -272,9 +274,18 @@ public class ClickEvent implements Listener {
 			break;
 		case "EditLine":
 			MetaUT.setMetaData(player, "EditLine:", data);
+			hdata = Datamanager.getDataByLoc(data.split("<<")[0]);
+			line = MathUT.strInt(data.split("<<")[1]);
+			last = hdata.getLines().get(line);
 			json = JsonUT.btnGenerate(
 					ConfigPlugin.locale.getValue("editing_line"),
-					"cancel", 
+					"edit",Locales.pub.t("{edit}"),
+					true,
+					ItemUT.createLore(last),
+					true, "suggest", MessageUT.u(last));
+			json = JsonUT.btnGenerate(
+					json,
+					"cancel","&8<&cCancel&8>",
 					true,
 					hoverl,
 					true, "run", "cancel");
@@ -287,15 +298,23 @@ public class ClickEvent implements Listener {
 		case "EditOffSet":
 			action = action.split(":")[1];
 			MetaUT.setMetaData(player, "EditOffSet:", action);
-			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
+			hdata = Datamanager.getDataByLoc(action);
+			last = ""+hdata.getOffset();
 			json = JsonUT.btnGenerate(
 					ConfigPlugin.locale.getValue("editing_offset"),
-					"cancel", 
+					"edit",Locales.pub.t("{edit}"),
+					true,
+					ItemUT.createLore(last),
+					true, "suggest", MessageUT.u(last));
+			json = JsonUT.btnGenerate(
+					json,
+					"cancel","&8<&cCancel&8>",
 					true,
 					hoverl,
 					true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			player.closeInventory();
+			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
 			break;
 		case "EditSkin":
 			action = action.split(":")[1];
@@ -306,11 +325,18 @@ public class ClickEvent implements Listener {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
+			last = hdata.getSkin();
 			MetaUT.setMetaData(player, "EditSkin:", action);
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
 			json = JsonUT.btnGenerate(
 					ConfigPlugin.locale.getValue("editing_skin"),
-					"cancel", 
+					"edit",Locales.pub.t("{edit}"),
+					true,
+					ItemUT.createLore(last),
+					true, "suggest", MessageUT.u(last));
+			json = JsonUT.btnGenerate(
+					json,
+					"cancel","&8<&cCancel&8>",
 					true,
 					hoverl,
 					true, "run", "cancel");
@@ -321,14 +347,13 @@ public class ClickEvent implements Listener {
 			MetaUT.setMetaData(player, "AddLine:", data);
 			json = JsonUT.btnGenerate(
 					ConfigPlugin.locale.getValue("adding_line"),
-					"cancel", 
+					"cancel","&8<&cCancel&8>",
 					true,
 					hoverl,
 					true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
-			MessageUT.debug("Data:" +data);
 			CloseEvent.mainMenuPlayers.put(player, data.split("<<")[0]);
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
 			break;
@@ -413,7 +438,7 @@ public class ClickEvent implements Listener {
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
 			break;
-		case "MoveLine":
+		case "ReplaceLine":
 			loc = data.split("<<")[0];
 			line = MathUT.strInt(data.split("<<")[1]);
 			line2 = MathUT.strInt(data.split("<<")[2]);
@@ -429,6 +454,35 @@ public class ClickEvent implements Listener {
 					scope.removeLine(line2);
 					scope.insertLine(line2,strline);
 					scope.saveHolo(new BukkitRunnable() {
+						@Override
+						public void run() {
+							pu.add("line", "" + (line + 1));
+							pu.add("lineto", "" + (line2 + 1));
+							MessageUT.plmessage(player, 
+									pu.t(ConfigPlugin.locale.getValue("move_line")));
+							EditLineMenu.open(player, loc, 1);
+							CloseEvent.mainMenuPlayers.put(player, loc);
+							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+						}
+					});
+					player.closeInventory();
+				}
+				
+			}.runTaskLater(Core.getThis(), 3);
+			break;
+		case "MoveLine":
+			loc = data.split("<<")[0];
+			line = MathUT.strInt(data.split("<<")[1]);
+			line2 = MathUT.strInt(data.split("<<")[2]);
+			hdata = Datamanager.getDataByLoc(loc);
+			strline = hdata.getLines().get(line);
+			hdata.removeLine(line);
+			hdata.insertLine(line2,strline);
+			HoloData nscope = hdata;
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					nscope.saveHolo(new BukkitRunnable() {
 						@Override
 						public void run() {
 							pu.add("line", "" + (line + 1));

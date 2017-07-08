@@ -24,12 +24,14 @@ import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.HoloUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.ParticleUT;
 import me.onenrico.holoblock.utils.PermissionUT;
+import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class HoloData {
 	private List<String> members;
@@ -62,6 +64,14 @@ public class HoloData {
 		}
 		if (lines == null) {
 			lines = new ArrayList<>();
+		}else {
+			int index = 0;
+			for(String l : lines) {
+				if(l.equalsIgnoreCase("{#n}")) {
+					lines.set(index, "");
+				}
+				index++;
+			}
 		}
 		if (owner == null) {
 			owner = "Prepared";
@@ -75,39 +85,6 @@ public class HoloData {
 		float toffset = (float) (offset * -1) + .1f;
 		particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
 		// Particle.SPELL_WITCH
-	}
-
-	@SuppressWarnings("deprecation")
-	public HoloData(String loc, Boolean async) {
-		rawloc = loc;
-		realloc = Seriloc.Deserialize(loc);
-		owner = Datamanager.getDB().getOwner(loc);
-		lines = Datamanager.getDB().getLine(loc);
-		members = Datamanager.getDB().getMember(loc);
-		skin = Datamanager.getDB().getSkin(loc);
-		rotation = Datamanager.getDB().getRotation(loc);
-		if (members == null) {
-			members = new ArrayList<>();
-		}
-		if (lines == null) {
-			lines = new ArrayList<>();
-		}
-		if (owner == null) {
-			owner = "Prepared";
-		}
-		if (skin == null) {
-			skin = ConfigPlugin.getStr("holo.item.head", "SecurityCamera");
-		}
-		new BukkitRunnable() {
-			@Override
-			public void run() {
-				updatePerm();
-				updateSkin();
-				updateHolo();
-				float toffset = (float) (offset * -1) + .1f;
-				particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
-			}
-		}.runTaskLater(Core.getThis(), 0);
 	}
 
 	public void updatePerm() {
@@ -338,7 +315,11 @@ public class HoloData {
 
 					} else if (line instanceof TextLine) {
 						TextLine text = (TextLine) line;
-						rawlines += text.getText().replace("{refresh:fastest}", "");
+						String teks = text.getText();
+						if(teks.isEmpty()) {
+							teks = "{#n}";
+						}
+						rawlines += teks.replace("{refresh:fastest}", "");
 					}
 					if (hologram.size() - x > 1) {
 						rawlines += "<#";

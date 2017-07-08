@@ -107,8 +107,8 @@ public class ItemLineMenu {
 						.addClick("OpenPageItemLine:" + rawloc + ":" + (page + 1) + ":" + line);
 			}
 		}
-		for (int x = 0; x < 7; x++) {
-			InventoryUT.setItem(inv, x + 46, CancelItem).addClick("EditLineMenu:" + rawloc);
+		for (int x = 0; x < 5; x++) {
+			InventoryUT.setItem(inv, x + 47, CancelItem).addClick("EditLineMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

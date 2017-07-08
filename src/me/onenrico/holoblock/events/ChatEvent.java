@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.EditLineMenu;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
@@ -47,7 +48,10 @@ public class ChatEvent implements Listener {
 			String line = datas[1];
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if (temp != null) {
-				PlaceholderUT pu = new PlaceholderUT();
+				PlaceholderUT pu = Locales.pub;
+				if(ConfigPlugin.isAllowPlaceholder(player, player.getWorld())) {
+					msg = pu.t(msg);
+				}
 				pu.add("line", "" + (MathUT.strInt(line) + 1));
 				pu.add("msg", "" + msg);
 				temp.removeLine(MathUT.strInt(line));
@@ -91,7 +95,10 @@ public class ChatEvent implements Listener {
 			String line = datas[1];
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if (temp != null) {
-				PlaceholderUT pu = new PlaceholderUT();
+				PlaceholderUT pu = Locales.pub;
+				if(ConfigPlugin.isAllowPlaceholder(player, player.getWorld())) {
+					msg = pu.t(msg);
+				}
 				pu.add("line", "" + (line + 1));
 				pu.add("msg", "" + msg);
 				temp.setLine(MathUT.strInt(line), msg);

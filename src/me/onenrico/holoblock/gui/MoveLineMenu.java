@@ -109,8 +109,8 @@ public class MoveLineMenu {
 						.addClick("OpenPageMove:" + rawloc + ":" + (page + 1) + ":" + currentline);
 			}
 		}
-		for (int x = 0; x < 7; x++) {
-			InventoryUT.setItem(inv, x + 46, CancelItem).addClick("EditLineMenu:" + rawloc);
+		for (int x = 0; x < 5; x++) {
+			InventoryUT.setItem(inv, x + 47, CancelItem).addClick("EditLineMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}
