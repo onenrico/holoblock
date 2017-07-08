@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
@@ -42,7 +43,7 @@ public class RemoveMemberMenu {
 			SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 			return;
 		}
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("member", "" + member);
 		String title = pu.t(Core.getThis().guiconfig.getStr("RemoveMemberMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);

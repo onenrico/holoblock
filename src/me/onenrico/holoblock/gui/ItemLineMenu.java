@@ -54,7 +54,7 @@ public class ItemLineMenu {
 		int current = itemlines.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
 		maxpage = MathUT.clamp(maxpage, 1);
-		PlaceholderUT pu = Locales.pub;
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("page", "" + page);
 		pu.add("nextpage", "" + (page + 1));
 		pu.add("prevpage", "" + (page - 1));

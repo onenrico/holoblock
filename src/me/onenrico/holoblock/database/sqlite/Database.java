@@ -16,7 +16,7 @@ public abstract class Database {
 
 	public Connection connection;
 	Core plugin;
-	public String tablename = "HoloData";
+	public String table = "HoloData";
 
 	public Database(Core instance) {
 		plugin = instance;
@@ -28,7 +28,7 @@ public abstract class Database {
 
 	public void initialize() {
 		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + tablename);
+			PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + table);
 			ResultSet rs = ps.executeQuery();
 			close(ps, rs);
 		} catch (SQLException ex) {
@@ -41,7 +41,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + ";");
+			ps = connection.prepareStatement("SELECT * FROM " + table + ";");
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				result.add(rs.getString("Location"));
@@ -59,7 +59,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Location='" + location + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
 			rs = ps.executeQuery();
 			List<String> result = new ArrayList<>();
 			if (rs.next()) {
@@ -82,7 +82,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Location='" + location + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getString("Owner");
@@ -99,7 +99,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Owner='" + name + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Owner='" + name + "';");
 			rs = ps.executeQuery();
 			int result = 0;
 			while (rs.next()) {
@@ -118,7 +118,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Location='" + loc + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + loc + "';");
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getDouble("Offset");
@@ -135,7 +135,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Owner='" + name + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Owner='" + name + "';");
 			rs = ps.executeQuery();
 			List<String> result = new ArrayList<>();
 			while (rs.next()) {
@@ -154,7 +154,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Location='" + location + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
 			rs = ps.executeQuery();
 			List<String> result = new ArrayList<>();
 			if (rs.next()) {
@@ -177,7 +177,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Location='" + location + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				return rs.getString("skin");
@@ -194,7 +194,7 @@ public abstract class Database {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			ps = connection.prepareStatement("SELECT * FROM " + tablename + " WHERE Location='" + location + "';");
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				return BlockFace.valueOf(rs.getString("rotation"));
@@ -206,13 +206,33 @@ public abstract class Database {
 		}
 		return null;
 	}
+	public String getParticleName(String location) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				return rs.getString("particle");
+			}
+		} catch (SQLException ex) {
+			MessageUT.debug("B: " + ex);
+		} finally {
+			close(ps, rs);
+		}
+		return null;
+	}
 
-	public void setHolo(String player, String location, String rawline, String members, double offset, String skin,
-			BlockFace rotation) {
+	public void setHolo(String player, 
+			String location, 
+			String rawline, String members, double offset, String skin,
+			BlockFace rotation,
+			String particle) {
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("REPLACE INTO " + tablename
-					+ "(Owner,Location,Lines,Members,Offset,Skin,Rotation) " + "VALUES(?,?,?,?,?,?,?)");
+			ps = connection.prepareStatement("REPLACE INTO " + table
+					+ "(Owner,Location,Lines,Members,Offset,Skin,Rotation,Particle) "
+					+ "VALUES(?,?,?,?,?,?,?,?)");
 			ps.setString(1, player);
 			ps.setString(2, location);
 			ps.setString(3, rawline);
@@ -220,6 +240,7 @@ public abstract class Database {
 			ps.setDouble(5, offset);
 			ps.setString(6, skin);
 			ps.setString(7, rotation.toString());
+			ps.setString(8, particle);
 			ps.executeUpdate();
 			return;
 		} catch (SQLException ex) {
@@ -234,7 +255,7 @@ public abstract class Database {
 		;
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("DELETE FROM " + tablename + " WHERE Location='" + rawLoc + "'");
+			ps = connection.prepareStatement("DELETE FROM " + table + " WHERE Location='" + rawLoc + "'");
 			ps.executeUpdate();
 			return;
 		} catch (SQLException ex) {

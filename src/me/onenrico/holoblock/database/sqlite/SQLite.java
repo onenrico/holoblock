@@ -25,11 +25,12 @@ public class SQLite extends Database {
 		map.put("Offset", "double");
 		map.put("Skin", "blob");
 		map.put("Rotation", "blob");
+		map.put("Particle", "blob");
 		SQLiteCreateTokensTable = generateToken("Location", map);
 	}
 
 	public String generateToken(String indexer, HashMap<String, String> map) {
-		String result = "CREATE TABLE IF NOT EXISTS " + tablename + " (";
+		String result = "CREATE TABLE IF NOT EXISTS " + table + " (";
 		int index = 0;
 		for (String key : map.keySet()) {
 			index++;

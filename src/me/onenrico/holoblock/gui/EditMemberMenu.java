@@ -10,6 +10,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
@@ -57,7 +58,7 @@ public class EditMemberMenu {
 		int current = members.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
 		maxpage = MathUT.clamp(maxpage, 1);
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("page", "" + page);
 		pu.add("nextpage", "" + (page + 1));
 		pu.add("prevpage", "" + (page - 1));

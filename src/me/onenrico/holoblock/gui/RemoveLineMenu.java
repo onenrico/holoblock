@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
@@ -31,7 +32,7 @@ public class RemoveLineMenu {
 
 	public static void open(Player player, String rawloc, int line) {
 		setup();
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("line", "" + line);
 		String title = pu.t(Core.getThis().guiconfig.getStr("RemoveLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);

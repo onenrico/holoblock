@@ -41,6 +41,7 @@ public class HoloData {
 	private Hologram hologram;
 	private Location cloc;
 	private String skin;
+	private String particlename;
 	private BukkitTask particle;
 	private double offset;
 	private boolean allowPlaceholders = false;
@@ -57,6 +58,11 @@ public class HoloData {
 		members = Datamanager.getDB().getMember(loc);
 		skin = Datamanager.getDB().getSkin(loc);
 		rotation = Datamanager.getDB().getRotation(loc);
+		particlename = Datamanager.getDB().getParticleName(loc);
+		if(particlename  == null) {
+			particlename = "NONE";
+		}
+		particlename = particlename.toUpperCase();
 		if (members == null) {
 			members = new ArrayList<>();
 		}
@@ -332,7 +338,9 @@ public class HoloData {
 						}
 					}
 				}
-				Datamanager.getDB().setHolo(owner, rawloc, rawlines, rawmembers, offset, skin, rotation);
+				Datamanager.getDB().setHolo(
+				owner, rawloc, rawlines, rawmembers, offset, 
+				skin, rotation,"NONE");
 				if (callback != null) {
 					callback.runTaskLater(Core.getThis(), 1);
 				}
@@ -438,5 +446,9 @@ public class HoloData {
 
 	public boolean isAllowCustomSkin() {
 		return allowCustomSkin;
+	}
+
+	public String getParticlename() {
+		return particlename;
 	}
 }

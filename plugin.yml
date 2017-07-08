@@ -7,4 +7,4 @@ softdepend: [Vault, HolographicDisplays, PlaceholderAPI, ProtocolLibs, Holograph
 commands:
   holoblock:
     description: The main command of holo block plugin
-    aliases: hb, ob
+    aliases: [hb, ob]

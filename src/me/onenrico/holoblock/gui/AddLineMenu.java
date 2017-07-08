@@ -5,6 +5,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -35,7 +36,7 @@ public class AddLineMenu {
 	public static void open(Player player, String rawloc) {
 		setup();
 		HoloData data = Datamanager.getDataByLoc(rawloc);
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("player", "" + player.getName());
 		pu.add("owner", "" + data.getOwner());
 		CancelItem = pu.t(CancelItem);

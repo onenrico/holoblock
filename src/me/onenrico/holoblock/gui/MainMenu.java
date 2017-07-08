@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.events.CloseEvent;
+import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
@@ -119,7 +120,7 @@ public class MainMenu {
 
 			}
 		}.runTaskTimer(Core.getThis(), 0, 8);
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		String owner = data.getOwner();
 		Location loc = Seriloc.Deserialize(rawloc);
