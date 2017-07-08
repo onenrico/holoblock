@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.locale.Locales;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -33,10 +34,10 @@ public class ItemLineMenu {
 
 	private static ItemStack setupItem(String name) {
 		String prefix = "ItemLineMenu." + name + ".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
-				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, Core.getThis().guiconfig.getStrList(prefix + "Description",
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
@@ -49,7 +50,7 @@ public class ItemLineMenu {
 			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 			return;
 		}
-		List<String> itemlines = ConfigPlugin.getStrList("LineItems", new ArrayList<>());
+		List<String> itemlines = Core.getThis().guiconfig.getStrList("LineItems", new ArrayList<>());
 		int current = itemlines.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
 		maxpage = MathUT.clamp(maxpage, 1);
@@ -60,7 +61,7 @@ public class ItemLineMenu {
 		pu.add("maxpage", "" + maxpage);
 		pu.add("player", "" + player.getName());
 		pu.add("owner", "" + data.getOwner());
-		String title = pu.t(ConfigPlugin.getStr("ItemLineMenu.Title", "Title &cNot Configured !"));
+		String title = pu.t(Core.getThis().guiconfig.getStr("ItemLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);

@@ -21,8 +21,8 @@ import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
 import com.palmergames.bukkit.towny.war.flagwar.TownyWar;
 import com.palmergames.bukkit.towny.war.flagwar.TownyWarConfig;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.events.PlaceEvent;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.utils.PlayerUT;
 
@@ -48,7 +48,7 @@ public class TownyHook {
 						retur = true;
 					}
 					if (hand.getItemMeta().getDisplayName()
-							.equals(ConfigPlugin.getTool().getItemMeta().getDisplayName())) {
+							.equals(Core.getAPI().getHoloItem().getItemMeta().getDisplayName())) {
 						PlaceEvent.place(player, event.getBlock().getLocation());
 						SoundManager.playSound(player, "BLOCK_ANVIL_PLACE");
 					}

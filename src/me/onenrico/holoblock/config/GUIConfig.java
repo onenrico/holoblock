@@ -1,25 +1,45 @@
 package me.onenrico.holoblock.config;
 
+import java.io.File;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.ConfigUT;
 
-public class ConfigPlugin extends ConfigUT implements ConfigSet {
-	public static Core instance;
-	public static Boolean changed = false;
+public class GUIConfig extends ConfigUT implements ConfigSet {
+	public FileConfiguration config = null;
+	private final File file;
 
-	public ConfigPlugin() {
-		instance = Core.getThis();
-		config = instance.getConfig();
+	public GUIConfig(JavaPlugin plugin, String filen) {
+		file = new File(plugin.getDataFolder(), filen + ".yml");
+		if (!file.getParentFile().exists()) {
+			file.getParentFile().mkdir();
+		}
+		if (!file.exists()) {
+			Core.getThis().saveResource(filen + ".yml", false);
+		}
+		reload();
 	}
 
-	public static Locales locale;
+	public void reload() {
+		try {
+			config = YamlConfiguration.loadConfiguration(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	public static FileConfiguration config;
+	public void save() {
+		try {
+			config.save(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public FileConfiguration getConfig() {
@@ -66,15 +86,4 @@ public class ConfigPlugin extends ConfigUT implements ConfigSet {
 		return getBool(path, config);
 	}
 
-	public void reloadSetting() {
-		instance.saveDefaultConfig();
-		instance.reloadConfig();
-		setupSetting();
-		instance.datamanager.reloadData();
-	}
-
-	public void setupSetting() {
-		config = instance.getConfig();
-		locale = new Locales(Core.getThis(), "EN");
-	}
 }

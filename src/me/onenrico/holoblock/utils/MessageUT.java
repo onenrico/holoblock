@@ -105,8 +105,7 @@ public class MessageUT {
 
 	public static void pmessage(Player player, String teks, Boolean Action) {
 		teks = Locales.pub.t(teks);
-		player.sendMessage(t(teks));
-		;
+		player.sendMessage(teks);
 		if (Action) {
 			acmessage(player, teks);
 		}

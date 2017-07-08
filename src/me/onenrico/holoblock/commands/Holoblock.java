@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.gui.AdminHologramMenu;
 import me.onenrico.holoblock.gui.ManageHologramMenu;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.utils.MathUT;
 import me.onenrico.holoblock.utils.MessageUT;
@@ -47,7 +48,7 @@ public class Holoblock implements CommandExecutor {
 	public void give(Player player, Player target) {
 		PlaceholderUT pu = new PlaceholderUT();
 		pu.add("target", target.getName());
-		pu.add("amount", ""+1);
+		pu.add("amount", "" + 1);
 		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
 		if (player == null) {
 			MessageUT.cmessage(msg);
@@ -56,13 +57,14 @@ public class Holoblock implements CommandExecutor {
 		}
 		List<String> msg2 = pu.t(ConfigPlugin.locale.getValue("item_gived"));
 		MessageUT.plmessage(target, msg2);
-		target.getInventory().addItem(ConfigPlugin.getTool());
+		target.getInventory().addItem(Core.getAPI().getHoloItem());
 		return;
 	}
-	public void give(Player player, Player target,int count) {
+
+	public void give(Player player, Player target, int count) {
 		PlaceholderUT pu = new PlaceholderUT();
 		pu.add("target", target.getName());
-		pu.add("amount", ""+count);
+		pu.add("amount", "" + count);
 		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
 		if (player == null) {
 			MessageUT.cmessage(msg);
@@ -71,9 +73,9 @@ public class Holoblock implements CommandExecutor {
 		}
 		List<String> msg2 = pu.t(ConfigPlugin.locale.getValue("item_gived"));
 		MessageUT.plmessage(target, msg2);
-		if(count > 0) {
-			for(int x = 0;x<count;x++) {
-				target.getInventory().addItem(ConfigPlugin.getTool());
+		if (count > 0) {
+			for (int x = 0; x < count; x++) {
+				target.getInventory().addItem(Core.getAPI().getHoloItem());
 			}
 		}
 		return;
@@ -96,34 +98,34 @@ public class Holoblock implements CommandExecutor {
 							return true;
 						}
 					}
-					ConfigPlugin.reloadSetting();
+					Core.getThis().configplugin.reloadSetting();
 					return true;
 				}
 				if (isPlayer(sender)) {
 					if (args[0].equalsIgnoreCase("give")) {
-						if (PermissionUT.check(player,"holoblock.give")) {
+						if (PermissionUT.check(player, "holoblock.give")) {
 							MessageUT.plmessage(player, ConfigPlugin.locale.getValue("item_get"));
-							player.getInventory().addItem(ConfigPlugin.getTool());
+							player.getInventory().addItem(Core.getAPI().getHoloItem());
 							return true;
-						}else {
+						} else {
 							SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 							return true;
 						}
 					}
 					if (args[0].equalsIgnoreCase("admin")) {
-						if (PermissionUT.check(player,"holoblock.admin")) {
+						if (PermissionUT.check(player, "holoblock.admin")) {
 							AdminHologramMenu.open(player, 1);
 							return true;
-						}else {
+						} else {
 							SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 							return true;
 						}
 					}
 					if (args[0].equalsIgnoreCase("manage")) {
-						if (PermissionUT.check(player,"holoblock.remote")) {
-							ManageHologramMenu.open(player,player.getName(), 1);
+						if (PermissionUT.check(player, "holoblock.remote")) {
+							ManageHologramMenu.open(player, player.getName(), 1);
 							return true;
-						}else {
+						} else {
 							SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 							return true;
 						}
@@ -154,7 +156,7 @@ public class Holoblock implements CommandExecutor {
 					}
 					return true;
 				}
-			}else if(args.length == 3) {
+			} else if (args.length == 3) {
 				if (args[0].equalsIgnoreCase("give")) {
 					if (isPlayer(sender)) {
 						if (PermissionUT.check(player, "holoblock.give.other")) {
@@ -164,7 +166,7 @@ public class Holoblock implements CommandExecutor {
 								return true;
 							}
 							int count = MathUT.strInt(args[2]);
-							give((Player) sender,target,count);
+							give((Player) sender, target, count);
 						} else {
 							return true;
 						}
@@ -175,7 +177,7 @@ public class Holoblock implements CommandExecutor {
 							return true;
 						}
 						int count = MathUT.strInt(args[2]);
-						give(null,target,count);
+						give(null, target, count);
 					}
 					return true;
 				}

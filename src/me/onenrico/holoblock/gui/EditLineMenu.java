@@ -6,8 +6,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -31,17 +32,17 @@ public class EditLineMenu {
 
 	private static ItemStack setupItem(String name) {
 		String prefix = "EditLineMenu." + name + ".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
-				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, Core.getThis().guiconfig.getStrList(prefix + "Description",
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
 
 	public static void open(Player player, String rawloc, int page) {
 		setup();
-		int max = ConfigPlugin.getMaxLine(player, Seriloc.Deserialize(rawloc).getWorld());
+		int max = HoloBlockAPI.getMaxLine(player, Seriloc.Deserialize(rawloc).getWorld());
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		List<String> lines = data.getLines();
 		int current = lines.size();
@@ -56,7 +57,7 @@ public class EditLineMenu {
 		pu.add("owner", "" + data.getOwner());
 		pu.add("lines", "" + current);
 		pu.add("maxlines", "" + max);
-		String title = pu.t(ConfigPlugin.getStr("EditLineMenu.Title", "Title &cNot Configured !"));
+		String title = pu.t(Core.getThis().guiconfig.getStr("EditLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);

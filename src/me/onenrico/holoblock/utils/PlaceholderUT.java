@@ -6,8 +6,6 @@ import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
-import me.onenrico.holoblock.locale.Locales;
-
 public class PlaceholderUT {
 	private HashMap<String, String> acuan;
 
@@ -16,7 +14,7 @@ public class PlaceholderUT {
 	}
 
 	public PlaceholderUT() {
-		acuan = (HashMap<String, String>) Locales.getPlaceholder().clone();
+		acuan = new HashMap<>();
 	}
 
 	public HashMap<String, String> getAcuan() {

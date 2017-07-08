@@ -2,6 +2,7 @@ package me.onenrico.holoblock.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -10,8 +11,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MathUT;
@@ -31,10 +33,10 @@ public class AdminHologramMenu {
 
 	private static ItemStack setupItem(String name) {
 		String prefix = "AdminHologramMenu." + name + ".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
-				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, Core.getThis().guiconfig.getStrList(prefix + "Description",
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
@@ -52,14 +54,13 @@ public class AdminHologramMenu {
 		pu.add("prevpage", "" + (page - 1));
 		pu.add("maxpage", "" + maxpage);
 		pu.add("player", "" + player.getName());
-		String title = pu.t(ConfigPlugin.getStr("AdminHologramMenu.Title", "Title &cNot Configured !"));
+		String title = pu.t(Core.getThis().guiconfig.getStr("AdminHologramMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);
 		World world = Bukkit.getWorlds().get(0);
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem)
-			.addClick("OpenPageAdmin:" + (page - 1));
+			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPageAdmin:" + (page - 1));
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
 			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
@@ -67,14 +68,14 @@ public class AdminHologramMenu {
 				String membername = members.get(newx);
 				OfflinePlayer ofc = Bukkit.getOfflinePlayer(membername);
 				pu.add("playername", membername);
-				pu.add("owned", ""+Datamanager.getDB().getOwned(membername));
-				pu.add("maxowned", ""+ConfigPlugin.getMaxOwned(ofc, world));
-				pu.add("maxlines", ""+ConfigPlugin.getMaxLine(ofc, world));
-				pu.add("maxmembers", ""+ConfigPlugin.getMaxMember(ofc, world));
-				pu.add("placeholder", ""+ConfigPlugin.isAllowPlaceholder(ofc, world));
-				pu.add("color", ""+ConfigPlugin.isAllowColor(ofc, world));
-				pu.add("customskin", ""+ConfigPlugin.isAllowCustomSkin(ofc, world));
-				pu.add("itemline", ""+ConfigPlugin.isAllowItemLine(ofc, world));
+				pu.add("owned", "" + Datamanager.getDB().getOwned(membername));
+				pu.add("maxowned", "" + HoloBlockAPI.getMaxOwned(ofc, world));
+				pu.add("maxlines", "" + HoloBlockAPI.getMaxLine(ofc, world));
+				pu.add("maxmembers", "" + HoloBlockAPI.getMaxMember(ofc, world));
+				pu.add("placeholder", "" + HoloBlockAPI.isAllowPlaceholder(ofc, world));
+				pu.add("color", "" + HoloBlockAPI.isAllowColor(ofc, world));
+				pu.add("customskin", "" + HoloBlockAPI.isAllowCustomSkin(ofc, world));
+				pu.add("itemline", "" + HoloBlockAPI.isAllowItemLine(ofc, world));
 				ItemStack member = PlayerItem.clone();
 				member = pu.t(member);
 				if (member.getItemMeta() instanceof SkullMeta) {
@@ -82,22 +83,21 @@ public class AdminHologramMenu {
 					meta.setOwner(membername);
 					member.setItemMeta(meta);
 				}
-				InventoryUT.setItem(inv, x, member)
-						.addClick("ManageHologramMenu:" + (membername));
+				InventoryUT.setItem(inv, x, member).addClick("ManageHologramMenu:" + (membername));
 			}
 		} else {
 			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
 				String membername = members.get(x);
 				OfflinePlayer ofc = Bukkit.getOfflinePlayer(membername);
 				pu.add("playername", membername);
-				pu.add("owned", ""+Datamanager.getDB().getOwned(membername));
-				pu.add("maxowned", ""+ConfigPlugin.getMaxOwned(ofc, world));
-				pu.add("maxlines", ""+ConfigPlugin.getMaxLine(ofc, world));
-				pu.add("maxmembers", ""+ConfigPlugin.getMaxMember(ofc, world));
-				pu.add("placeholder", ""+ConfigPlugin.isAllowPlaceholder(ofc, world));
-				pu.add("color", ""+ConfigPlugin.isAllowColor(ofc, world));
-				pu.add("customskin", ""+ConfigPlugin.isAllowCustomSkin(ofc, world));
-				pu.add("itemline", ""+ConfigPlugin.isAllowItemLine(ofc, world));
+				pu.add("owned", "" + Datamanager.getDB().getOwned(membername));
+				pu.add("maxowned", "" + HoloBlockAPI.getMaxOwned(ofc, world));
+				pu.add("maxlines", "" + HoloBlockAPI.getMaxLine(ofc, world));
+				pu.add("maxmembers", "" + HoloBlockAPI.getMaxMember(ofc, world));
+				pu.add("placeholder", "" + HoloBlockAPI.isAllowPlaceholder(ofc, world));
+				pu.add("color", "" + HoloBlockAPI.isAllowColor(ofc, world));
+				pu.add("customskin", "" + HoloBlockAPI.isAllowCustomSkin(ofc, world));
+				pu.add("itemline", "" + HoloBlockAPI.isAllowItemLine(ofc, world));
 				ItemStack member = PlayerItem.clone();
 				member = pu.t(member);
 				if (member.getItemMeta() instanceof SkullMeta) {
@@ -105,14 +105,12 @@ public class AdminHologramMenu {
 					meta.setOwner(membername);
 					member.setItemMeta(meta);
 				}
-				InventoryUT.setItem(inv, x, member)
-						.addClick("ManageHologramMenu:" + (membername));
+				InventoryUT.setItem(inv, x, member).addClick("ManageHologramMenu:" + (membername));
 			}
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem)
-				.addClick("OpenPageAdmin:" + (page + 1));
+				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPageAdmin:" + (page + 1));
 			}
 		}
 		player.openInventory(inv);

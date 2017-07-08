@@ -45,8 +45,8 @@ public class JsonUT {
 		return end;
 	}
 
-	public static List<String> btnGenerate(List<String> json, String btn, String to, boolean click,
-			String clicktype, String clickvalue) {
+	public static List<String> btnGenerate(List<String> json, String btn, String to, boolean click, String clicktype,
+			String clickvalue) {
 		return btnGenerate(json, btn, to, false, null, click, clicktype, clickvalue);
 	}
 
@@ -57,7 +57,7 @@ public class JsonUT {
 
 	public static List<String> btnGenerate(List<String> json, String btn, String to, Boolean hover,
 			List<String> hovertext, boolean click, String clicktype, String clickvalue) {
-		PlaceholderUT pu = new PlaceholderUT();
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		List<String> newjson = new ArrayList<>();
 		for (String j : json) {
 			j = MessageUT.t(j);

@@ -13,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.palmergames.bukkit.towny.Towny;
 
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.api.HoloPlaceEvent;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
@@ -44,9 +45,9 @@ public class PlaceEvent implements Listener {
 					return;
 				}
 			}
-			if (ItemUT.getName(hand).equals(ItemUT.getName(ConfigPlugin.getTool()))) {
-				if (ItemUT.getLore(hand).equals(ItemUT.getLore(ConfigPlugin.getTool()))) {
-					int maxholo = ConfigPlugin.getMaxOwned(player, block.getWorld());
+			if (ItemUT.getName(hand).equals(ItemUT.getName(Core.getAPI().getHoloItem()))) {
+				if (ItemUT.getLore(hand).equals(ItemUT.getLore(Core.getAPI().getHoloItem()))) {
+					int maxholo = HoloBlockAPI.getMaxOwned(player, block.getWorld());
 					int holocount = Datamanager.getDB().getOwned(player.getName());
 					PlaceholderUT pu = new PlaceholderUT();
 					pu.add("holocount", "" + holocount);
@@ -57,8 +58,8 @@ public class PlaceEvent implements Listener {
 						event.setCancelled(true);
 						return;
 					}
-					HoloPlaceEvent placee = new HoloPlaceEvent(player, ConfigPlugin.getDefaultLine(),
-							block.getLocation(), ConfigPlugin.getMaxLine(player, player.getWorld()), holocount, maxholo,
+					HoloPlaceEvent placee = new HoloPlaceEvent(player, HoloBlockAPI.getDefaultLine(),
+							block.getLocation(), HoloBlockAPI.getMaxLine(player, player.getWorld()), holocount, maxholo,
 							true);
 					Bukkit.getPluginManager().callEvent(placee);
 					if (placee.isCancelled()) {
@@ -77,14 +78,14 @@ public class PlaceEvent implements Listener {
 		data.setOwner(player.getName());
 		Datamanager.addHolo(data);
 		int index = 0;
-		for (String line : ConfigPlugin.getDefaultLine()) {
+		for (String line : HoloBlockAPI.getDefaultLine()) {
 			data.setLine(index++, line);
 		}
 		data.saveHolo(new BukkitRunnable() {
 			@Override
 			public void run() {
 				PlaceholderUT pu = new PlaceholderUT();
-				int maxholo = ConfigPlugin.getMaxOwned(player, loc.getWorld());
+				int maxholo = HoloBlockAPI.getMaxOwned(player, loc.getWorld());
 				int holocount = Datamanager.getDB().getOwned(player.getName());
 				pu.add("maxholo", "" + maxholo);
 				pu.add("holocount", "" + holocount);

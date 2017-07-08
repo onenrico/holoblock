@@ -46,7 +46,7 @@ public class CloseEvent implements Listener {
 					SoundManager.playSound(player, "UI_BUTTON_CLICK");
 					if (adminPlayers.contains(player)) {
 						AdminHologramMenu.open(player, 1);
-						while(adminPlayers.contains(player)) {
+						while (adminPlayers.contains(player)) {
 							adminPlayers.remove(player);
 						}
 					}

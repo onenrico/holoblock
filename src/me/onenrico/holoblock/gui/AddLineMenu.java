@@ -4,8 +4,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
@@ -24,10 +24,10 @@ public class AddLineMenu {
 
 	private static ItemStack setupItem(String name) {
 		String prefix = "AddLineMenu." + name + ".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
-				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, Core.getThis().guiconfig.getStrList(prefix + "Description",
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
@@ -41,7 +41,7 @@ public class AddLineMenu {
 		CancelItem = pu.t(CancelItem);
 		TextLine = pu.t(TextLine);
 		ItemLine = pu.t(ItemLine);
-		String title = pu.t(ConfigPlugin.getStr("AddLineMenu.Title", "Title &cNot Configured !"));
+		String title = pu.t(Core.getThis().guiconfig.getStr("AddLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(2, title);
 		InventoryUT.setItem(inv, 2, TextLine).addClick("AddLine:" + rawloc + "<<" + (data.getLines().size()));
 		InventoryUT.setItem(inv, 6, ItemLine).addClick("ItemLineMenu:" + rawloc + "<<" + (data.getLines().size()));

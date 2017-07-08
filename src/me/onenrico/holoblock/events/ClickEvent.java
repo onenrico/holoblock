@@ -14,6 +14,7 @@ import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.AddLineMenu;
@@ -128,31 +129,29 @@ public class ClickEvent implements Listener {
 			}
 		}
 	}
+
 	public void actionHandle(String action, Player player) {
 		String prefix = action.split(":")[0];
 		String data = "";
-		if(prefix.contains("<i>")) {
+		if (prefix.contains("<i>")) {
 			prefix = prefix.split("<i>")[0];
-		}else {
+		} else {
 			data = action.split(":")[1];
 		}
 		HoloData hdata = null;
-		String loc,member,strline,strline2,last = "";
-		int page,line,line2,count = 0;
+		String loc, member, strline, strline2, last = "";
+		int page, line, line2, count = 0;
 		List<String> json = new ArrayList<>();
-		List<String> hoverl = 
-				ItemUT.createLore(
-						"&7&m--------------------%n%%n%" 
-								+ "&r      &fClick To &cCancel"
-								+ "%n%%n%&7&m--------------------");
+		List<String> hoverl = ItemUT.createLore(
+				"&7&m--------------------%n%%n%" + "&r     &fClick To &c&lCancel" + "%n%%n%&7&m--------------------");
 		PlaceholderUT pu = Locales.pub;
-		switch(prefix) {
+		switch (prefix) {
 		case "Teleport":
-			if(!PermissionUT.check(player, "holoblock.remote.teleport")) {
+			if (!PermissionUT.check(player, "holoblock.remote.teleport")) {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
-			if(CloseEvent.adminPlayers.contains(player)) {
+			if (CloseEvent.adminPlayers.contains(player)) {
 				CloseEvent.adminPlayers.remove(player);
 			}
 			player.closeInventory();
@@ -165,7 +164,7 @@ public class ClickEvent implements Listener {
 			hdata.updateHolo();
 			break;
 		case "MainMenu":
-			if(!PermissionUT.check(player, "holoblock.remote.manage")) {
+			if (!PermissionUT.check(player, "holoblock.remote.manage")) {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
@@ -213,12 +212,12 @@ public class ClickEvent implements Listener {
 		case "OpenPageHolo":
 			page = MathUT.strInt(action.split(":")[1]);
 			Boolean admin = false;
-			if(CloseEvent.adminPlayers.contains(player)) {
+			if (CloseEvent.adminPlayers.contains(player)) {
 				CloseEvent.adminPlayers.remove(player);
 				admin = true;
 			}
 			AdminHologramMenu.open(player, page);
-			if(admin) {
+			if (admin) {
 				CloseEvent.adminPlayers.add(player);
 			}
 			SoundManager.playSound(player, "UI_BUTTON_CLICK");
@@ -277,18 +276,9 @@ public class ClickEvent implements Listener {
 			hdata = Datamanager.getDataByLoc(data.split("<<")[0]);
 			line = MathUT.strInt(data.split("<<")[1]);
 			last = hdata.getLines().get(line);
-			json = JsonUT.btnGenerate(
-					ConfigPlugin.locale.getValue("editing_line"),
-					"edit",Locales.pub.t("{edit}"),
-					true,
-					ItemUT.createLore(last),
-					true, "suggest", MessageUT.u(last));
-			json = JsonUT.btnGenerate(
-					json,
-					"cancel","&8<&cCancel&8>",
-					true,
-					hoverl,
-					true, "run", "cancel");
+			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_line"), "edit", Locales.pub.t("{edit}"),
+					true, ItemUT.createLore(last), true, "suggest", MessageUT.u(last));
+			json = JsonUT.btnGenerate(json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
@@ -299,19 +289,10 @@ public class ClickEvent implements Listener {
 			action = action.split(":")[1];
 			MetaUT.setMetaData(player, "EditOffSet:", action);
 			hdata = Datamanager.getDataByLoc(action);
-			last = ""+hdata.getOffset();
-			json = JsonUT.btnGenerate(
-					ConfigPlugin.locale.getValue("editing_offset"),
-					"edit",Locales.pub.t("{edit}"),
-					true,
-					ItemUT.createLore(last),
-					true, "suggest", MessageUT.u(last));
-			json = JsonUT.btnGenerate(
-					json,
-					"cancel","&8<&cCancel&8>",
-					true,
-					hoverl,
-					true, "run", "cancel");
+			last = "" + hdata.getOffset();
+			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_offset"), "edit", Locales.pub.t("{edit}"),
+					true, ItemUT.createLore(last), true, "suggest", MessageUT.u(last));
+			json = JsonUT.btnGenerate(json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			player.closeInventory();
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
@@ -320,37 +301,23 @@ public class ClickEvent implements Listener {
 			action = action.split(":")[1];
 			hdata = Datamanager.getDataByLoc(action);
 			if (!hdata.isAllowCustomSkin()) {
-				MessageUT.plmessage(player, 
-						ConfigPlugin.locale.getValue("not_permitted"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
 			last = hdata.getSkin();
 			MetaUT.setMetaData(player, "EditSkin:", action);
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
-			json = JsonUT.btnGenerate(
-					ConfigPlugin.locale.getValue("editing_skin"),
-					"edit",Locales.pub.t("{edit}"),
-					true,
-					ItemUT.createLore(last),
-					true, "suggest", MessageUT.u(last));
-			json = JsonUT.btnGenerate(
-					json,
-					"cancel","&8<&cCancel&8>",
-					true,
-					hoverl,
-					true, "run", "cancel");
+			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_skin"), "edit", Locales.pub.t("{edit}"),
+					true, ItemUT.createLore(last), true, "suggest", MessageUT.u(last));
+			json = JsonUT.btnGenerate(json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			player.closeInventory();
 			break;
 		case "AddLine":
 			MetaUT.setMetaData(player, "AddLine:", data);
-			json = JsonUT.btnGenerate(
-					ConfigPlugin.locale.getValue("adding_line"),
-					"cancel","&8<&cCancel&8>",
-					true,
-					hoverl,
-					true, "run", "cancel");
+			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("adding_line"), "cancel", "&8<&cCancel&8>", true,
+					hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			CloseEvent.mainMenuPlayers.remove(player);
 			player.closeInventory();
@@ -360,7 +327,7 @@ public class ClickEvent implements Listener {
 		case "AddMember":
 			hdata = Datamanager.getDataByLoc(data);
 			count = hdata.getMembers().size();
-			if (count >= ConfigPlugin.getMaxMember(player, player.getWorld())) {
+			if (count >= HoloBlockAPI.getMaxMember(player, player.getWorld())) {
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("exceeded_member"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				break;
@@ -372,7 +339,7 @@ public class ClickEvent implements Listener {
 		case "AddLineMenu":
 			hdata = Datamanager.getDataByLoc(data);
 			count = hdata.getLines().size();
-			if (count >= ConfigPlugin.getMaxLine(player, player.getWorld())) {
+			if (count >= HoloBlockAPI.getMaxLine(player, player.getWorld())) {
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("exceeded_line"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				break;
@@ -390,8 +357,7 @@ public class ClickEvent implements Listener {
 				@Override
 				public void run() {
 					pu.add("member", member);
-					MessageUT.plmessage(player, 
-							pu.t(ConfigPlugin.locale.getValue("add_member")));
+					MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("add_member")));
 					EditMemberMenu.open(player, loc, 1);
 					CloseEvent.mainMenuPlayers.put(player, loc);
 					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
@@ -409,8 +375,7 @@ public class ClickEvent implements Listener {
 				@Override
 				public void run() {
 					pu.add("member", member);
-					MessageUT.plmessage(player, 
-							pu.t(ConfigPlugin.locale.getValue("remove_member")));
+					MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("remove_member")));
 					EditMemberMenu.open(player, loc, 1);
 					CloseEvent.mainMenuPlayers.put(player, loc);
 					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
@@ -428,8 +393,7 @@ public class ClickEvent implements Listener {
 				@Override
 				public void run() {
 					pu.add("line", "" + (line + 1));
-					MessageUT.plmessage(player, 
-							pu.t(ConfigPlugin.locale.getValue("remove_line")));
+					MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("remove_line")));
 					EditLineMenu.open(player, loc, 1);
 					CloseEvent.mainMenuPlayers.put(player, loc);
 					SoundManager.playSound(player, "BLOCK_ANVIL_USE");
@@ -446,20 +410,19 @@ public class ClickEvent implements Listener {
 			strline = hdata.getLines().get(line);
 			strline2 = hdata.getLines().get(line2);
 			hdata.removeLine(line);
-			hdata.insertLine(line,strline2);
+			hdata.insertLine(line, strline2);
 			HoloData scope = hdata;
 			new BukkitRunnable() {
 				@Override
 				public void run() {
 					scope.removeLine(line2);
-					scope.insertLine(line2,strline);
+					scope.insertLine(line2, strline);
 					scope.saveHolo(new BukkitRunnable() {
 						@Override
 						public void run() {
 							pu.add("line", "" + (line + 1));
 							pu.add("lineto", "" + (line2 + 1));
-							MessageUT.plmessage(player, 
-									pu.t(ConfigPlugin.locale.getValue("move_line")));
+							MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("move_line")));
 							EditLineMenu.open(player, loc, 1);
 							CloseEvent.mainMenuPlayers.put(player, loc);
 							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
@@ -467,7 +430,7 @@ public class ClickEvent implements Listener {
 					});
 					player.closeInventory();
 				}
-				
+
 			}.runTaskLater(Core.getThis(), 3);
 			break;
 		case "MoveLine":
@@ -477,7 +440,7 @@ public class ClickEvent implements Listener {
 			hdata = Datamanager.getDataByLoc(loc);
 			strline = hdata.getLines().get(line);
 			hdata.removeLine(line);
-			hdata.insertLine(line2,strline);
+			hdata.insertLine(line2, strline);
 			HoloData nscope = hdata;
 			new BukkitRunnable() {
 				@Override
@@ -487,8 +450,7 @@ public class ClickEvent implements Listener {
 						public void run() {
 							pu.add("line", "" + (line + 1));
 							pu.add("lineto", "" + (line2 + 1));
-							MessageUT.plmessage(player, 
-									pu.t(ConfigPlugin.locale.getValue("move_line")));
+							MessageUT.plmessage(player, pu.t(ConfigPlugin.locale.getValue("move_line")));
 							EditLineMenu.open(player, loc, 1);
 							CloseEvent.mainMenuPlayers.put(player, loc);
 							SoundManager.playSound(player, "BLOCK_ANVIL_USE");
@@ -496,7 +458,7 @@ public class ClickEvent implements Listener {
 					});
 					player.closeInventory();
 				}
-				
+
 			}.runTaskLater(Core.getThis(), 3);
 			break;
 		case "ItemLine":
@@ -504,8 +466,7 @@ public class ClickEvent implements Listener {
 			loc = action.split("<<")[0];
 			double cost = Double.parseDouble(action.split("<<")[1]);
 			if (!EconomyUT.has(player, cost)) {
-				MessageUT.plmessage(player, 
-						ConfigPlugin.locale.getValue("insufficient_money"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("insufficient_money"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
@@ -526,8 +487,7 @@ public class ClickEvent implements Listener {
 					@Override
 					public void run() {
 						EditLineMenu.open(player, loc, 1);
-						List<String> msgs = 
-								pu.t(ConfigPlugin.locale.getValue("add_line"));
+						List<String> msgs = pu.t(ConfigPlugin.locale.getValue("add_line"));
 						MessageUT.plmessage(player, msgs);
 						SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 					}

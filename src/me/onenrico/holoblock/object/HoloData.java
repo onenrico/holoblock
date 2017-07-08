@@ -22,16 +22,14 @@ import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
-import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.HoloUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.ParticleUT;
 import me.onenrico.holoblock.utils.PermissionUT;
-import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class HoloData {
 	private List<String> members;
@@ -64,10 +62,10 @@ public class HoloData {
 		}
 		if (lines == null) {
 			lines = new ArrayList<>();
-		}else {
+		} else {
 			int index = 0;
-			for(String l : lines) {
-				if(l.equalsIgnoreCase("{#n}")) {
+			for (String l : lines) {
+				if (l.equalsIgnoreCase("{#n}")) {
 					lines.set(index, "");
 				}
 				index++;
@@ -77,7 +75,7 @@ public class HoloData {
 			owner = "Prepared";
 		}
 		if (skin == null) {
-			skin = ConfigPlugin.getStr("holo.item.head", "SecurityCamera");
+			skin = Core.getThis().configplugin.getStr("holo.item.head", "SecurityCamera");
 		}
 		updatePerm();
 		updateSkin();
@@ -161,7 +159,7 @@ public class HoloData {
 		destroyHolo();
 		offset = Datamanager.getDB().getOffSet(getRawloc());
 		if (offset == -690) {
-			offset = ConfigPlugin.getDefaultOffset();
+			offset = HoloBlockAPI.getDefaultOffset();
 		}
 		cloc = Seriloc.centered(realloc.clone()).add(0, offset, 0);
 		hologram = HoloUT.createHologram(cloc, allowPlaceholders);
@@ -234,6 +232,7 @@ public class HoloData {
 			}
 		}
 	}
+
 	public void insertLine(int line, String data) {
 		if (hologram == null) {
 			if (hologram.isDeleted()) {
@@ -316,7 +315,7 @@ public class HoloData {
 					} else if (line instanceof TextLine) {
 						TextLine text = (TextLine) line;
 						String teks = text.getText();
-						if(teks.isEmpty()) {
+						if (teks.isEmpty()) {
 							teks = "{#n}";
 						}
 						rawlines += teks.replace("{refresh:fastest}", "");

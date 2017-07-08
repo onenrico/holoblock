@@ -9,8 +9,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
+import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
@@ -51,11 +53,11 @@ public class BreakEvent implements Listener {
 				}
 			}
 			event.getBlock().getDrops().clear();
-			loc.getWorld().dropItemNaturally(loc.add(0, .5d, 0), ConfigPlugin.getTool());
+			loc.getWorld().dropItemNaturally(loc.add(0, .5d, 0), Core.getAPI().getHoloItem());
 			ParticleUT.send(player, "FLAME", loc, 0.01f, 1f, 0.01f, 0.08f, 25, true);
 			SoundManager.playSound(player, "BLOCK_ANVIL_USE", loc);
 			Datamanager.deleteHolo(Datamanager.getDataByLoc(rawloc));
-			int maxholo = ConfigPlugin.getMaxOwned(player, loc.getWorld());
+			int maxholo = HoloBlockAPI.getMaxOwned(player, loc.getWorld());
 			int holocount = Datamanager.getDB().getOwned(player.getName());
 			PlaceholderUT pu = new PlaceholderUT();
 			pu.add("holocount", "" + holocount);

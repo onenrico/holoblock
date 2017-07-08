@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.gui.EditLineMenu;
@@ -37,7 +38,7 @@ public class ChatEvent implements Listener {
 				return;
 			}
 			msg = msg.replace("$ItemStack:", "");
-			int length = ConfigPlugin.getMaxText();
+			int length = HoloBlockAPI.getMaxText();
 			if (msg.length() > length) {
 				msg = msg.substring(0, length - 1);
 			}
@@ -49,7 +50,7 @@ public class ChatEvent implements Listener {
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if (temp != null) {
 				PlaceholderUT pu = Locales.pub;
-				if(ConfigPlugin.isAllowPlaceholder(player, player.getWorld())) {
+				if (HoloBlockAPI.isAllowPlaceholder(player, player.getWorld())) {
 					msg = pu.t(msg);
 				}
 				pu.add("line", "" + (MathUT.strInt(line) + 1));
@@ -59,7 +60,7 @@ public class ChatEvent implements Listener {
 				new BukkitRunnable() {
 					@Override
 					public void run() {
-						temp.insertLine(MathUT.strInt(line),smsg);
+						temp.insertLine(MathUT.strInt(line), smsg);
 					}
 				}.runTask(Core.getThis());
 				temp.saveHolo(new BukkitRunnable() {
@@ -84,7 +85,7 @@ public class ChatEvent implements Listener {
 				return;
 			}
 			msg = msg.replace("$ItemStack:", "");
-			int length = ConfigPlugin.getMaxText();
+			int length = HoloBlockAPI.getMaxText();
 			if (msg.length() > length) {
 				msg = msg.substring(0, length - 1);
 			}
@@ -96,7 +97,7 @@ public class ChatEvent implements Listener {
 			HoloData temp = Datamanager.getDataByLoc(rawloc);
 			if (temp != null) {
 				PlaceholderUT pu = Locales.pub;
-				if(ConfigPlugin.isAllowPlaceholder(player, player.getWorld())) {
+				if (HoloBlockAPI.isAllowPlaceholder(player, player.getWorld())) {
 					msg = pu.t(msg);
 				}
 				pu.add("line", "" + (line + 1));
@@ -159,7 +160,7 @@ public class ChatEvent implements Listener {
 			}
 		} else if (MetaUT.isThere(player, "EditSkin:")) {
 			String msg = event.getMessage().split(" ")[0];
-			int length = ConfigPlugin.getMaxText();
+			int length = HoloBlockAPI.getMaxText();
 			if (msg.length() > length) {
 				msg = msg.substring(0, length - 1);
 			}

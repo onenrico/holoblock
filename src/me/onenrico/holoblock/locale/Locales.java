@@ -10,7 +10,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
@@ -34,7 +33,7 @@ public class Locales extends YamlConfiguration {
 	}
 
 	public void setup() {
-		ConfigurationSection cs = ConfigPlugin.getConfig().getConfigurationSection("messages");
+		ConfigurationSection cs = Core.getThis().configplugin.getConfig().getConfigurationSection("messages");
 		if (cs != null) {
 			Set<String> keys = cs.getKeys(false);
 			if (keys != null) {
@@ -42,9 +41,9 @@ public class Locales extends YamlConfiguration {
 				for (String key : keys) {
 					MessageUT.debug("Convert: " + key);
 					set("messages." + key, getStrList("messages." + key, new ArrayList<>()));
-					ConfigPlugin.getConfig().set("messages." + key, null);
+					Core.getThis().configplugin.getConfig().set("messages." + key, null);
 				}
-				ConfigPlugin.getConfig().set("messages", null);
+				Core.getThis().configplugin.getConfig().set("messages", null);
 				Core.getThis().saveConfig();
 				save();
 				MessageUT.debug("Success...");
@@ -62,8 +61,8 @@ public class Locales extends YamlConfiguration {
 				map2.put(key, getString("custom-placeholder." + key));
 			}
 		}
-		pub = new PlaceholderUT();
-		pluginPrefix = ConfigPlugin.getStr("pluginPrefix", "&cNot Configured");
+		pub = new PlaceholderUT(getPlaceholder());
+		pluginPrefix = Core.getThis().configplugin.getStr("pluginPrefix", "&cNot Configured");
 	}
 
 	public List<String> getValue(String msg) {
@@ -80,7 +79,7 @@ public class Locales extends YamlConfiguration {
 	}
 
 	private List<String> getStrList(String path, List<String> def) {
-		return ConfigPlugin.getStrList(path, def);
+		return Core.getThis().configplugin.getStrList(path, def);
 	}
 
 	public static String pluginPrefix;

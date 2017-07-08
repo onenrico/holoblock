@@ -12,7 +12,6 @@ import org.bukkit.scheduler.BukkitTask;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.sqlite.SQLite;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
@@ -29,7 +28,7 @@ public class Datamanager {
 		instance = Core.getThis();
 	}
 
-	public static void reloadData() {
+	public void reloadData() {
 		setup();
 		loadHolo();
 	}
@@ -43,25 +42,13 @@ public class Datamanager {
 		for (String key : pu.getAcuan().keySet()) {
 			save.add(key + "<#" + pu.getAcuan().get(key));
 		}
-		ConfigPlugin.getConfig().set("saved", save);
+		instance.configplugin.getConfig().set("saved", save);
 		Core.getThis().saveConfig();
-	}
-
-	public static PlaceholderUT getPlaceholders(PlaceholderUT pu) {
-		List<String> save = ConfigPlugin.getStrList("saved", new ArrayList<>());
-		if (!save.isEmpty()) {
-			for (String s : save) {
-				String placeholder = s.split("<#")[0];
-				String data = s.split("<#")[1];
-				pu.add(placeholder, data);
-			}
-		}
-		return pu;
 	}
 
 	private static List<BukkitTask> tasks = new ArrayList<>();
 
-	public static void setup() {
+	public void setup() {
 		for (BukkitTask task : tasks) {
 			task.cancel();
 		}
@@ -93,7 +80,7 @@ public class Datamanager {
 			}
 			LoadedHoloData.clear();
 		}
-		if(loadedOwner != null) {
+		if (loadedOwner != null) {
 			loadedOwner.clear();
 		}
 
@@ -116,7 +103,7 @@ public class Datamanager {
 
 	public static void deleteHolo(HoloData data) {
 		String owner = data.getOwner();
-		if(db.getOwned(owner) < 2) {
+		if (db.getOwned(owner) < 2) {
 			loadedOwner.remove(owner);
 		}
 		data.destroy();

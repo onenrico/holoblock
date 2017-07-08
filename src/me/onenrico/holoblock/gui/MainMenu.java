@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.events.CloseEvent;
 import me.onenrico.holoblock.main.Core;
@@ -39,10 +39,10 @@ public class MainMenu {
 
 	private static ItemStack setupItem(String name) {
 		String prefix = "MainMenu." + name + ".";
-		ItemStack result = ItemUT.getItem(ConfigPlugin.getStr(prefix + "Material", "STONE").toUpperCase());
+		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
-				ConfigPlugin.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
-		ItemUT.changeLore(result, ConfigPlugin.getStrList(prefix + "Description",
+				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
+		ItemUT.changeLore(result, Core.getThis().guiconfig.getStrList(prefix + "Description",
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
@@ -52,7 +52,8 @@ public class MainMenu {
 	@SuppressWarnings("deprecation")
 	public static void open(Player player, String rawloc) {
 		setup();
-		Inventory inv = InventoryUT.createInventory(3, ConfigPlugin.getStr("MainMenu.Title", "&c&lNot Configured !"));
+		Inventory inv = InventoryUT.createInventory(3,
+				Core.getThis().guiconfig.getStr("MainMenu.Title", "&c&lNot Configured !"));
 		if (!animation.contains(player)) {
 			animation.add(player);
 		}
@@ -130,8 +131,8 @@ public class MainMenu {
 		}
 		pu.add("members", "" + size);
 		pu.add("lines", "" + data.getLines().size());
-		pu.add("maxlines", "" + ConfigPlugin.getMaxLine(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
-		pu.add("maxmembers", "" + ConfigPlugin.getMaxMember(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
+		pu.add("maxlines", "" + HoloBlockAPI.getMaxLine(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
+		pu.add("maxmembers", "" + HoloBlockAPI.getMaxMember(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
 		pu.add("offset", "" + data.getOffset());
 		pu.add("skin", "" + data.getSkin());
 		pu.add("color", "" + data.isAllowColor());
@@ -153,7 +154,7 @@ public class MainMenu {
 			meta.setOwner(data.getSkin());
 			EditSkinItem.setItemMeta(meta);
 		}
-		InventoryUT.setItem(inv, 4, EditInfoItem).addClick("Refresh:"+ rawloc);
+		InventoryUT.setItem(inv, 4, EditInfoItem).addClick("Refresh:" + rawloc);
 		InventoryUT.setItem(inv, 11, EditLineItem).addClick("EditLineMenu:" + rawloc);
 		InventoryUT.setItem(inv, 13, EditOffSetItem).addClick("EditOffSet:" + rawloc);
 		InventoryUT.setItem(inv, 15, EditMemberItem).addClick("EditMemberMenu:" + rawloc);

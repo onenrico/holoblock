@@ -13,6 +13,7 @@ import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.commands.Holoblock;
 import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.config.GUIConfig;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.events.BreakEvent;
 import me.onenrico.holoblock.events.ChatEvent;
@@ -35,8 +36,9 @@ public class Core extends JavaPlugin {
 	public static Chat v_chat = null;
 	public static Economy v_economy = null;
 	public static Permission v_permission = null;
-	public Datamanager thedata;
-	public ConfigPlugin theconfig;
+	public Datamanager datamanager;
+	public ConfigPlugin configplugin;
+	public GUIConfig guiconfig;
 	public vaultHook v_hook;
 	public static String nmsver;
 
@@ -91,11 +93,12 @@ public class Core extends JavaPlugin {
 	}
 
 	private void setupConstructor() {
-		thedata = new Datamanager();
-		theconfig = new ConfigPlugin();
+		datamanager = new Datamanager();
+		configplugin = new ConfigPlugin();
+		guiconfig = new GUIConfig(this, "gui");
 		v_hook = new vaultHook();
-		ConfigPlugin.setupSetting();
-		Datamanager.setup();
+		configplugin.setupSetting();
+		datamanager.setup();
 	}
 
 	private Boolean setupHologram() {

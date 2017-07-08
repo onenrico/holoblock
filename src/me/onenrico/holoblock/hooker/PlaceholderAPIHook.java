@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
-import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.database.Datamanager;
 
 public class PlaceholderAPIHook extends EZPlaceholderHook {
@@ -23,31 +23,31 @@ public class PlaceholderAPIHook extends EZPlaceholderHook {
 			return "" + Datamanager.getDB().getOwned(pc);
 		} else if (pc.startsWith("maxowned:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.getMaxOwned(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.getMaxOwned(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		} else if (pc.startsWith("maxowned")) {
-			return "" + ConfigPlugin.getMaxOwned();
+			return "" + HoloBlockAPI.getMaxOwned();
 		} else if (pc.startsWith("maxline:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.getMaxLine(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.getMaxLine(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		} else if (pc.startsWith("maxline")) {
-			return "" + ConfigPlugin.getMaxLine();
+			return "" + HoloBlockAPI.getMaxLine();
 		} else if (pc.startsWith("maxmember:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.getMaxMember(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.getMaxMember(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		} else if (pc.startsWith("maxmember")) {
-			return "" + ConfigPlugin.getMaxMember();
+			return "" + HoloBlockAPI.getMaxMember();
 		} else if (pc.startsWith("isPlaceholder:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.isAllowPlaceholder(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.isAllowPlaceholder(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		} else if (pc.startsWith("isColor:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.isAllowColor(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.isAllowColor(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		} else if (pc.startsWith("isCustomSkin:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.isAllowCustomSkin(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.isAllowCustomSkin(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		} else if (pc.startsWith("isItemLine:")) {
 			pc = pc.split(":")[1];
-			return "" + ConfigPlugin.isAllowItemLine(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
+			return "" + HoloBlockAPI.isAllowItemLine(Bukkit.getOfflinePlayer(pc), Bukkit.getWorlds().get(0));
 		}
 		return "";
 	}
