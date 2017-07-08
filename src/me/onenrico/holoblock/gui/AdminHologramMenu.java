@@ -2,8 +2,6 @@ package me.onenrico.holoblock.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
@@ -14,8 +12,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.database.Datamanager;
-import me.onenrico.holoblock.object.HoloData;
-import me.onenrico.holoblock.object.Seriloc;
 import me.onenrico.holoblock.utils.InventoryUT;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MathUT;

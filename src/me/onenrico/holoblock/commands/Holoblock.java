@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
-import me.onenrico.holoblock.events.CloseEvent;
 import me.onenrico.holoblock.gui.AdminHologramMenu;
 import me.onenrico.holoblock.gui.ManageHologramMenu;
 import me.onenrico.holoblock.nms.sound.SoundManager;
