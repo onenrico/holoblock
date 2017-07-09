@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -42,6 +45,7 @@ import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.MetaUT;
 import me.onenrico.holoblock.utils.PermissionUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
+import net.minecraft.server.v1_11_R1.Material;
 
 public class ClickEvent implements Listener {
 	public static HashMap<Inventory, Set<MenuItem>> MenuItems = new HashMap<>();
@@ -155,7 +159,12 @@ public class ClickEvent implements Listener {
 				CloseEvent.adminPlayers.remove(player);
 			}
 			player.closeInventory();
-			player.teleport(Seriloc.Deserialize(data));
+			Location tloc = Seriloc.centered(Seriloc.Deserialize(data));
+			Block up = tloc.getBlock().getRelative(BlockFace.UP).getRelative(BlockFace.UP);
+			if(!up.getType().equals(Material.AIR)) {
+				tloc.setY(tloc.getWorld().getHighestBlockYAt(tloc));
+			}
+			player.teleport(tloc);
 			break;
 		case "Refresh":
 			hdata = Datamanager.getDataByLoc(data);
