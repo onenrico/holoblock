@@ -2,12 +2,15 @@ package me.onenrico.holoblock.events;
 
 import java.util.List;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
@@ -22,6 +25,7 @@ import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class BreakEvent implements Listener {
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void playerBreak(final BlockBreakEvent event) {
 		if (event.isCancelled()) {
@@ -56,13 +60,19 @@ public class BreakEvent implements Listener {
 			loc.getWorld().dropItemNaturally(loc.add(0, .5d, 0), Core.getAPI().getHoloItem());
 			ParticleUT.send(player, "FLAME", loc, 0.01f, 1f, 0.01f, 0.08f, 25, true);
 			SoundManager.playSound(player, "BLOCK_ANVIL_USE", loc);
-			Datamanager.deleteHolo(Datamanager.getDataByLoc(rawloc));
-			int maxholo = HoloBlockAPI.getMaxOwned(player, loc.getWorld());
-			int holocount = Datamanager.getDB().getOwned(player.getName());
-			PlaceholderUT pu = new PlaceholderUT();
-			pu.add("holocount", "" + holocount);
-			pu.add("maxholo", "" + maxholo);
-			MessageUT.plmessage(player, pu.t(msg2));
+			Location scopeloc = loc;
+			OfflinePlayer ofc = Bukkit.getOfflinePlayer(data.getOwner());
+			Datamanager.deleteHolo(data, new BukkitRunnable() {
+				@Override
+				public void run() {
+					int maxholo = HoloBlockAPI.getMaxOwned(ofc, scopeloc.getWorld());
+					int holocount = Datamanager.getDB().getOwned(data.getOwner());
+					PlaceholderUT pu = new PlaceholderUT();
+					pu.add("holocount", "" + holocount);
+					pu.add("maxholo", "" + maxholo);
+					MessageUT.plmessage(player, pu.t(msg2));
+				}
+			});
 		}
 	}
 }

@@ -206,3 +206,10 @@ messages:
   - "<center>&bSuccessfully Reload The Config {done}"
   - "<np>"
   - "<np>{doneline}"
+  
+  success_buy:
+  - "<np>{doneline}"
+  - "<np>"
+  - "<center>&bSuccessfully Buy Holo Item {done}"
+  - "<np>"
+  - "<np>{doneline}"

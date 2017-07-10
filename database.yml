@@ -1,0 +1,8 @@
+# Note I Still Develop for MySQL Support , don't change this right now
+database:
+  type: 'sqlite'
+  hostname: 'localhost'
+  port: '3306'
+  database: 'database'
+  user: 'user'
+  password: 'password'

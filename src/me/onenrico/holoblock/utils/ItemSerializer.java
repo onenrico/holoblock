@@ -8,10 +8,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import me.onenrico.holoblock.utils.ItemUT;
-import me.onenrico.holoblock.utils.MathUT;
-import me.onenrico.holoblock.utils.MessageUT;
-
 public class ItemSerializer {
 	private static FileConfiguration cache = new YamlConfiguration();
 
@@ -32,7 +28,7 @@ public class ItemSerializer {
 		StringBuilder result = new StringBuilder();
 		for (int slot = 0; slot < inv.getSize(); slot++) {
 			ItemStack item = inv.getItem(slot);
-			if(item != null) {
+			if (item != null) {
 				result.append("<#" + slot + "$:" + serialize(item));
 			}
 		}
@@ -59,8 +55,8 @@ public class ItemSerializer {
 					inv.setItem(slot, item);
 				}
 			} catch (Exception ex) {
-//				MessageUT.cmessage("Error: String Item Corrupted");
-//				MessageUT.cmessage(l);
+				// MessageUT.cmessage("Error: String Item Corrupted");
+				// MessageUT.cmessage(l);
 			}
 		}
 	}

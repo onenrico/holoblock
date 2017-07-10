@@ -14,10 +14,10 @@ import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.MessageUT;
 
-public class SQLite extends Database {
+public class MySQL extends Database {
 	public static String dbname;
 
-	public SQLite(Core instance) {
+	public MySQL(Core instance) {
 		super(instance);
 		dbname = "database";
 		HashMap<String, String> map = new HashMap<>();

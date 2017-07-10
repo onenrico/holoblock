@@ -56,6 +56,7 @@ holo:
   #This is Max Text For The Hologram
   
   item:
+    cost: 1000
     head: 'SecurityCamera'
     #default skin name Used for the head
     

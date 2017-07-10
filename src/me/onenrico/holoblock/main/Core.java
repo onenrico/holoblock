@@ -13,6 +13,7 @@ import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.commands.Holoblock;
 import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.config.DatabaseConfig;
 import me.onenrico.holoblock.config.GUIConfig;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.events.BreakEvent;
@@ -40,6 +41,7 @@ public class Core extends JavaPlugin {
 	public Datamanager datamanager;
 	public ConfigPlugin configplugin;
 	public GUIConfig guiconfig;
+	public DatabaseConfig databaseconfig;
 	public vaultHook v_hook;
 	public static String nmsver;
 
@@ -80,7 +82,6 @@ public class Core extends JavaPlugin {
 		}
 		setupEvent();
 		setupDepedency();
-		Datamanager.loadHolo();
 	}
 
 	private void setupEvent() {
@@ -98,6 +99,7 @@ public class Core extends JavaPlugin {
 		datamanager = new Datamanager();
 		configplugin = new ConfigPlugin();
 		guiconfig = new GUIConfig(this, "gui");
+		databaseconfig = new DatabaseConfig(this, "database");
 		v_hook = new vaultHook();
 		configplugin.setupSetting();
 		datamanager.setup();

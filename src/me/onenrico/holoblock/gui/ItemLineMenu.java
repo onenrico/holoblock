@@ -50,7 +50,7 @@ public class ItemLineMenu {
 			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
 			return;
 		}
-		List<String> itemlines = Core.getThis().guiconfig.getStrList("LineItems", new ArrayList<>());
+		List<String> itemlines = Core.getThis().configplugin.getStrList("LineItems", new ArrayList<>());
 		int current = itemlines.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
 		maxpage = MathUT.clamp(maxpage, 1);

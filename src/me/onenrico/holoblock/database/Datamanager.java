@@ -16,7 +16,6 @@ import me.onenrico.holoblock.database.sqlite.SQLite;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.MessageUT;
-import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class Datamanager {
 	private static List<HoloData> LoadedHoloData = new ArrayList<>();
@@ -30,26 +29,16 @@ public class Datamanager {
 
 	public void reloadData() {
 		setup();
-		loadHolo();
 	}
 
 	public static SQLite getDB() {
 		return db;
 	}
 
-	public static void savePlaceholders(PlaceholderUT pu) {
-		List<String> save = new ArrayList<>();
-		for (String key : pu.getAcuan().keySet()) {
-			save.add(key + "<#" + pu.getAcuan().get(key));
-		}
-		instance.configplugin.getConfig().set("saved", save);
-		Core.getThis().saveConfig();
-	}
-
-	private static List<BukkitTask> tasks = new ArrayList<>();
+	private static List<BukkitTask> databaseload = new ArrayList<>();
 
 	public void setup() {
-		for (BukkitTask task : tasks) {
+		for (BukkitTask task : databaseload) {
 			task.cancel();
 		}
 		if (db != null) {
@@ -71,9 +60,7 @@ public class Datamanager {
 				holo.delete();
 			}
 		}
-		db = new SQLite(instance);
-		db.load();
-		tasks = new ArrayList<>();
+		databaseload = new ArrayList<>();
 		if (LoadedHoloData != null) {
 			for (HoloData data : LoadedHoloData) {
 				data.destroyHolo();
@@ -83,6 +70,8 @@ public class Datamanager {
 		if (loadedOwner != null) {
 			loadedOwner.clear();
 		}
+		db = new SQLite(instance);
+		db.load();
 
 	}
 
@@ -101,14 +90,20 @@ public class Datamanager {
 		return null;
 	}
 
-	public static void deleteHolo(HoloData data) {
-		String owner = data.getOwner();
-		if (db.getOwned(owner) < 2) {
-			loadedOwner.remove(owner);
-		}
-		data.destroy();
-		db.deleteHolo(data.getRawloc());
-		LoadedHoloData.remove(data);
+	public static void deleteHolo(HoloData data, BukkitRunnable callback) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				String owner = data.getOwner();
+				if (db.getOwned(owner) < 2) {
+					loadedOwner.remove(owner);
+				}
+				data.destroy();
+				db.deleteHolo(data.getRawloc(), callback);
+				LoadedHoloData.remove(data);
+			}
+
+		}.runTask(Core.getThis());
 	}
 
 	public static List<HoloData> getHoloData() {
@@ -116,15 +111,6 @@ public class Datamanager {
 	}
 
 	public static void addHolo(HoloData newdata) {
-		List<HoloData> destroy = new ArrayList<>();
-		for (HoloData data : LoadedHoloData) {
-			if (data.getRealloc().equals(newdata.getRealloc())) {
-				destroy.add(data);
-			}
-		}
-		for (HoloData temp : destroy) {
-			deleteHolo(temp);
-		}
 		String owner = newdata.getOwner();
 		loadedOwner.add(owner);
 		LoadedHoloData.add(newdata);
@@ -145,7 +131,7 @@ public class Datamanager {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				List<String> databaseHolos = db.getAll();
+				List<String> databaseHolos = db.getLocation();
 				if (databaseHolos == null) {
 					return;
 				}
@@ -159,7 +145,7 @@ public class Datamanager {
 				}
 				for (int x = 0; x < times; x++) {
 					int num = x;
-					tasks.add(new BukkitRunnable() {
+					databaseload.add(new BukkitRunnable() {
 						int id = num + 1;
 						int max = maxasli;
 

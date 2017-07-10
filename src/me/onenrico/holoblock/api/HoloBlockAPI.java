@@ -10,6 +10,7 @@ import org.apache.commons.io.IOUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -21,6 +22,7 @@ import me.onenrico.holoblock.nms.particle.ParticleManager;
 import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PermissionUT;
+import me.onenrico.holoblock.utils.PlaceholderUT;
 import me.onenrico.holoblock.utils.PlayerUT;
 
 public class HoloBlockAPI {
@@ -175,5 +177,41 @@ public class HoloBlockAPI {
 			}
 
 		}.runTaskLaterAsynchronously(Core.getThis(), 0);
+	}
+
+	public static void give(Player player, Player target) {
+		PlaceholderUT pu = new PlaceholderUT();
+		pu.add("target", target.getName());
+		pu.add("amount", "" + 1);
+		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
+		if (player == null) {
+			MessageUT.cmessage(msg);
+		} else {
+			MessageUT.plmessage(player, msg);
+		}
+		List<String> msg2 = pu.t(ConfigPlugin.locale.getValue("item_gived"));
+		MessageUT.plmessage(target, msg2);
+		target.getInventory().addItem(Core.getAPI().getHoloItem());
+		return;
+	}
+
+	public static void give(Player player, Player target, int count) {
+		PlaceholderUT pu = new PlaceholderUT();
+		pu.add("target", target.getName());
+		pu.add("amount", "" + count);
+		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
+		if (player == null) {
+			MessageUT.cmessage(msg);
+		} else {
+			MessageUT.plmessage(player, msg);
+		}
+		List<String> msg2 = pu.t(ConfigPlugin.locale.getValue("item_gived"));
+		MessageUT.plmessage(target, msg2);
+		if (count > 0) {
+			for (int x = 0; x < count; x++) {
+				target.getInventory().addItem(Core.getAPI().getHoloItem());
+			}
+		}
+		return;
 	}
 }

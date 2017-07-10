@@ -59,7 +59,7 @@ public class HoloData {
 		skin = Datamanager.getDB().getSkin(loc);
 		rotation = Datamanager.getDB().getRotation(loc);
 		particlename = Datamanager.getDB().getParticleName(loc);
-		if(particlename  == null) {
+		if (particlename == null) {
 			particlename = "NONE";
 		}
 		particlename = particlename.toUpperCase();
@@ -87,7 +87,7 @@ public class HoloData {
 		updateSkin();
 		updateHolo();
 		float toffset = (float) (offset * -1) + .1f;
-		particle = ParticleUT.circleParticle(cloc, 0f, toffset, toffset, 0f, "SPELL_WITCH");
+		particle = ParticleUT.circleParticle(cloc, .3f, toffset, toffset + .3f, .1f, "REDSTONE");
 		// Particle.SPELL_WITCH
 	}
 
@@ -338,12 +338,8 @@ public class HoloData {
 						}
 					}
 				}
-				Datamanager.getDB().setHolo(
-				owner, rawloc, rawlines, rawmembers, offset, 
-				skin, rotation,"NONE");
-				if (callback != null) {
-					callback.runTaskLater(Core.getThis(), 1);
-				}
+				Datamanager.getDB().setHolo(owner, rawloc, rawlines, rawmembers, offset, skin, rotation, "NONE",
+						callback);
 			}
 		}.runTaskLater(Core.getThis(), 3);
 	}

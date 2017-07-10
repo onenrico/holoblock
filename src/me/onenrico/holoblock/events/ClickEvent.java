@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -43,9 +45,9 @@ import me.onenrico.holoblock.utils.JsonUT;
 import me.onenrico.holoblock.utils.MathUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.MetaUT;
+import me.onenrico.holoblock.utils.ParticleUT;
 import me.onenrico.holoblock.utils.PermissionUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
-import net.minecraft.server.v1_11_R1.Material;
 
 public class ClickEvent implements Listener {
 	public static HashMap<Inventory, Set<MenuItem>> MenuItems = new HashMap<>();
@@ -161,10 +163,29 @@ public class ClickEvent implements Listener {
 			player.closeInventory();
 			Location tloc = Seriloc.centered(Seriloc.Deserialize(data));
 			Block up = tloc.getBlock().getRelative(BlockFace.UP).getRelative(BlockFace.UP);
-			if(!up.getType().equals(Material.AIR)) {
+			tloc.add(0, 2, 0);
+			if (!up.getType().equals(Material.AIR)) {
 				tloc.setY(tloc.getWorld().getHighestBlockYAt(tloc));
 			}
-			player.teleport(tloc);
+			player.teleport(tloc, TeleportCause.PLUGIN);
+			SoundManager.playSound(player, "ENTITY_ENDERMEN_TELEPORT");
+			ParticleUT.send(player, "SPELL_WITCH", tloc, 0.1f, 200, true);
+			ParticleUT.send(player, "FIREWORKS_SPARK", tloc, 0.1f, 200, true);
+			ParticleUT.send(player, "SPELL_MOB", tloc, 0.1f, 200, true);
+			break;
+		case "Buy":
+			double costb = Double.parseDouble(data);
+			if(EconomyUT.has(player, costb)) {
+				SoundManager.playSound(player, "UI_BUTTON_CLICK");
+				HoloBlockAPI.give(null, player);
+				MessageUT.plmessage(player, 
+						ConfigPlugin.locale.getValue("success_buy"));
+				EconomyUT.subtractBal(player, costb);
+			}else{
+				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+				MessageUT.plmessage(player, 
+						ConfigPlugin.locale.getValue("insufficient_money"));
+			}
 			break;
 		case "Refresh":
 			hdata = Datamanager.getDataByLoc(data);
@@ -317,11 +338,9 @@ public class ClickEvent implements Listener {
 			last = hdata.getSkin();
 			MetaUT.setMetaData(player, "EditSkin:", action);
 			SoundManager.playSound(player, "BLOCK_PISTON_EXTEND", 4f, 4f);
-			json = JsonUT.btnGenerate(
-					ConfigPlugin.locale.getValue("editing_skin"), "edit", Locales.pub.t("{edit}"),
+			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_skin"), "edit", Locales.pub.t("{edit}"),
 					true, ItemUT.createLore(last), true, "suggest", MessageUT.u(last));
-			json = JsonUT.btnGenerate(
-					json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
+			json = JsonUT.btnGenerate(json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			player.closeInventory();
 			break;

@@ -453,4 +453,19 @@ ManageHologramMenu:
     - "&8[ &aRight-Click &fTeleport &aHolograms {edit} &8]"
     - ""
     - "&8&m------------------------------"
+
+ShopMenu:
+  Title: "&1&lHolo Shop"
+  HoloItem:
+    Material: SKULL_ITEM:3
+    Displayname: "{itemname}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Price: &a$&e{cost}"
+    - ""
+    - "&8[ &6Click &fTo Buy &aHoloBlock &8]"
+    - ""
+    - "&8&m------------------------------"
+	
 #--------------------------------------------------------------------------

@@ -10,6 +10,6 @@ public class DropEvent implements Listener {
 	@EventHandler
 	public void drops(PlayerDropItemEvent event) {
 		InventoryUT.checkSteal(event.getPlayer());
-		
+
 	}
 }

@@ -5,9 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import org.bukkit.block.BlockFace;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.MessageUT;
@@ -26,213 +29,108 @@ public abstract class Database {
 
 	public abstract void load();
 
-	public void initialize() {
-		try {
-			PreparedStatement ps = connection.prepareStatement("SELECT * FROM " + table);
-			ResultSet rs = ps.executeQuery();
-			close(ps, rs);
-		} catch (SQLException ex) {
-			MessageUT.debug("A: " + ex);
-		}
+	public HashMap<String, List<String>> datacache = new HashMap<>();
+
+	String[] columns = { 
+		"Owner", "Lines", "Members", "Offset", "Skin", "Rotation", "Particle" };
+
+	public void initialize(BukkitRunnable callback) {
+		reloadData(callback);
 	}
 
-	public List<String> getAll() {
-		List<String> result = new ArrayList<>();
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + ";");
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				result.add(rs.getString("Location"));
-			}
-			return result;
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-			return result;
-		} finally {
-			close(ps, rs);
+	public void reloadData() {
+		reloadData(null);
+	}
+
+	public void reloadData(BukkitRunnable callback) {
+		if (!datacache.isEmpty()) {
+			datacache.clear();
 		}
+		new BukkitRunnable() {
+			PreparedStatement ps = null;
+			ResultSet rs = null;
+
+			@Override
+			public void run() {
+				try {
+					ps = connection.prepareStatement("SELECT * FROM " + table);
+					rs = ps.executeQuery();
+					List<String> result = new ArrayList<>();
+					while (rs.next()) {
+						if (!result.isEmpty()) {
+							result.clear();
+						}
+						for (String column : columns) {
+							result.add(rs.getString(column));
+						}
+						datacache.put(rs.getString("Location"), result);
+					}
+					if (callback != null) {
+						callback.run();
+					}
+				} catch (SQLException ex) {
+					MessageUT.debug("A: " + ex);
+				} finally {
+					close(ps, rs);
+				}
+			}
+
+		}.runTaskAsynchronously(Core.getThis());
+	}
+
+	public List<String> getLocation() {
+		List<String> result = new ArrayList<String>(datacache.keySet());
+		return result;
 	}
 
 	public List<String> getLine(String location) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
-			rs = ps.executeQuery();
-			List<String> result = new ArrayList<>();
-			if (rs.next()) {
-				for (String r : rs.getString("Lines").split("<#")) {
-					if (!r.isEmpty()) {
-						result.add(r);
-					}
-				}
-				return result;
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return null;
+		return Arrays.asList(datacache.get(location).get(1).split("<#"));
 	}
 
 	public String getOwner(String location) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				return rs.getString("Owner");
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return null;
+		return datacache.get(location).get(0);
 	}
 
 	public int getOwned(String name) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Owner='" + name + "';");
-			rs = ps.executeQuery();
-			int result = 0;
-			while (rs.next()) {
-				result++;
-			}
-			return result;
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return 0;
+		return getHoloFrom(name).size();
 	}
 
-	public double getOffSet(String loc) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + loc + "';");
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				return rs.getDouble("Offset");
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return -690;
+	public double getOffSet(String location) {
+		return Double.parseDouble(datacache.get(location).get(3));
 	}
 
 	public List<String> getHoloFrom(String name) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Owner='" + name + "';");
-			rs = ps.executeQuery();
-			List<String> result = new ArrayList<>();
-			while (rs.next()) {
-				result.add(rs.getString("Location"));
+		List<String> result = new ArrayList<>();
+		for (String location : datacache.keySet()) {
+			if (getOwner(location) == name) {
+				result.add(location);
 			}
-			return result;
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
 		}
-		return null;
+		return result;
 	}
 
 	public List<String> getMember(String location) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
-			rs = ps.executeQuery();
-			List<String> result = new ArrayList<>();
-			if (rs.next()) {
-				for (String r : rs.getString("Members").split("<#")) {
-					if (!r.isEmpty()) {
-						result.add(r);
-					}
-				}
-				return result;
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return null;
+		return Arrays.asList(datacache.get(location).get(2).split("<#"));
 	}
 
 	public String getSkin(String location) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				return rs.getString("skin");
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return null;
+		return datacache.get(location).get(4);
 	}
 
 	public BlockFace getRotation(String location) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				return BlockFace.valueOf(rs.getString("rotation"));
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return null;
-	}
-	public String getParticleName(String location) {
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement("SELECT * FROM " + table + " WHERE Location='" + location + "';");
-			rs = ps.executeQuery();
-			if (rs.next()) {
-				return rs.getString("particle");
-			}
-		} catch (SQLException ex) {
-			MessageUT.debug("B: " + ex);
-		} finally {
-			close(ps, rs);
-		}
-		return null;
+		return BlockFace.valueOf(datacache.get(location).get(5));
 	}
 
-	public void setHolo(String player, 
-			String location, 
-			String rawline, String members, double offset, String skin,
-			BlockFace rotation,
-			String particle) {
+	public String getParticleName(String location) {
+		return datacache.get(location).get(6);
+	}
+
+	public void setHolo(String player, String location, String rawline, String members, double offset, String skin,
+			BlockFace rotation, String particle, BukkitRunnable callback) {
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement("REPLACE INTO " + table
-					+ "(Owner,Location,Lines,Members,Offset,Skin,Rotation,Particle) "
-					+ "VALUES(?,?,?,?,?,?,?,?)");
+					+ "(Owner,Location,Lines,Members,Offset,Skin,Rotation,Particle) " + "VALUES(?,?,?,?,?,?,?,?)");
 			ps.setString(1, player);
 			ps.setString(2, location);
 			ps.setString(3, rawline);
@@ -242,6 +140,18 @@ public abstract class Database {
 			ps.setString(7, rotation.toString());
 			ps.setString(8, particle);
 			ps.executeUpdate();
+			List<String> result = new ArrayList<>();
+			result.add(player);
+			result.add(rawline);
+			result.add(members);
+			result.add("" + offset);
+			result.add(skin);
+			result.add(rotation.toString());
+			result.add(particle);
+			datacache.put(location, result);
+			if (callback != null) {
+				callback.run();
+			}
 			return;
 		} catch (SQLException ex) {
 			MessageUT.debug("D: " + ex);
@@ -251,12 +161,15 @@ public abstract class Database {
 		return;
 	}
 
-	public void deleteHolo(String rawLoc) {
-		;
+	public void deleteHolo(String location, BukkitRunnable callback) {
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("DELETE FROM " + table + " WHERE Location='" + rawLoc + "'");
+			ps = connection.prepareStatement("DELETE FROM " + table + " WHERE Location='" + location + "'");
 			ps.executeUpdate();
+			datacache.remove(location);
+			if (callback != null) {
+				callback.run();
+			}
 			return;
 		} catch (SQLException ex) {
 			MessageUT.debug("D: " + ex);

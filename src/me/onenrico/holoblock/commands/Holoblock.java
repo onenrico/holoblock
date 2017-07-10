@@ -1,22 +1,21 @@
 package me.onenrico.holoblock.commands;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import me.onenrico.holoblock.api.HoloBlockAPI;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.gui.AdminHologramMenu;
 import me.onenrico.holoblock.gui.ManageHologramMenu;
+import me.onenrico.holoblock.gui.ShopMenu;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.utils.MathUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PermissionUT;
-import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class Holoblock implements CommandExecutor {
 	public boolean isPlayer(CommandSender sender) {
@@ -43,42 +42,6 @@ public class Holoblock implements CommandExecutor {
 		} else {
 			MessageUT.cmessage(leftheader + "&bOnly Allow For Player" + rightheader);
 		}
-	}
-
-	public void give(Player player, Player target) {
-		PlaceholderUT pu = new PlaceholderUT();
-		pu.add("target", target.getName());
-		pu.add("amount", "" + 1);
-		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
-		if (player == null) {
-			MessageUT.cmessage(msg);
-		} else {
-			MessageUT.plmessage(player, msg);
-		}
-		List<String> msg2 = pu.t(ConfigPlugin.locale.getValue("item_gived"));
-		MessageUT.plmessage(target, msg2);
-		target.getInventory().addItem(Core.getAPI().getHoloItem());
-		return;
-	}
-
-	public void give(Player player, Player target, int count) {
-		PlaceholderUT pu = new PlaceholderUT();
-		pu.add("target", target.getName());
-		pu.add("amount", "" + count);
-		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
-		if (player == null) {
-			MessageUT.cmessage(msg);
-		} else {
-			MessageUT.plmessage(player, msg);
-		}
-		List<String> msg2 = pu.t(ConfigPlugin.locale.getValue("item_gived"));
-		MessageUT.plmessage(target, msg2);
-		if (count > 0) {
-			for (int x = 0; x < count; x++) {
-				target.getInventory().addItem(Core.getAPI().getHoloItem());
-			}
-		}
-		return;
 	}
 
 	@Override
@@ -130,6 +93,15 @@ public class Holoblock implements CommandExecutor {
 							return true;
 						}
 					}
+					if (args[0].equalsIgnoreCase("shop")) {
+						if (PermissionUT.check(player, "holoblock.shop")) {
+							ShopMenu.open(player);
+							return true;
+						} else {
+							SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+							return true;
+						}
+					}
 				} else {
 					return true;
 				}
@@ -142,7 +114,7 @@ public class Holoblock implements CommandExecutor {
 								MessageUT.plmessage(player, "Player " + args[1] + " Not Found");
 								return true;
 							}
-							give(player, target);
+							HoloBlockAPI.give(player, target);
 						} else {
 							return true;
 						}
@@ -152,7 +124,7 @@ public class Holoblock implements CommandExecutor {
 							MessageUT.cmessage("Player " + args[1] + " Not Found");
 							return true;
 						}
-						give(null, target);
+						HoloBlockAPI.give(null, target);
 					}
 					return true;
 				}
@@ -166,7 +138,7 @@ public class Holoblock implements CommandExecutor {
 								return true;
 							}
 							int count = MathUT.strInt(args[2]);
-							give((Player) sender, target, count);
+							HoloBlockAPI.give((Player) sender, target, count);
 						} else {
 							return true;
 						}
@@ -177,7 +149,7 @@ public class Holoblock implements CommandExecutor {
 							return true;
 						}
 						int count = MathUT.strInt(args[2]);
-						give(null, target, count);
+						HoloBlockAPI.give(null, target, count);
 					}
 					return true;
 				}

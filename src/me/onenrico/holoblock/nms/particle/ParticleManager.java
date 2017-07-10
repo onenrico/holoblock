@@ -41,7 +41,7 @@ public class ParticleManager {
 		float z = (float) loc.getZ();
 		try {
 			Object enumParticle = getEnum.invoke(newEnum, particle);
-			Object packet = packetConstructor.newInstance(enumParticle, false, x, y, z, xOffset, yOffset, zOffset, data,
+			Object packet = packetConstructor.newInstance(enumParticle, true, x, y, z, xOffset, yOffset, zOffset, data,
 					amount, null);
 			sendPacket.invoke(ReflectionUT.getConnection(player), packet);
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
