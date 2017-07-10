@@ -1,6 +1,6 @@
 name: HoloBlock
 author: Onenrico
-version: 2.1
+version: 2.2.0
 description: Hologram Above Blocks !
 main: me.onenrico.holoblock.main.Core
 softdepend: [Vault, HolographicDisplays, PlaceholderAPI, ProtocolLibs, HolographicExtension, Multiverse-Core, Towny]

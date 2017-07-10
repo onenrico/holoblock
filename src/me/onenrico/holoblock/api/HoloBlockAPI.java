@@ -185,7 +185,6 @@ public class HoloBlockAPI {
 		pu.add("amount", "" + 1);
 		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
 		if (player == null) {
-			MessageUT.cmessage(msg);
 		} else {
 			MessageUT.plmessage(player, msg);
 		}
@@ -201,7 +200,6 @@ public class HoloBlockAPI {
 		pu.add("amount", "" + count);
 		List<String> msg = pu.t(ConfigPlugin.locale.getValue("item_give"));
 		if (player == null) {
-			MessageUT.cmessage(msg);
 		} else {
 			MessageUT.plmessage(player, msg);
 		}

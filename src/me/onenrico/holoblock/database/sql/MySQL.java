@@ -1,4 +1,4 @@
-package me.onenrico.holoblock.database.sqlite;
+package me.onenrico.holoblock.database.sql;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
+import javax.sql.DataSource;
+
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.onenrico.holoblock.database.Datamanager;
@@ -16,9 +18,23 @@ import me.onenrico.holoblock.utils.MessageUT;
 
 public class MySQL extends Database {
 	public static String dbname;
-
-	public MySQL(Core instance) {
+	public String hostname = "";
+	public String port = "";
+	public String database = "";
+	public String user = "";
+	private String password = "";
+	public MySQL(Core instance,
+			String hostname,
+			String port,
+			String database,
+			String user,
+			String password) {
 		super(instance);
+		this.hostname = hostname;
+		this.port = port;
+		this.database = database;
+		this.user = user;
+		this.password = password;
 		dbname = "database";
 		HashMap<String, String> map = new HashMap<>();
 		map.put("Location", "varchar(255)");
@@ -30,6 +46,12 @@ public class MySQL extends Database {
 		map.put("Rotation", "blob");
 		map.put("Particle", "blob");
 		SQLiteCreateTokensTable = generateToken("Location", map);
+        try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public String generateToken(String indexer, HashMap<String, String> map) {
@@ -67,7 +89,7 @@ public class MySQL extends Database {
 			if (connection != null && !connection.isClosed()) {
 				return connection;
 			}
-			Class.forName("org.sqlite.JDBC");
+			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:sqlite:" + dataFile);
 			return connection;
 		} catch (SQLException ex) {

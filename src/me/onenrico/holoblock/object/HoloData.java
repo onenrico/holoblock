@@ -87,7 +87,7 @@ public class HoloData {
 		updateSkin();
 		updateHolo();
 		float toffset = (float) (offset * -1) + .1f;
-		particle = ParticleUT.circleParticle(cloc, .3f, toffset, toffset + .3f, .1f, "REDSTONE");
+		particle = ParticleUT.circleParticle(cloc, 0, toffset, toffset, 0f, "SPELL_MOB");
 		// Particle.SPELL_WITCH
 	}
 
@@ -134,8 +134,11 @@ public class HoloData {
 	}
 
 	public void updateLines() {
+		if(lines == null) {
+			lines = new ArrayList<>();
+		}
 		if (!lines.isEmpty()) {
-			lines.clear();
+			lines = new ArrayList<>();
 		}
 		for (int x = 0; x < hologram.size(); x++) {
 			if (hologram == null) {

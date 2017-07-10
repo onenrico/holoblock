@@ -19,7 +19,7 @@ public class ShopMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "ItemLineMenu." + name + ".";
+		String prefix = "ShopMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -32,7 +32,7 @@ public class ShopMenu {
 		 setup();
 		 SoundManager.playSound(player, "ENTITY_PLAYER_BURP");
 		 String title = Core.getThis().
-				 guiconfig.getStr("ShopMenu", "&1&lHolo Shop");
+				 guiconfig.getStr("ShopMenu.Title", "&1&lHolo Shop");
 		 Inventory inv = InventoryUT.createInventory(3, title);
 		 PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		 pu.add("itemname", Core.getThis().
@@ -42,7 +42,7 @@ public class ShopMenu {
 				 configplugin.
 				 getDouble("holo.item.cost", 1000);
 		 pu.add("cost", ""+cost);
-		 HoloItem = Locales.pub.t(HoloItem);
+		 HoloItem = pu.t(HoloItem);
 		 InventoryUT.setItem(inv, 13, HoloItem).addClick("Buy:"+cost);
 		 player.openInventory(inv);
 	}

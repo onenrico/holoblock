@@ -6,13 +6,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 
-import me.onenrico.holoblock.database.sqlite.SQLite;
+import me.onenrico.holoblock.config.DatabaseConfig;
+import me.onenrico.holoblock.database.sql.Database;
+import me.onenrico.holoblock.database.sql.MySQL;
+import me.onenrico.holoblock.database.sql.SQLite;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.utils.MessageUT;
@@ -21,7 +25,7 @@ public class Datamanager {
 	private static List<HoloData> LoadedHoloData = new ArrayList<>();
 	public static Set<String> loadedOwner = new HashSet<>();
 	static Core instance;
-	private static SQLite db;
+	private static Database db;
 
 	public Datamanager() {
 		instance = Core.getThis();
@@ -31,7 +35,7 @@ public class Datamanager {
 		setup();
 	}
 
-	public static SQLite getDB() {
+	public static Database getDB() {
 		return db;
 	}
 
@@ -70,7 +74,24 @@ public class Datamanager {
 		if (loadedOwner != null) {
 			loadedOwner.clear();
 		}
-		db = new SQLite(instance);
+		DatabaseConfig databaseconfig = Core.getThis().databaseconfig;
+		String type = 
+				databaseconfig.getStr("database.type", "sqlite");
+		if(type.equalsIgnoreCase("mysql")) {
+			String hostname =
+					databaseconfig.getStr("database.hostname", "localhost");
+			String port =
+					databaseconfig.getStr("database.port", "3306");
+			String database =
+					databaseconfig.getStr("database.database", "database");
+			String user =
+					databaseconfig.getStr("database.user", "localhost");
+			String password =
+					databaseconfig.getStr("database.password", "localhost");
+			db = new MySQL(instance,hostname,port,database,user,password);
+		}else {
+			db = new SQLite(instance);
+		}
 		db.load();
 
 	}

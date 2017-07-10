@@ -15,6 +15,7 @@ public class DatabaseConfig extends ConfigUT implements ConfigSet {
 	private final File file;
 
 	public DatabaseConfig(JavaPlugin plugin, String filen) {
+
 		file = new File(plugin.getDataFolder(), filen + ".yml");
 		if (!file.getParentFile().exists()) {
 			file.getParentFile().mkdir();

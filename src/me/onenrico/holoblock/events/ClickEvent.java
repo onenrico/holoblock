@@ -176,11 +176,12 @@ public class ClickEvent implements Listener {
 		case "Buy":
 			double costb = Double.parseDouble(data);
 			if(EconomyUT.has(player, costb)) {
-				SoundManager.playSound(player, "UI_BUTTON_CLICK");
+				SoundManager.playSound(player, "BLOCK_CHEST_OPEN");
 				HoloBlockAPI.give(null, player);
 				MessageUT.plmessage(player, 
 						ConfigPlugin.locale.getValue("success_buy"));
 				EconomyUT.subtractBal(player, costb);
+				player.closeInventory();
 			}else{
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				MessageUT.plmessage(player, 

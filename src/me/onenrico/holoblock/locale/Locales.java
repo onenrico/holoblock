@@ -1,12 +1,16 @@
 package me.onenrico.holoblock.locale;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -65,11 +69,25 @@ public class Locales extends YamlConfiguration {
 		pluginPrefix = Core.getThis().configplugin.getStr("pluginPrefix", "&cNot Configured");
 	}
 
+	@SuppressWarnings("deprecation")
 	public List<String> getValue(String msg) {
 		if (map.get(msg) == null) {
-			set("messages." + msg, ItemUT.createLore("&cNot Configured"));
-			map.put(msg, ItemUT.createLore("&cCheck Lang File &7[&fmessages." + msg + "&7]"));
+			InputStream is = Core.getThis().getResource("lang_EN.yml");
+			File file = new 
+					File(Core.getThis().getDataFolder(),"lang.temp");
+			try {
+				FileUtils.copyInputStreamToFile(is, file);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			FileConfiguration defaultc = 
+					YamlConfiguration.loadConfiguration(file
+					); 
+			List<String> mmsg = defaultc.getStringList("messages."+msg);
+			set("messages." + msg, mmsg);
+			map.put(msg, mmsg);
 			save();
+			file.delete();
 		}
 		return map.get(msg);
 	}

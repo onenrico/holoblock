@@ -1,4 +1,4 @@
-package me.onenrico.holoblock.database.sqlite;
+package me.onenrico.holoblock.database.sql;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -55,11 +55,9 @@ public abstract class Database {
 				try {
 					ps = connection.prepareStatement("SELECT * FROM " + table);
 					rs = ps.executeQuery();
-					List<String> result = new ArrayList<>();
+					List<String> result = null;
 					while (rs.next()) {
-						if (!result.isEmpty()) {
-							result.clear();
-						}
+						result = new ArrayList<>();
 						for (String column : columns) {
 							result.add(rs.getString(column));
 						}
@@ -84,10 +82,16 @@ public abstract class Database {
 	}
 
 	public List<String> getLine(String location) {
+		if(datacache.get(location) == null) {
+			return null;
+		}
 		return Arrays.asList(datacache.get(location).get(1).split("<#"));
 	}
 
 	public String getOwner(String location) {
+		if(datacache.get(location) == null) {
+			return null;
+		}
 		return datacache.get(location).get(0);
 	}
 
@@ -96,13 +100,16 @@ public abstract class Database {
 	}
 
 	public double getOffSet(String location) {
+		if(datacache.get(location) == null) {
+			return -690;
+		}
 		return Double.parseDouble(datacache.get(location).get(3));
 	}
 
 	public List<String> getHoloFrom(String name) {
 		List<String> result = new ArrayList<>();
 		for (String location : datacache.keySet()) {
-			if (getOwner(location) == name) {
+			if (getOwner(location).equals(name)) {
 				result.add(location);
 			}
 		}
@@ -110,22 +117,36 @@ public abstract class Database {
 	}
 
 	public List<String> getMember(String location) {
+		if(datacache.get(location) == null) {
+			return null;
+		}
 		return Arrays.asList(datacache.get(location).get(2).split("<#"));
 	}
 
 	public String getSkin(String location) {
+		if(datacache.get(location) == null) {
+			return null;
+		}
 		return datacache.get(location).get(4);
 	}
 
 	public BlockFace getRotation(String location) {
+		if(datacache.get(location) == null) {
+			return null;
+		}
 		return BlockFace.valueOf(datacache.get(location).get(5));
 	}
 
 	public String getParticleName(String location) {
+		if(datacache.get(location) == null) {
+			return null;
+		}
 		return datacache.get(location).get(6);
 	}
 
-	public void setHolo(String player, String location, String rawline, String members, double offset, String skin,
+	public void setHolo(String player, 
+			String location, 
+			String rawline, String members, double offset, String skin,
 			BlockFace rotation, String particle, BukkitRunnable callback) {
 		PreparedStatement ps = null;
 		try {

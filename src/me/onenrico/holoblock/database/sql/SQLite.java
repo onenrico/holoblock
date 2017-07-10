@@ -1,4 +1,4 @@
-package me.onenrico.holoblock.database.sqlite;
+package me.onenrico.holoblock.database.sql;
 
 import java.io.File;
 import java.io.IOException;
