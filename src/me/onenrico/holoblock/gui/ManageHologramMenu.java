@@ -42,6 +42,7 @@ public class ManageHologramMenu {
 		return result;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void open(Player player, String target, int page) {
 		setup();
 		List<String> holos = Datamanager.getDB().getHoloFrom(target);

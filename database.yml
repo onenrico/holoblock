@@ -1,4 +1,5 @@
-# Note I Still Develop for MySQL Support , don't change this right now
+# Type Available : mysql or sqlite
+
 database:
   type: 'sqlite'
   hostname: 'localhost'

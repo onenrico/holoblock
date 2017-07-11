@@ -91,6 +91,7 @@ public class HoloData {
 		// Particle.SPELL_WITCH
 	}
 
+	@SuppressWarnings("deprecation")
 	public void updatePerm() {
 		OfflinePlayer ofp = Bukkit.getOfflinePlayer(owner);
 		World world = realloc.getWorld();
@@ -100,6 +101,7 @@ public class HoloData {
 		allowCustomSkin = PermissionUT.has(ofp, "holoblock.use.customskin", world);
 	}
 
+	@SuppressWarnings("deprecation")
 	public void updateSkin() {
 		Block block = realloc.getBlock();
 		BlockState state = block.getState();
@@ -120,6 +122,7 @@ public class HoloData {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void updateSkinOnly() {
 		Block block = realloc.getBlock();
 		BlockState state = block.getState();
@@ -163,7 +166,6 @@ public class HoloData {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	public void updateHolo() {
 		destroyHolo();
 		offset = Datamanager.getDB().getOffSet(getRawloc());
@@ -379,7 +381,6 @@ public class HoloData {
 		this.lines = lines;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void setOwner(String owner) {
 		this.owner = owner;
 		updatePerm();

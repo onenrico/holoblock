@@ -42,6 +42,7 @@ public class AdminHologramMenu {
 		return result;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void open(Player player, int page) {
 		setup();
 		List<String> members = new ArrayList<>();

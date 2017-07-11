@@ -12,6 +12,7 @@ import java.util.List;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
 
+
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.MessageUT;
 
@@ -32,7 +33,7 @@ public abstract class Database {
 	public HashMap<String, List<String>> datacache = new HashMap<>();
 
 	String[] columns = { 
-		"Owner", "Lines", "Members", "Offset", "Skin", "Rotation", "Particle" };
+			"Owner", "Lines", "Members", "Offset", "Skin", "Rotation", "Particle" };
 
 	public void initialize(BukkitRunnable callback) {
 		reloadData(callback);
@@ -143,17 +144,38 @@ public abstract class Database {
 		}
 		return datacache.get(location).get(6);
 	}
-
+	public String quote(String d) {
+		return "`"+d+"`";
+	}
 	public void setHolo(String player, 
 			String location, 
 			String rawline, String members, double offset, String skin,
 			BlockFace rotation, String particle, BukkitRunnable callback) {
+		
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement("REPLACE INTO " + table
-					+ "(Owner,Location,Lines,Members,Offset,Skin,Rotation,Particle) " + "VALUES(?,?,?,?,?,?,?,?)");
+					+ 
+					" ("
+					+ quote("Owner")
+					+ ","
+					+ quote("Location")
+					+ ","
+					+ quote("Lines")
+					+ ","
+					+ quote("Members")
+					+ ","
+					+ quote("Offset")
+					+ ","
+					+ quote("Skin")
+					+ ","
+					+ quote("Rotation")
+					+ ","
+					+ quote("Particle")
+					+ ") "
+					+ "VALUES(?,?,?,?,?,?,?,?);");
 			ps.setString(1, player);
-			ps.setString(2, location);
+			ps.setString(2, location.trim());
 			ps.setString(3, rawline);
 			ps.setString(4, members);
 			ps.setDouble(5, offset);

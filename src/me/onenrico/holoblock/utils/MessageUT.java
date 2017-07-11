@@ -18,7 +18,7 @@ public class MessageUT {
 		boolean isBold = false;
 
 		for (char c : message.toCharArray()) {
-			if (c == 'ง') {
+			if (c == 'ยง') {
 				previousCode = true;
 				continue;
 			} else if (previousCode == true) {
@@ -53,7 +53,7 @@ public class MessageUT {
 	}
 
 	public static String u(String decolorize) {
-		return decolorize.replace('ง', '&');
+		return decolorize.replace('ยง', '&');
 	}
 
 	public static String d(String remove) {

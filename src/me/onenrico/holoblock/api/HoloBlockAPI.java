@@ -125,7 +125,7 @@ public class HoloBlockAPI {
 			@Override
 			public void run() {
 				try {
-					URL url = new URL("http://web.indomc.pro/plugin/holoblock.txt");
+					URL url = new URL("https://pastebin.com/raw/99GE5La4");
 					URLConnection con = url.openConnection();
 					InputStream in = con.getInputStream();
 					String encoding = con.getContentEncoding();
@@ -172,7 +172,7 @@ public class HoloBlockAPI {
 						MessageUT.cmessage("&f<&bHoloBlock&f> " + " &lPlease Update To v" + version);
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					MessageUT.cmessage("&f<&bHoloBlock&f> " +" Couldn't check for update");
 				}
 			}
 
