@@ -25,6 +25,7 @@ import me.onenrico.holoblock.events.InteractEvent;
 import me.onenrico.holoblock.events.JoinEvent;
 import me.onenrico.holoblock.events.PlaceEvent;
 import me.onenrico.holoblock.hooker.PlaceholderAPIHook;
+import me.onenrico.holoblock.hooker.WorldGuardHook;
 import me.onenrico.holoblock.hooker.vaultHook;
 import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.utils.MessageUT;
@@ -43,6 +44,7 @@ public class Core extends JavaPlugin {
 	public GUIConfig guiconfig;
 	public DatabaseConfig databaseconfig;
 	public vaultHook v_hook;
+	public WorldGuardHook w_hook;
 	public static String nmsver;
 
 	public static Core getThis() {
@@ -101,6 +103,7 @@ public class Core extends JavaPlugin {
 		guiconfig = new GUIConfig(this, "gui");
 		databaseconfig = new DatabaseConfig(this, "database");
 		v_hook = new vaultHook();
+		w_hook = new WorldGuardHook(this);
 		configplugin.setupSetting();
 		datamanager.setup();
 	}
@@ -146,6 +149,6 @@ public class Core extends JavaPlugin {
 					MessageUT.cmessage("&f<&bHoloBlock&f> You Can Make Cool Animation Hologram");
 				}
 			}
-		}.runTaskLater(Core.getThis(), 20);
+		}.runTaskLater(Core.getThis(), 5);
 	}
 }

@@ -29,21 +29,16 @@ public class ShopMenu {
 	}
 
 	public static void open(Player player) {
-		 setup();
-		 SoundManager.playSound(player, "ENTITY_PLAYER_BURP");
-		 String title = Core.getThis().
-				 guiconfig.getStr("ShopMenu.Title", "&1&lHolo Shop");
-		 Inventory inv = InventoryUT.createInventory(3, title);
-		 PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
-		 pu.add("itemname", Core.getThis().
-				 configplugin.
-				 getStr("holo.item.displayname", "&cNot Configured"));
-		 double cost = Core.getThis().
-				 configplugin.
-				 getDouble("holo.item.cost", 1000);
-		 pu.add("cost", ""+cost);
-		 HoloItem = pu.t(HoloItem);
-		 InventoryUT.setItem(inv, 13, HoloItem).addClick("Buy:"+cost);
-		 player.openInventory(inv);
+		setup();
+		SoundManager.playSound(player, "ENTITY_PLAYER_BURP");
+		String title = Core.getThis().guiconfig.getStr("ShopMenu.Title", "&1&lHolo Shop");
+		Inventory inv = InventoryUT.createInventory(3, title);
+		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
+		pu.add("itemname", Core.getThis().configplugin.getStr("holo.item.displayname", "&cNot Configured"));
+		double cost = Core.getThis().configplugin.getDouble("holo.item.cost", 1000);
+		pu.add("cost", "" + cost);
+		HoloItem = pu.t(HoloItem);
+		InventoryUT.setItem(inv, 13, HoloItem).addClick("Buy:" + cost);
+		player.openInventory(inv);
 	}
 }

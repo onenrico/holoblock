@@ -6,7 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -75,25 +74,28 @@ public class Datamanager {
 			loadedOwner.clear();
 		}
 		DatabaseConfig databaseconfig = Core.getThis().databaseconfig;
-		String type = 
-				databaseconfig.getStr("database.type", "sqlite");
-		if(type.equalsIgnoreCase("mysql")) {
-			String hostname =
-					databaseconfig.getStr("database.hostname", "localhost");
-			String port =
-					databaseconfig.getStr("database.port", "3306");
-			String database =
-					databaseconfig.getStr("database.database", "database");
-			String user =
-					databaseconfig.getStr("database.user", "localhost");
-			String password =
-					databaseconfig.getStr("database.password", "localhost");
-			db = new MySQL(instance,hostname,port,database,user,password);
-		}else {
-			db = new SQLite(instance);
+		String type = databaseconfig.getStr("database.type", "sqlite");
+		if (type.equalsIgnoreCase("mysql")) {
+			db = getMySQL();
+		} else {
+			db = getSQLite();
 		}
 		db.load();
 
+	}
+
+	public static SQLite getSQLite() {
+		return new SQLite(instance);
+	}
+
+	public static MySQL getMySQL() {
+		DatabaseConfig databaseconfig = Core.getThis().databaseconfig;
+		String hostname = databaseconfig.getStr("database.hostname", "localhost");
+		String port = databaseconfig.getStr("database.port", "3306");
+		String database = databaseconfig.getStr("database.database", "database");
+		String user = databaseconfig.getStr("database.user", "localhost");
+		String password = databaseconfig.getStr("database.password", "localhost");
+		return new MySQL(instance, hostname, port, database, user, password);
 	}
 
 	public static void unloadHolo() {

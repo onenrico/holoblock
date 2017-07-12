@@ -60,6 +60,7 @@ public class MoveLineMenu {
 		PrevPageItem = pu.t(PrevPageItem);
 		NextPageItem = pu.t(NextPageItem);
 		CurrentPosition = pu.t(CurrentPosition);
+		CancelItem = pu.t(CancelItem);
 		if (page > 1) {
 			InventoryUT.setItem(inv, 45, PrevPageItem)
 					.addClick("OpenPageMove:" + rawloc + ":" + (page - 1) + ":" + currentline);

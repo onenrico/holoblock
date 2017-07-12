@@ -172,7 +172,7 @@ public class HoloBlockAPI {
 						MessageUT.cmessage("&f<&bHoloBlock&f> " + " &lPlease Update To v" + version);
 					}
 				} catch (IOException e) {
-					MessageUT.cmessage("&f<&bHoloBlock&f> " +" Couldn't check for update");
+					MessageUT.cmessage("&f<&bHoloBlock&f> " + " Couldn't check for update");
 				}
 			}
 

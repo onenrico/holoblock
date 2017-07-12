@@ -1,9 +1,9 @@
 name: HoloBlock
 author: Onenrico
-version: 2.2.0
+version: 2.5.0
 description: Hologram Above Blocks !
 main: me.onenrico.holoblock.main.Core
-softdepend: [Vault, HolographicDisplays, PlaceholderAPI, ProtocolLibs, HolographicExtension, Multiverse-Core, Towny]
+softdepend: [Vault, HolographicDisplays, PlaceholderAPI, ProtocolLibs, HolographicExtension, Multiverse-Core, Towny, WorldGuard]
 commands:
   holoblock:
     description: The main command of holo block plugin

@@ -15,7 +15,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.onenrico.holoblock.main.Core;
-import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
 
@@ -73,17 +72,14 @@ public class Locales extends YamlConfiguration {
 	public List<String> getValue(String msg) {
 		if (map.get(msg) == null) {
 			InputStream is = Core.getThis().getResource("lang_EN.yml");
-			File file = new 
-					File(Core.getThis().getDataFolder(),"lang.temp");
+			File file = new File(Core.getThis().getDataFolder(), "lang.temp");
 			try {
 				FileUtils.copyInputStreamToFile(is, file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			FileConfiguration defaultc = 
-					YamlConfiguration.loadConfiguration(file
-					); 
-			List<String> mmsg = defaultc.getStringList("messages."+msg);
+			FileConfiguration defaultc = YamlConfiguration.loadConfiguration(file);
+			List<String> mmsg = defaultc.getStringList("messages." + msg);
 			set("messages." + msg, mmsg);
 			map.put(msg, mmsg);
 			save();

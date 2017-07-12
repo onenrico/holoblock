@@ -49,7 +49,8 @@ MainMenu:
     - ""
     - "&6Current Skin: &8[&e{skin}&8]"
     - " "
-    - "&8[ &6Click &fHere To Edit Hologram &cSkin {edit} &8]"
+    - "&8[ &6Left-Click &fHere To Open Hologram &cSkin Menu {done} &8]"
+    - "&8[ &aRight-Click &fHere To Manual Edit Hologram &cSkin {edit} &8]"
     - ""
     - "&8&m------------------------------"
   MemberItem:
@@ -468,4 +469,44 @@ ShopMenu:
     - ""
     - "&8&m------------------------------"
 
+SkinMenu:
+  Title: "&1&lChoose Custom Skin"
+  PrevPageItem:
+    Material: SIGN
+    Displayname: "&e<< &f&lGo To Page &b{prevpage}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&e<< &6Previous Page"
+    - ""
+    - "&8&m------------------------------"
+  NextPageItem:
+    Material: SIGN
+    Displayname: "&f&lGo To Page &b{nextpage} &e>>"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Next Page &e>>"
+    - ""
+    - "&8&m------------------------------"
+  SkinLine:
+    Material: STONE
+    Displayname: "&6&l{skinname}"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Cost: &f$&e{cost}"
+    - ""
+    - "&8[ &6Click &fTo Set &6This &6&lSkin {done} &8]"
+    - ""
+    - "&8&m------------------------------"
+  CancelItem:
+    Material: BARRIER
+    Displayname: "&c&lCancel !"
+    Description:
+    - "&8&m------------------------------"
+    - ""
+    - "&6Click Here To Cancel {not} &e>>"
+    - ""
+    - "&8&m------------------------------"
 #--------------------------------------------------------------------------

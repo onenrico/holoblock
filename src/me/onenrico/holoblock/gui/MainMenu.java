@@ -17,6 +17,7 @@ import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.events.CloseEvent;
 import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
+import me.onenrico.holoblock.object.CustomSkin;
 import me.onenrico.holoblock.object.HoloData;
 import me.onenrico.holoblock.object.Seriloc;
 import me.onenrico.holoblock.utils.InventoryUT;
@@ -125,21 +126,31 @@ public class MainMenu {
 		String owner = data.getOwner();
 		Location loc = Seriloc.Deserialize(rawloc);
 		pu.add("owner", owner);
-		int size = 0;
-		List<String> members = data.getMembers();
-		if (!members.isEmpty()) {
-			size = members.size();
+		List<String> temp = data.getMembers();
+		List<String> members = new ArrayList<>();
+		for (String a : temp) {
+			if (!a.isEmpty()) {
+				members.add(a);
+			}
 		}
-		pu.add("members", "" + size);
+		temp = null;
+		int current = members.size();
+		pu.add("members", "" + current);
 		pu.add("lines", "" + data.getLines().size());
 		pu.add("maxlines", "" + HoloBlockAPI.getMaxLine(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
 		pu.add("maxmembers", "" + HoloBlockAPI.getMaxMember(Bukkit.getOfflinePlayer(owner), loc.getWorld()));
 		pu.add("offset", "" + data.getOffset());
-		pu.add("skin", "" + data.getSkin());
 		pu.add("color", "" + data.isAllowColor());
 		pu.add("placeholder", "" + data.isAllowPlaceholders());
 		pu.add("itemline", "" + data.isAllowItemLine());
 		pu.add("customskin", "" + data.isAllowCustomSkin());
+		String skin = data.getSkin();
+		Boolean custom = false;
+		if (skin.startsWith("$CustomSkin:")) {
+			custom = true;
+			skin = skin.replace("$CustomSkin:", "");
+		}
+		pu.add("skin", "&7<&fCustom:&e" + skin + "&7>");
 		EditInfoItem = pu.t(EditInfoItem);
 		EditLineItem = pu.t(EditLineItem);
 		EditOffSetItem = pu.t(EditOffSetItem);
@@ -152,14 +163,39 @@ public class MainMenu {
 		}
 		if (EditSkinItem.getItemMeta() instanceof SkullMeta) {
 			SkullMeta meta = (SkullMeta) EditSkinItem.getItemMeta();
-			meta.setOwner(data.getSkin());
-			EditSkinItem.setItemMeta(meta);
+			if (custom) {
+				CustomSkin cs = new CustomSkin(skin);
+				ItemStack customskin = null;
+				switch (cs.getType().toLowerCase()) {
+				case "name":
+					meta.setOwner(cs.getData());
+					EditSkinItem.setItemMeta(meta);
+					break;
+				case "url":
+					customskin = cs.getSkullitem();
+					customskin = ItemUT.changeDisplayName(customskin, pu.t(ItemUT.getName(EditSkinItem)));
+					customskin = ItemUT.changeLore(customskin, pu.t(ItemUT.getLore(EditSkinItem)));
+					EditSkinItem = customskin;
+					break;
+				case "encode":
+					customskin = cs.getSkullitem();
+					customskin = ItemUT.changeDisplayName(customskin, pu.t(ItemUT.getName(EditSkinItem)));
+					customskin = ItemUT.changeLore(customskin, pu.t(ItemUT.getLore(EditSkinItem)));
+					EditSkinItem = customskin;
+					break;
+				}
+			}
+			if (!custom) {
+				meta.setOwner(skin);
+				EditSkinItem.setItemMeta(meta);
+			}
 		}
 		InventoryUT.setItem(inv, 4, EditInfoItem).addClick("Refresh:" + rawloc);
 		InventoryUT.setItem(inv, 11, EditLineItem).addClick("EditLineMenu:" + rawloc);
 		InventoryUT.setItem(inv, 13, EditOffSetItem).addClick("EditOffSet:" + rawloc);
 		InventoryUT.setItem(inv, 15, EditMemberItem).addClick("EditMemberMenu:" + rawloc);
-		InventoryUT.setItem(inv, 22, EditSkinItem).addClick("EditSkin:" + rawloc);
+		InventoryUT.setItem(inv, 22, EditSkinItem).addRightClick("EditSkin:" + rawloc)
+				.addLeftClick("SkinMenu:" + rawloc);
 		player.openInventory(inv);
 	}
 }

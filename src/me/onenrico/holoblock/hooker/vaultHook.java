@@ -9,7 +9,7 @@ import net.milkbowl.vault.permission.Permission;
 
 public class vaultHook {
 
-	static Core instance;
+	Core instance;
 
 	public vaultHook() {
 		instance = Core.getThis();

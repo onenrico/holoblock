@@ -6,8 +6,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,13 +28,32 @@ import me.onenrico.holoblock.utils.PlaceholderUT;
 public class BreakEvent implements Listener {
 
 	@SuppressWarnings("deprecation")
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void playerBreak(final BlockBreakEvent event) {
+		Player player = event.getPlayer();
+		if (Core.getThis().w_hook.wg != null) {
+			Block block = event.getBlock();
+			Boolean override = Core.getThis().configplugin.getBool("worldguard-override", false);
+			if (Core.getThis().w_hook.isAllowBuild(block.getLocation()).equals("true")) {
+				event.setCancelled(false);
+			} else if (Core.getThis().w_hook.isAllowBuild(block.getLocation()).equals("null")) {
+				if (override) {
+					MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
+					SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+					event.setCancelled(true);
+				}
+			} else {
+				if (override) {
+					MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
+					SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+					event.setCancelled(true);
+				}
+			}
+		}
 		if (event.isCancelled()) {
 			event.setCancelled(true);
 			return;
 		}
-		Player player = event.getPlayer();
 		Location loc = event.getBlock().getLocation();
 		if (loc.getBlock().getType().equals(Material.SKULL)) {
 			String rawloc = Seriloc.Serialize(loc);

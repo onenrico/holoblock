@@ -66,16 +66,13 @@ public class ParticleUT {
 						Double xcos = Math.cos(x) * radius;
 						Double zsin = Math.sin(x) * radius;
 						send(null, particleOne.toUpperCase(),
-								new Location(world, loc.getX() + xcos, 
-								loc.getY() + newheight, loc.getZ() + zsin), -1,
+								new Location(world, loc.getX() + xcos, loc.getY() + newheight, loc.getZ() + zsin), -1,
 								1, 0, 0, 0, true);
 					}
 				} else {
 					for (int x = 0; x < 3; x++) {
 						send(null, particleOne.toUpperCase(),
-								new Location(world, loc.getX(), 
-								loc.getY() + newheight, loc.getZ()), 
-								-1, 1, 0, 0, 0,
+								new Location(world, loc.getX(), loc.getY() + newheight, loc.getZ()), -1, 1, 0, 0, 0,
 								true);
 					}
 				}

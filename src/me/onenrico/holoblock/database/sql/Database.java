@@ -12,7 +12,6 @@ import java.util.List;
 import org.bukkit.block.BlockFace;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.MessageUT;
 
@@ -32,8 +31,7 @@ public abstract class Database {
 
 	public HashMap<String, List<String>> datacache = new HashMap<>();
 
-	String[] columns = { 
-			"Owner", "Lines", "Members", "Offset", "Skin", "Rotation", "Particle" };
+	public String[] columns = { "Owner", "Lines", "Members", "Offset", "Skin", "Rotation", "Particle" };
 
 	public void initialize(BukkitRunnable callback) {
 		reloadData(callback);
@@ -83,14 +81,14 @@ public abstract class Database {
 	}
 
 	public List<String> getLine(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return null;
 		}
 		return Arrays.asList(datacache.get(location).get(1).split("<#"));
 	}
 
 	public String getOwner(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return null;
 		}
 		return datacache.get(location).get(0);
@@ -101,7 +99,7 @@ public abstract class Database {
 	}
 
 	public double getOffSet(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return -690;
 		}
 		return Double.parseDouble(datacache.get(location).get(3));
@@ -118,62 +116,45 @@ public abstract class Database {
 	}
 
 	public List<String> getMember(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return null;
 		}
 		return Arrays.asList(datacache.get(location).get(2).split("<#"));
 	}
 
 	public String getSkin(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return null;
 		}
 		return datacache.get(location).get(4);
 	}
 
 	public BlockFace getRotation(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return null;
 		}
 		return BlockFace.valueOf(datacache.get(location).get(5));
 	}
 
 	public String getParticleName(String location) {
-		if(datacache.get(location) == null) {
+		if (datacache.get(location) == null) {
 			return null;
 		}
 		return datacache.get(location).get(6);
 	}
+
 	public String quote(String d) {
-		return "`"+d+"`";
+		return "`" + d + "`";
 	}
-	public void setHolo(String player, 
-			String location, 
-			String rawline, String members, double offset, String skin,
+
+	public void setHolo(String player, String location, String rawline, String members, double offset, String skin,
 			BlockFace rotation, String particle, BukkitRunnable callback) {
-		
+
 		PreparedStatement ps = null;
 		try {
-			ps = connection.prepareStatement("REPLACE INTO " + table
-					+ 
-					" ("
-					+ quote("Owner")
-					+ ","
-					+ quote("Location")
-					+ ","
-					+ quote("Lines")
-					+ ","
-					+ quote("Members")
-					+ ","
-					+ quote("Offset")
-					+ ","
-					+ quote("Skin")
-					+ ","
-					+ quote("Rotation")
-					+ ","
-					+ quote("Particle")
-					+ ") "
-					+ "VALUES(?,?,?,?,?,?,?,?);");
+			ps = connection.prepareStatement("REPLACE INTO " + table + " (" + quote("Owner") + "," + quote("Location")
+					+ "," + quote("Lines") + "," + quote("Members") + "," + quote("Offset") + "," + quote("Skin") + ","
+					+ quote("Rotation") + "," + quote("Particle") + ") " + "VALUES(?,?,?,?,?,?,?,?);");
 			ps.setString(1, player);
 			ps.setString(2, location.trim());
 			ps.setString(3, rawline);

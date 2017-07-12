@@ -1,5 +1,7 @@
 package me.onenrico.holoblock.object;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +22,7 @@ import org.bukkit.scheduler.BukkitTask;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.line.ItemLine;
 import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
+import com.mojang.authlib.GameProfile;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.onenrico.holoblock.api.HoloBlockAPI;
@@ -30,6 +33,8 @@ import me.onenrico.holoblock.utils.ItemUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.ParticleUT;
 import me.onenrico.holoblock.utils.PermissionUT;
+import me.onenrico.holoblock.utils.PlayerUT;
+import me.onenrico.holoblock.utils.ReflectionUT;
 
 public class HoloData {
 	private List<String> members;
@@ -113,8 +118,7 @@ public class HoloData {
 			state.getData().setData((byte) 1);
 			skull.setRotation(rotation);
 			skull.setSkullType(SkullType.PLAYER);
-			skull.setOwner(skin);
-			skull.update();
+			updateSkinOnly();
 		} else {
 			block.setType(Material.SKULL);
 			state.update();
@@ -122,13 +126,60 @@ public class HoloData {
 		}
 	}
 
+	private static Method getWorldHandle;
+	private static Method getWorldTileEntity;
+	private static Method setGameProfile;
+	private static Class<?> blockposition;
+	private static Constructor<?> bpc;
+
 	@SuppressWarnings("deprecation")
 	public void updateSkinOnly() {
 		Block block = realloc.getBlock();
 		BlockState state = block.getState();
 		Skull skull = (Skull) state;
-		skull.setOwner(skin);
-		skull.update();
+		if (skin.startsWith("$CustomSkin:")) {
+			String nskin = skin.replace("$CustomSkin:", "");
+			CustomSkin cs = new CustomSkin(nskin);
+			String type = cs.getType();
+			GameProfile gp = null;
+			if (type.equalsIgnoreCase("name")) {
+				skull.setOwner(cs.getData());
+				skull.update(true);
+				return;
+			} else if (type.equalsIgnoreCase("url")) {
+				gp = PlayerUT.Skull.getProfile(cs.getData(), false);
+			} else {
+				gp = PlayerUT.Skull.getProfile(cs.getData(), true);
+			}
+			try {
+				if (bpc == null) {
+					blockposition = ReflectionUT.getNMSClass("BlockPosition");
+					bpc = blockposition.getConstructor(int.class, int.class, int.class);
+					getWorldHandle = ReflectionUT.getCraftBukkitClass("CraftWorld").getMethod("getHandle");
+					getWorldTileEntity = ReflectionUT.getNMSClass("WorldServer").getMethod("getTileEntity",
+							blockposition);
+					setGameProfile = ReflectionUT.getNMSClass("TileEntitySkull").getMethod("setGameProfile",
+							GameProfile.class);
+				}
+				Object bp = bpc.newInstance(block.getX(), block.getY(), block.getZ());
+				Object world = getWorldHandle.invoke(skull.getWorld());
+				Object tileSkull = getWorldTileEntity.invoke(world, bp);
+				setGameProfile.invoke(tileSkull, gp);
+				block.getState().update(true);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			// TileEntitySkull skullTile = (TileEntitySkull)
+			// ((CraftWorld) block.getWorld()).getHandle()
+			// .getTileEntity(new BlockPosition(block.getX(), block.getY(),
+			// block.getZ()));
+			// skullTile.setGameProfile(gp);
+			// block.getState().update(true);
+			return;
+		} else {
+			skull.setOwner(skin);
+		}
+		skull.update(true);
 	}
 
 	public void update() {
@@ -137,7 +188,7 @@ public class HoloData {
 	}
 
 	public void updateLines() {
-		if(lines == null) {
+		if (lines == null) {
 			lines = new ArrayList<>();
 		}
 		if (!lines.isEmpty()) {

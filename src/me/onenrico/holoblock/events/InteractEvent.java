@@ -64,6 +64,7 @@ public class InteractEvent implements Listener {
 					}
 				}
 			}
+			data.updatePerm();
 			MainMenu.open(player, rawloc);
 			event.setCancelled(true);
 			new BukkitRunnable() {

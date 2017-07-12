@@ -6,9 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
-
 import org.bukkit.scheduler.BukkitRunnable;
-
 
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.main.Core;
@@ -22,13 +20,7 @@ public class MySQL extends Database {
 	public String user = "";
 	public String password = "";
 
-
-	public MySQL(Core instance,
-			String hostname,
-			String port,
-			String database,
-			String user,
-			String password) {
+	public MySQL(Core instance, String hostname, String port, String database, String user, String password) {
 		super(instance);
 		this.hostname = hostname;
 		this.port = port;
@@ -75,14 +67,9 @@ public class MySQL extends Database {
 				return connection;
 			}
 			try {
-				Class.forName("com.mysql.jdbc.Driver");       
-				connection = DriverManager.getConnection(
-				"jdbc:mysql://" + 
-				this.hostname+ ":" + 
-				this.port + "/" + 
-				this.database, 
-				this.user, 
-				this.password);
+				Class.forName("com.mysql.jdbc.Driver");
+				connection = DriverManager.getConnection("jdbc:mysql://" + hostname + ":" + port + "/" + database, user,
+						password);
 
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
@@ -90,7 +77,7 @@ public class MySQL extends Database {
 			return connection;
 		} catch (SQLException ex) {
 			MessageUT.debug("G: MySQL exception on initialize");
-		} 
+		}
 		return null;
 	}
 

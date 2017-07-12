@@ -33,6 +33,7 @@ import me.onenrico.holoblock.gui.ManageHologramMenu;
 import me.onenrico.holoblock.gui.MoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveLineMenu;
 import me.onenrico.holoblock.gui.RemoveMemberMenu;
+import me.onenrico.holoblock.gui.SkinMenu;
 import me.onenrico.holoblock.locale.Locales;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.sound.SoundManager;
@@ -145,8 +146,9 @@ public class ClickEvent implements Listener {
 			data = action.split(":")[1];
 		}
 		HoloData hdata = null;
-		String loc, member, strline, strline2, last = "";
+		String loc, member, strline, strline2, last, material = "";
 		int page, line, line2, count = 0;
+		double cost = 0;
 		List<String> json = new ArrayList<>();
 		List<String> hoverl = ItemUT.createLore(
 				"&7&m--------------------%n%%n%" + "&r     &fClick To &c&lCancel" + "%n%%n%&7&m--------------------");
@@ -175,17 +177,15 @@ public class ClickEvent implements Listener {
 			break;
 		case "Buy":
 			double costb = Double.parseDouble(data);
-			if(EconomyUT.has(player, costb)) {
+			if (EconomyUT.has(player, costb)) {
 				SoundManager.playSound(player, "BLOCK_CHEST_OPEN");
 				HoloBlockAPI.give(null, player);
-				MessageUT.plmessage(player, 
-						ConfigPlugin.locale.getValue("success_buy"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("success_buy"));
 				EconomyUT.subtractBal(player, costb);
 				player.closeInventory();
-			}else{
+			} else {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				MessageUT.plmessage(player, 
-						ConfigPlugin.locale.getValue("insufficient_money"));
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("insufficient_money"));
 			}
 			break;
 		case "Refresh":
@@ -200,6 +200,7 @@ public class ClickEvent implements Listener {
 				return;
 			}
 			CloseEvent.adminPlayers.remove(player);
+			CloseEvent.mainMenuPlayers.remove(player);
 			MainMenu.open(player, data);
 			SoundManager.playSound(player, "UI_BUTTON_CLICK");
 			break;
@@ -260,6 +261,12 @@ public class ClickEvent implements Listener {
 			ItemLineMenu.open(player, loc, page, line);
 			SoundManager.playSound(player, "UI_BUTTON_CLICK");
 			break;
+		case "OpenPageSkin":
+			loc = action.split(":")[1];
+			page = MathUT.strInt(action.split(":")[2]);
+			SkinMenu.open(player, loc, page);
+			SoundManager.playSound(player, "UI_BUTTON_CLICK");
+			break;
 		case "OpenPageMember":
 			loc = action.split(":")[1];
 			page = MathUT.strInt(action.split(":")[2]);
@@ -279,6 +286,12 @@ public class ClickEvent implements Listener {
 			page = MathUT.strInt(action.split(":")[2]);
 			line = MathUT.strInt(action.split(":")[3]);
 			MoveLineMenu.open(player, loc, page, line);
+			SoundManager.playSound(player, "UI_BUTTON_CLICK");
+			break;
+		case "SkinMenu":
+			CloseEvent.mainMenuPlayers.remove(player);
+			SkinMenu.open(player, data, 1);
+			CloseEvent.mainMenuPlayers.put(player, data);
 			SoundManager.playSound(player, "UI_BUTTON_CLICK");
 			break;
 		case "MoveLineMenu":
@@ -492,29 +505,59 @@ public class ClickEvent implements Listener {
 
 			}.runTaskLater(Core.getThis(), 3);
 			break;
-		case "ItemLine":
-			action = action.split("<i>")[1];
-			loc = action.split("<<")[0];
-			double cost = Double.parseDouble(action.split("<<")[1]);
+		case "CustomSkin":
+			loc = data.split("<<")[0];
+			cost = Double.parseDouble(data.split("<<")[1]);
 			if (!EconomyUT.has(player, cost)) {
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("insufficient_money"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 			}
-			if (!PermissionUT.check(player, "holoblock.itemline")) {
+			if (!PermissionUT.check(player, "holoblock.use.customskin")) {
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
 				return;
 
 			}
-			String material = action.split("<<")[2];
-			line = Integer.valueOf(action.split("<<")[3]);
+			String name = data.split("<<")[2];
 			HoloData temp = Datamanager.getDataByLoc(loc);
 			player.closeInventory();
 			if (temp != null) {
+				temp.setSkin("$CustomSkin:" + name);
+				temp.saveHolo(new BukkitRunnable() {
+					@Override
+					public void run() {
+						pu.add("skin", "&7<&fCustom:&e" + name + "&7>");
+						List<String> msgs = pu.t(ConfigPlugin.locale.getValue("edit_skin"));
+						MessageUT.plmessage(player, msgs);
+						SoundManager.playSound(player, "BLOCK_ANVIL_USE");
+					}
+				});
+				EconomyUT.subtractBal(player, cost);
+			}
+			break;
+		case "ItemLine":
+			action = action.split("<i>")[1];
+			loc = action.split("<<")[0];
+			cost = Double.parseDouble(action.split("<<")[1]);
+			if (!EconomyUT.has(player, cost)) {
+				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("insufficient_money"));
+				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+				return;
+			}
+			if (!PermissionUT.check(player, "holoblock.use.itemline")) {
+				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+				return;
+
+			}
+			material = action.split("<<")[2];
+			line = Integer.valueOf(action.split("<<")[3]);
+			HoloData temp2 = Datamanager.getDataByLoc(loc);
+			player.closeInventory();
+			if (temp2 != null) {
 				pu.add("line", "" + (line + 1));
 				pu.add("msg", "" + "Icon:" + material);
-				temp.setLine(line, "$ItemStack:" + material);
-				temp.saveHolo(new BukkitRunnable() {
+				temp2.setLine(line, "$ItemStack:" + material);
+				temp2.saveHolo(new BukkitRunnable() {
 					@Override
 					public void run() {
 						EditLineMenu.open(player, loc, 1);
