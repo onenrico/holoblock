@@ -77,7 +77,9 @@ public class BreakEvent implements Listener {
 					return;
 				}
 			}
-			event.getBlock().getDrops().clear();
+			event.setCancelled(true);
+			event.getBlock().setType(Material.AIR);
+			event.getBlock().getState().update(true);
 			loc.getWorld().dropItemNaturally(loc.add(0, .5d, 0), Core.getAPI().getHoloItem());
 			ParticleUT.send(player, "FLAME", loc, 0.01f, 1f, 0.01f, 0.08f, 25, true);
 			SoundManager.playSound(player, "BLOCK_ANVIL_USE", loc);
