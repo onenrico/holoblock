@@ -77,10 +77,12 @@ public class MoveLineMenu {
 				if ((x + multiplier) == currentline) {
 					CurrentPosition = pu.t(CurrentPosition);
 					CurrentPosition = ItemUT.setGlowing(CurrentPosition, true);
+					CurrentPosition.setAmount(x + 1);
 					InventoryUT.setItem(inv, x, CurrentPosition);
 				} else {
 					ItemStack line = ReplacePosition.clone();
 					line = pu.t(line);
+					line.setAmount(x + 1);
 					InventoryUT.setItem(inv, x, line)
 							.addLeftClick("MoveLine:" + rawloc + "<<" + (currentline) + "<<" + (newx))
 							.addRightClick("ReplaceLine:" + rawloc + "<<" + (currentline) + "<<" + (newx));
@@ -97,10 +99,12 @@ public class MoveLineMenu {
 				if (x == currentline) {
 					CurrentPosition = pu.t(CurrentPosition);
 					CurrentPosition = ItemUT.setGlowing(CurrentPosition, true);
+					CurrentPosition.setAmount(x + 1);
 					InventoryUT.setItem(inv, x, CurrentPosition);
 				} else {
 					ItemStack line = ReplacePosition.clone();
 					line = pu.t(line);
+					line.setAmount(x + 1);
 					InventoryUT.setItem(inv, x, line)
 							.addLeftClick("MoveLine:" + rawloc + "<<" + (currentline) + "<<" + (x))
 							.addRightClick("ReplaceLine:" + rawloc + "<<" + (currentline) + "<<" + (x));

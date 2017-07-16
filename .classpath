@@ -10,6 +10,7 @@
 	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/PlaceholderAPI-2.8.1.jar"/>
 	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/worldguard-6.2.1.jar"/>
 	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/worldedit-bukkit-6.1.7.2.jar"/>
+	<classpathentry kind="lib" path="D:/Server MC File/PluginTes/plugins/EffectLib-5.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

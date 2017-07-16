@@ -1,6 +1,7 @@
 package me.onenrico.holoblock.main;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -8,6 +9,7 @@ import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.palmergames.bukkit.towny.Towny;
 
+import de.slikey.effectlib.EffectManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.onenrico.holoblock.api.HoloBlockAPI;
@@ -36,6 +38,7 @@ import net.milkbowl.vault.permission.Permission;
 public class Core extends JavaPlugin {
 	private static Core instance;
 	private static HoloBlockAPI holoapi;
+	public static EffectManager em;
 	public static Chat v_chat = null;
 	public static Economy v_economy = null;
 	public static Permission v_permission = null;
@@ -63,12 +66,19 @@ public class Core extends JavaPlugin {
 		}
 		Datamanager.unloadHolo();
 		instance = null;
+		HandlerList.unregisterAll(this);
+		if (em != null) {
+			em.dispose();
+		}
 	}
 
 	@Override
 	public void onEnable() {
 		instance = this;
 		holoapi = new HoloBlockAPI();
+		if (getServer().getPluginManager().getPlugin("EffectLib") != null) {
+			em = new EffectManager(this);
+		}
 		getServer().getPluginCommand("HoloBlock").setExecutor(new Holoblock());
 		saveDefaultConfig();
 		setupConstructor();
@@ -145,8 +155,8 @@ public class Core extends JavaPlugin {
 			@Override
 			public void run() {
 				if (papi != null) {
-					MessageUT.cmessage("&f<&bHoloBlock&f> Hologram Extension Found !");
-					MessageUT.cmessage("&f<&bHoloBlock&f> You Can Make Cool Animation Hologram");
+					MessageUT.cmessage("&bHoloBlock Hologram Extension Found !");
+					MessageUT.cmessage("&bHoloBlock You Can Make Cool Animation Hologram");
 				}
 			}
 		}.runTaskLater(Core.getThis(), 5);

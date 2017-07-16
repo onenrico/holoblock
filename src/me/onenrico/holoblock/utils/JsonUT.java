@@ -115,12 +115,12 @@ public class JsonUT {
 						eventstr = eventstr.replace("#C:", "");
 						if (eventstr.contains("$RUN:")) {
 							eventstr = eventstr.replace("$RUN:", "");
-							String cmd = eventstr;
+							String cmd = MessageUT.u(eventstr);
 							single.setClickEvent(new ClickEvent(Action.RUN_COMMAND, cmd));
 						}
 						if (eventstr.contains("$SUGGEST:")) {
 							eventstr = eventstr.replace("$SUGGEST:", "");
-							String cmd = eventstr;
+							String cmd = MessageUT.u(eventstr);
 							single.setClickEvent(new ClickEvent(Action.SUGGEST_COMMAND, cmd));
 						}
 						if (eventstr.contains("$URL:")) {

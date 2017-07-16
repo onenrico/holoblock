@@ -150,7 +150,11 @@ public class MainMenu {
 			custom = true;
 			skin = skin.replace("$CustomSkin:", "");
 		}
-		pu.add("skin", "&7<&fCustom:&e" + skin + "&7>");
+		if (custom) {
+			pu.add("skin", "&7<&fCustom:&e" + skin + "&7>");
+		} else {
+			pu.add("skin", "&e" + skin);
+		}
 		EditInfoItem = pu.t(EditInfoItem);
 		EditLineItem = pu.t(EditLineItem);
 		EditOffSetItem = pu.t(EditOffSetItem);

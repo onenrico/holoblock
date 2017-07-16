@@ -27,7 +27,6 @@ public class SkinMenu {
 	private static ItemStack PrevPageItem;
 	private static ItemStack NextPageItem;
 	private static ItemStack SkinLine;
-	private static ItemStack ManualSkinLine;
 	private static ItemStack CancelItem;
 	private static List<CustomSkin> lcs = new ArrayList<>();
 
@@ -35,7 +34,6 @@ public class SkinMenu {
 		PrevPageItem = setupItem("PrevPageItem");
 		NextPageItem = setupItem("NextPageItem");
 		SkinLine = setupItem("SkinLine");
-		ManualSkinLine = setupItem("ManualSkinLine");
 		CancelItem = setupItem("CancelItem");
 	}
 
@@ -82,10 +80,7 @@ public class SkinMenu {
 		} else {
 			Set<String> keys = css.getKeys(false);
 			for (String key : keys) {
-				String data = fc.getString("CustomSkins." + key + ".data");
-				String type = fc.getString("CustomSkins." + key + ".type");
-				double cost = fc.getDouble("CustomSkins." + key + ".cost");
-				lcs.add(new CustomSkin(key, data, type, cost));
+				lcs.add(new CustomSkin(key));
 			}
 		}
 		first = false;
@@ -154,6 +149,19 @@ public class SkinMenu {
 				ItemStack ite = cs.getSkullitem();
 				double cost = cs.getCost();
 				String type = cs.getType();
+				String potions = "";
+				for (String pt : cs.getPotioneffects()) {
+					String place = ConfigPlugin.locale.getValue("potion_format").get(0);
+					PlaceholderUT puu = new PlaceholderUT();
+					puu.add("potionname", pt.split(":")[0].toLowerCase());
+					puu.add("potionmodifier", "" + (MathUT.strInt(pt.split(":")[1]) + 1));
+					place = puu.t(place);
+					potions += place + "%n%";
+				}
+				if (potions.isEmpty()) {
+					potions = ConfigPlugin.locale.getValue("no_potion").get(0);
+				}
+				pu.add("potions", potions);
 				pu.add("skinname", name.toUpperCase());
 				pu.add("cost", "" + cost);
 				pu.add("type", "" + type);

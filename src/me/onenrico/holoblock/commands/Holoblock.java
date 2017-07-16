@@ -92,6 +92,39 @@ public class Holoblock implements CommandExecutor {
 							return true;
 						}
 					}
+					// if (args[0].equalsIgnoreCase("devdev")) {
+					// StarEffect ef = new StarEffect(Core.em);
+					// ef.setEntity(player);
+					// ef.particle = ParticleEffect.FLAME;
+					// ef.autoOrient = true;
+					// ef.spikeHeight = 1.5f;
+					// ef.spikesHalf = 3;
+					// ef.start();
+					// Player p = player;
+					// ef.onRun(); {
+					// MessageUT.debug("Starting");
+					// BukkitTask task = new BukkitRunnable() {
+					// @Override
+					// public void run() {
+					// for(Entity e : p.getNearbyEntities(2, 2, 2)) {
+					// ef.setEntity(e);
+					// if(e instanceof Damageable) {
+					// Damageable de = (Damageable) e;
+					// de.damage(2, p);
+					// }
+					// }
+					// }
+					// }.runTaskTimer(Core.getThis(), 2, 10);
+					// new BukkitRunnable() {
+					// @Override
+					// public void run() {
+					// ef.cancel();
+					// task.cancel();
+					// }
+					// }.runTaskLater(Core.getThis(), 200);
+					// }
+					// return true;
+					// }
 					if (args[0].equalsIgnoreCase("manage")) {
 						if (PermissionUT.check(player, "holoblock.remote")) {
 							ManageHologramMenu.open(player, player.getName(), 1);

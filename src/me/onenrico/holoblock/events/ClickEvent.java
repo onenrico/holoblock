@@ -321,7 +321,7 @@ public class ClickEvent implements Listener {
 			line = MathUT.strInt(data.split("<<")[1]);
 			last = hdata.getLines().get(line);
 			json = JsonUT.btnGenerate(ConfigPlugin.locale.getValue("editing_line"), "edit", Locales.pub.t("{edit}"),
-					true, ItemUT.createLore(last), true, "suggest", MessageUT.u(last));
+					true, ItemUT.createLore(last), true, "suggest", last);
 			json = JsonUT.btnGenerate(json, "cancel", "&8<&cCancel&8>", true, hoverl, true, "run", "cancel");
 			JsonUT.multiSend(player, JsonUT.rawToJsons(json));
 			CloseEvent.mainMenuPlayers.remove(player);

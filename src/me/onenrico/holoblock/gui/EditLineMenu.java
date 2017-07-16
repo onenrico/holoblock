@@ -77,6 +77,7 @@ public class EditLineMenu {
 				pu.add("content", content);
 				ItemStack line = LineItem.clone();
 				line = pu.t(line);
+				line.setAmount(x + 1);
 				InventoryUT.setItem(inv, x, line).addLeftClick("EditLine:" + rawloc + "<<" + (newx))
 						.addShiftRightClick("RemoveLineMenu:" + rawloc + "<<" + (newx))
 						.addRightClick("MoveLineMenu:" + rawloc + ":" + (newx));
@@ -91,6 +92,7 @@ public class EditLineMenu {
 				pu.add("content", content);
 				ItemStack line = LineItem.clone();
 				line = pu.t(line);
+				line.setAmount(x + 1);
 				InventoryUT.setItem(inv, x, line).addLeftClick("EditLine:" + rawloc + "<<" + (x))
 						.addShiftRightClick("RemoveLineMenu:" + rawloc + "<<" + (x))
 						.addRightClick("MoveLineMenu:" + rawloc + ":" + (x));

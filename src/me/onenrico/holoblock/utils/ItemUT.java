@@ -126,7 +126,14 @@ public class ItemUT {
 		ItemMeta meta = item.getItemMeta();
 		List<String> theLore = new ArrayList<String>();
 		for (String l : Lore) {
-			theLore.add(MessageUT.t(l));
+			String[] split = l.split("%n%");
+			if (split.length > 1) {
+				for (String s : split) {
+					theLore.add(MessageUT.t(s));
+				}
+			} else {
+				theLore.add(MessageUT.t(l));
+			}
 		}
 		meta.setLore(theLore);
 		item.setItemMeta(meta);

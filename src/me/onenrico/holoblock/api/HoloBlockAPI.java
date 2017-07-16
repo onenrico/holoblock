@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -13,9 +14,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.onenrico.holoblock.config.ConfigPlugin;
+import me.onenrico.holoblock.config.PotionConfig;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.actionbar.ActionBar;
 import me.onenrico.holoblock.nms.particle.ParticleManager;
@@ -35,6 +38,17 @@ public class HoloBlockAPI {
 		ActionBar.setup();
 		ParticleManager.setup();
 		updateCheck();
+		PotionConfig pc = new PotionConfig(instance, "potions");
+
+		List<String> peftv = new ArrayList<>();
+		for (PotionEffectType peft : PotionEffectType.values()) {
+			if(peft != null) {
+				String potion = peft.toString().split(",")[1].trim().replace("]", "");
+				peftv.add("" + potion);
+			}
+		}
+		pc.getStrList("PotionList", peftv);
+		pc.save();
 	}
 
 	public static boolean isAllowCustomSkin(OfflinePlayer ofp, World world) {
@@ -158,21 +172,21 @@ public class HoloBlockAPI {
 						return;
 					}
 					if (!pname.equals(name)) {
-						MessageUT.cmessage("&f<&bHoloBlock&f> " + "&cPlugin Disabled Because Plugin Name Changed !");
+						MessageUT.cmessage("&bHoloBlock " + "&cPlugin Disabled Because Plugin Name Changed !");
 
 						Bukkit.getPluginManager().disablePlugin(Core.getThis());
 					}
 					if (pdf.getAuthors().size() > 1 || !(pauthor.equals(author))) {
-						MessageUT.cmessage("&f<&bHoloBlock&f> " + "&cPlugin Disabled Because Plugin Author Changed !");
+						MessageUT.cmessage("&bHoloBlock " + "&cPlugin Disabled Because Plugin Author Changed !");
 
 						Bukkit.getPluginManager().disablePlugin(Core.getThis());
 					}
 					if (!pversion.equals(version)) {
-						MessageUT.cmessage("&f<&bHoloBlock&f> " + " &lPlugin Found Update !");
-						MessageUT.cmessage("&f<&bHoloBlock&f> " + " &lPlease Update To v" + version);
+						MessageUT.cmessage("&bHoloBlock " + " &lPlugin Found Update !");
+						MessageUT.cmessage("&bHoloBlock " + " &lPlease Update To v" + version);
 					}
 				} catch (IOException e) {
-					MessageUT.cmessage("&f<&bHoloBlock&f> " + " Couldn't check for update");
+					MessageUT.cmessage("&bHoloBlock " + " Couldn't check for update");
 				}
 			}
 

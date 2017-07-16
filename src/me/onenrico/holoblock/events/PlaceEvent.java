@@ -39,49 +39,50 @@ public class PlaceEvent implements Listener {
 		Block block = event.getBlock();
 		Towny towny = Core.towny;
 		if (hand.hasItemMeta()) {
-			if (Core.getThis().w_hook.wg != null) {
-				Boolean override = Core.getThis().configplugin.getBool("worldguard-override", false);
-				if (Core.getThis().w_hook.isAllowBuild(block.getLocation()).equals("true")) {
-					event.setCancelled(false);
-				} else if (Core.getThis().w_hook.isAllowBuild(block.getLocation()).equals("null")) {
-					if (override) {
-						MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
-						SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-						event.setCancelled(true);
-					}
-				} else {
-					if (override) {
-						MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
-						SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-						event.setCancelled(true);
-					}
-				}
-			}
-			if (!PermissionUT.has(player, "holoblock.place." + block.getLocation().getWorld().getName(),
-					player.getWorld())) {
-				List<String> noperm = ConfigPlugin.locale.getValue("no_permission");
-				PlaceholderUT pu = new PlaceholderUT();
-				pu.add("perm", "holoblock.place." + player.getWorld().getName());
-				MessageUT.plmessage(player, pu.t(noperm));
-				event.setCancelled(true);
-				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				return;
-			}
-			if (event.isCancelled()) {
-				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
-				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				return;
-			}
-			if (towny != null) {
-				TownyHook t = new TownyHook(player, block, event, towny);
-				if (t.getRetur()) {
-					MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
-					SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-					return;
-				}
-			}
 			if (ItemUT.getName(hand).equals(ItemUT.getName(Core.getAPI().getHoloItem()))) {
 				if (ItemUT.getLore(hand).equals(ItemUT.getLore(Core.getAPI().getHoloItem()))) {
+					if (Core.getThis().w_hook.wg != null) {
+						Boolean override = Core.getThis().configplugin.getBool("worldguard-override", false);
+						if (Core.getThis().w_hook.isAllowBuild(block.getLocation()).equals("true")) {
+							event.setCancelled(false);
+						} else if (Core.getThis().w_hook.isAllowBuild(block.getLocation()).equals("null")) {
+							if (override) {
+								MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
+								SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+								event.setCancelled(true);
+							}
+						} else {
+							if (override) {
+								MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
+								SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+								event.setCancelled(true);
+							}
+						}
+					}
+					if (!PermissionUT.has(player, "holoblock.place." + block.getLocation().getWorld().getName(),
+							player.getWorld())) {
+						List<String> noperm = ConfigPlugin.locale.getValue("no_permission");
+						PlaceholderUT pu = new PlaceholderUT();
+						pu.add("perm", "holoblock.place." + player.getWorld().getName());
+						MessageUT.plmessage(player, pu.t(noperm));
+						event.setCancelled(true);
+						SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+						return;
+					}
+					if (event.isCancelled()) {
+						MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
+						SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+						return;
+					}
+					if (towny != null) {
+						TownyHook t = new TownyHook(player, block, event, towny);
+						if (t.getRetur()) {
+							MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
+							SoundManager.playSound(player, "BLOCK_NOTE_PLING");
+							event.setCancelled(true);
+							return;
+						}
+					}
 					int maxholo = HoloBlockAPI.getMaxOwned(player, block.getWorld());
 					int holocount = Datamanager.getDB().getOwned(player.getName());
 					PlaceholderUT pu = new PlaceholderUT();

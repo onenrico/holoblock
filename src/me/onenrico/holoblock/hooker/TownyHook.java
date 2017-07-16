@@ -21,9 +21,6 @@ import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;
 import com.palmergames.bukkit.towny.war.flagwar.TownyWar;
 import com.palmergames.bukkit.towny.war.flagwar.TownyWarConfig;
 
-import me.onenrico.holoblock.events.PlaceEvent;
-import me.onenrico.holoblock.main.Core;
-import me.onenrico.holoblock.nms.sound.SoundManager;
 import me.onenrico.holoblock.utils.PlayerUT;
 
 public class TownyHook {
@@ -43,17 +40,13 @@ public class TownyHook {
 			boolean bBuild = PlayerCacheUtil.getCachePermission(player, block.getLocation(), block.getTypeId(),
 					block.getData(), TownyPermission.ActionType.BUILD);
 			if (bBuild) {
-				if (hand.hasItemMeta()) {
-					if (event.isCancelled()) {
-						retur = true;
-					}
-					if (hand.getItemMeta().getDisplayName()
-							.equals(Core.getAPI().getHoloItem().getItemMeta().getDisplayName())) {
-						PlaceEvent.place(player, event.getBlock().getLocation());
-						SoundManager.playSound(player, "BLOCK_ANVIL_PLACE");
-					}
+				if (event.isCancelled()) {
+					retur = true;
+					return;
+				} else {
+					retur = false;
+					return;
 				}
-				retur = true;
 			}
 			PlayerCache cache = towny.getCache(player);
 			TownBlockStatus status = cache.getStatus();
@@ -63,29 +56,24 @@ public class TownyHook {
 				try {
 					if (TownyWar.callAttackCellEvent(towny, player, block, worldCoord)) {
 						retur = true;
+						return;
 					}
 				} catch (TownyException e) {
 					TownyMessaging.sendErrorMsg(player, e.getMessage());
 				}
-
-				event.setBuild(false);
-				event.setCancelled(true);
 				retur = true;
-
+				return;
 			} else if (status == TownBlockStatus.WARZONE) {
 				if (!TownyWarConfig.isEditableMaterialInWarZone(block.getType())) {
-					event.setBuild(false);
-					event.setCancelled(true);
 					TownyMessaging.sendErrorMsg(player,
 							String.format(TownySettings.getLangString("msg_err_warzone_cannot_edit_material"), "build",
 									block.getType().toString().toLowerCase()));
-
+					retur = true;
 					return;
 				}
 			} else {
-				event.setBuild(false);
-				event.setCancelled(true);
 				retur = true;
+				return;
 			}
 
 			if ((cache.hasBlockErrMsg()) && (event.isCancelled())) {
@@ -94,7 +82,6 @@ public class TownyHook {
 
 		} catch (NotRegisteredException e1) {
 			TownyMessaging.sendErrorMsg(player, TownySettings.getLangString("msg_err_not_configured"));
-			event.setCancelled(true);
 			retur = true;
 		}
 	}

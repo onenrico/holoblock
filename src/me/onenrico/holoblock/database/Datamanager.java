@@ -144,13 +144,13 @@ public class Datamanager {
 	public static void count(int j) {
 		long hasil = System.currentTimeMillis() - last;
 		double r = hasil / 1000.0;
-		MessageUT.cmessage("&f<&bHoloBlock&f> &b" + j + " &eHologram Loaded");
-		MessageUT.cmessage("&f<&bHoloBlock&f> Load Database Completed in &a" + r + "s");
+		MessageUT.cmessage("&bHoloBlock &b" + j + " &eHologram Loaded");
+		MessageUT.cmessage("&bHoloBlock Load Database Completed in &a" + r + "s");
 	}
 
 	public static void loadHolo() {
 		last = System.currentTimeMillis();
-		MessageUT.cmessage("&f<&bHoloBlock&f> Start Load Database");
+		MessageUT.cmessage("&bHoloBlock Start Load Database");
 		new BukkitRunnable() {
 			@Override
 			public void run() {
@@ -163,7 +163,7 @@ public class Datamanager {
 				int times = (int) Math.ceil((double) count / (double) maxasli);
 				int left = count % maxasli;
 				if (count == 0) {
-					MessageUT.cmessage("&f<&bHoloBlock&f> No Hologram Found");
+					MessageUT.cmessage("&bHoloBlock No Hologram Found");
 					return;
 				}
 				for (int x = 0; x < times; x++) {

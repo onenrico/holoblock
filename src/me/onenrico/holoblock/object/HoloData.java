@@ -3,6 +3,7 @@ package me.onenrico.holoblock.object;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -15,7 +16,11 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -30,6 +35,7 @@ import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.HoloUT;
 import me.onenrico.holoblock.utils.ItemUT;
+import me.onenrico.holoblock.utils.MathUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.ParticleUT;
 import me.onenrico.holoblock.utils.PermissionUT;
@@ -48,13 +54,14 @@ public class HoloData {
 	private String skin;
 	private String particlename;
 	private BukkitTask particle;
+	private BukkitTask potiontask;
+	private List<PotionEffect> potioneffect = new ArrayList<>();
 	private double offset;
 	private boolean allowPlaceholders = false;
 	private boolean allowColor = false;
 	private boolean allowItemLine = false;
 	private boolean allowCustomSkin = false;
 
-	@SuppressWarnings("deprecation")
 	public HoloData(String loc) {
 		rawloc = loc;
 		realloc = Seriloc.Deserialize(loc);
@@ -92,8 +99,26 @@ public class HoloData {
 		updateSkin();
 		updateHolo();
 		float toffset = (float) (offset * -1) + .1f;
-		particle = ParticleUT.circleParticle(cloc, 0, toffset, toffset, 0f, "SPELL_MOB");
-		// Particle.SPELL_WITCH
+		if (particlename.equalsIgnoreCase("NONE")) {
+			particle = ParticleUT.circleParticle(cloc, 0, toffset, toffset, 0f, "SPELL_MOB");
+		} else {
+			particle = ParticleUT.circleParticle(cloc, 0, toffset, toffset, 0f, particlename);
+		}
+		potiontask = new BukkitRunnable() {
+			@Override
+			public void run() {
+				Collection<Entity> ens = realloc.getWorld().getNearbyEntities(realloc, 15, 15, 15);
+				for (Entity e : ens) {
+					if (e instanceof Player) {
+						if (members.contains(e) || owner.equals(e.getName())) {
+							for (PotionEffect pef : potioneffect) {
+								((Player) e).addPotionEffect(pef, true);
+							}
+						}
+					}
+				}
+			}
+		}.runTaskTimer(Core.getThis(), 20, 200);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -110,20 +135,25 @@ public class HoloData {
 	public void updateSkin() {
 		Block block = realloc.getBlock();
 		BlockState state = block.getState();
-		if (state instanceof Skull) {
-			Skull skull = (Skull) state;
-			if (rotation == null) {
-				rotation = skull.getRotation();
-			}
-			state.getData().setData((byte) 1);
-			skull.setRotation(rotation);
-			skull.setSkullType(SkullType.PLAYER);
-			updateSkinOnly();
-		} else {
+		if (!(state instanceof Skull)) {
 			block.setType(Material.SKULL);
-			state.update();
-			updateSkinOnly();
+			new BukkitRunnable() {
+				@Override
+				public void run() {
+					updateSkin();
+				}
+			}.runTaskLater(Core.getThis(), 1);
+			return;
 		}
+		Skull skull = (Skull) state;
+		if (rotation == null) {
+			rotation = skull.getRotation();
+		}
+		skull.getData().setData((byte) 1);
+		skull.setRotation(rotation);
+		skull.setSkullType(SkullType.PLAYER);
+		skull.update();
+		updateSkinOnly();
 	}
 
 	private static Method getWorldHandle;
@@ -140,6 +170,18 @@ public class HoloData {
 		if (skin.startsWith("$CustomSkin:")) {
 			String nskin = skin.replace("$CustomSkin:", "");
 			CustomSkin cs = new CustomSkin(nskin);
+			potioneffect.clear();
+			for (String pefstr : cs.getPotioneffects()) {
+				try {
+					String pefe = pefstr.split(":")[0];
+					int mod = MathUT.strInt(pefstr.split(":")[1]);
+					PotionEffectType peft = PotionEffectType.getByName(pefe.toUpperCase());
+					potioneffect.add(new PotionEffect(peft, 240, mod));
+				} catch (Exception ex) {
+					MessageUT.cmessage("Holoblock Potion Effect: " + pefstr + " is Invalid");
+					continue;
+				}
+			}
 			String type = cs.getType();
 			GameProfile gp = null;
 			if (type.equalsIgnoreCase("name")) {
@@ -354,6 +396,7 @@ public class HoloData {
 		destroyHolo();
 		realloc.getBlock().setType(Material.AIR, true);
 		realloc.getBlock().getState().update(true);
+		potiontask.cancel();
 	}
 
 	public void saveHolo(BukkitRunnable callback) {

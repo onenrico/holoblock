@@ -213,3 +213,9 @@ messages:
   - "<center>&bSuccessfully Buy Holo Item {done}"
   - "<np>"
   - "<np>{doneline}"
+  
+  potion_format: 
+  - "&e- &6&l{potionname} &eLvl.&f{potionmodifier}"
+  
+  no_potion:
+  - "&7No Potion Effect"
