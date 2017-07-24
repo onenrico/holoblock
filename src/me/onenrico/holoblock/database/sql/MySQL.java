@@ -30,13 +30,13 @@ public class MySQL extends Database {
 		dbname = "database";
 		HashMap<String, String> map = new HashMap<>();
 		map.put("Location", "varchar(255)");
-		map.put("Owner", "blob");
-		map.put("Lines", "blob");
-		map.put("Members", "blob");
+		map.put("Owner", "TEXT");
+		map.put("Lines", "TEXT CHARACTER SET utf8mb4");
+		map.put("Members", "TEXT");
 		map.put("Offset", "double");
-		map.put("Skin", "blob");
-		map.put("Rotation", "blob");
-		map.put("Particle", "blob");
+		map.put("Skin", "TEXT");
+		map.put("Rotation", "TEXT");
+		map.put("Particle", "TEXT");
 		SQLiteCreateTokensTable = generateToken("Location", map);
 
 	}

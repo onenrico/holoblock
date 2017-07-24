@@ -126,6 +126,23 @@ public class MessageUT {
 			teks = teks.replace("<np>", "");
 		}
 		if (warning) {
+			if(teks.contains("<title>")) {
+				teks = teks.replace("<title>", "");
+				String title = teks;
+				if(teks.contains("<subtitle>")) {
+					title = teks.split("<subtitle>")[0];
+					String subtitle = teks.split("<subtitle>")[1];
+					tfullmessage(player,teks,subtitle);
+				}else {
+
+					ttmessage(player,title);
+				}
+				return;
+			}else if(teks.contains("<subtitle>")) {
+				teks = teks.replaceAll("<subtitle>", "");
+				tsubmessage(player,teks);
+				return;
+			}
 			if (teks.contains("<center>")) {
 				teks = teks.replace("<center>", "");
 				pmessage(player, centered(pref + "&c" + teks), Action);
@@ -133,6 +150,27 @@ public class MessageUT {
 				pmessage(player, pref + "&c" + teks, Action);
 			}
 		} else {
+			if(teks.contains("<action>")) {
+				teks = teks.replace("<action>", "");
+				acmessage(player,teks);
+				return;
+			}
+			else if(teks.contains("<title>")) {
+				teks = teks.replace("<title>", "");
+				String title = teks;
+				if(teks.contains("<subtitle>")) {
+					title = teks.split("<subtitle>")[0];
+					String subtitle = teks.split("<subtitle>")[1];
+					tfullmessage(player,title,subtitle);
+				}else {
+					ttmessage(player,title);
+				}
+				return;
+			}else if(teks.contains("<subtitle>")) {
+				teks = teks.replaceAll("<subtitle>", "");
+				tsubmessage(player,teks);
+				return;
+			}
 			if (teks.contains("<center>")) {
 				teks = teks.replace("<center>", "");
 				pmessage(player, centered(pref + "&b" + teks), Action);
@@ -174,14 +212,13 @@ public class MessageUT {
 
 	public static void acmessage(Player player, String teks) {
 		teks = Locales.pub.t(teks);
-		teks = MessageUT.t(teks);
 		ActionBar.sendActionBar(player, teks);
 	}
 	// ACTIONBAR MESSAGE
 
 	// TITLEBAR MESSAGE
 	public static void tfullmessage(Player player, String title, String subtitle, int fadein, int stay, int fadeout) {
-		TitleBar.sendTitle(player, fadein, stay, fadeout, t(title), t(subtitle));
+		TitleBar.sendTitle(player, fadein, stay, fadeout, Locales.pub.t(title), Locales.pub.t(subtitle));
 	}
 
 	public static void tfullmessage(Player player, String title, String subtitle) {
@@ -189,19 +226,19 @@ public class MessageUT {
 	}
 
 	public static void tsubmessage(Player player, String subtitle, int fadein, int stay, int fadeout) {
-		tfullmessage(player, null, subtitle, fadein, stay, fadeout);
+		tfullmessage(player, "", subtitle, fadein, stay, fadeout);
 	}
 
 	public static void tsubmessage(Player player, String subtitle) {
-		tfullmessage(player, null, subtitle, 20, 60, 20);
+		tfullmessage(player, "", subtitle, 20, 60, 20);
 	}
 
 	public static void ttmessage(Player player, String title, int fadein, int stay, int fadeout) {
-		tfullmessage(player, title, null, fadein, stay, fadeout);
+		tfullmessage(player, title, "", fadein, stay, fadeout);
 	}
 
 	public static void ttmessage(Player player, String title) {
-		tfullmessage(player, null, title, 20, 60, 20);
+		tfullmessage(player, "", title, 20, 60, 20);
 	}
 
 	// TITLEBAR MESSAGE

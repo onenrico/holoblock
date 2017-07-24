@@ -33,7 +33,8 @@ public class ItemLineMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "ItemLineMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -41,9 +42,11 @@ public class ItemLineMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
+	private static Boolean first = true;
 	public static void open(Player player, String rawloc, int page, int line) {
-		setup();
+		if(first) {
+			setup();
+		}
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		if (!data.isAllowItemLine()) {
 			SoundManager.playSound(player, "BLOCK_NOTE_PLING");
@@ -63,11 +66,11 @@ public class ItemLineMenu {
 		pu.add("owner", "" + data.getOwner());
 		String title = pu.t(Core.getThis().guiconfig.getStr("ItemLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		PrevPageItem = pu.t(PrevPageItem);
-		NextPageItem = pu.t(NextPageItem);
-		CancelItem = pu.t(CancelItem);
+		ItemStack tempPrevPageItem = pu.t(PrevPageItem.clone());
+		ItemStack tempNextPageItem = pu.t(NextPageItem.clone());
+		ItemStack tempCancelItem = pu.t(CancelItem.clone());
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem)
+			InventoryUT.setItem(inv, 45, tempPrevPageItem)
 					.addClick("OpenPageItemLine:" + rawloc + ":" + (page - 1) + ":" + line);
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
@@ -104,12 +107,12 @@ public class ItemLineMenu {
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem)
+				InventoryUT.setItem(inv, 53, tempNextPageItem)
 						.addClick("OpenPageItemLine:" + rawloc + ":" + (page + 1) + ":" + line);
 			}
 		}
 		for (int x = 0; x < 5; x++) {
-			InventoryUT.setItem(inv, x + 47, CancelItem).addClick("EditLineMenu:" + rawloc);
+			InventoryUT.setItem(inv, x + 47, tempCancelItem).addClick("EditLineMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

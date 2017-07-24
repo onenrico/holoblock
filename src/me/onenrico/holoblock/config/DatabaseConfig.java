@@ -49,7 +49,7 @@ public class DatabaseConfig extends ConfigUT implements ConfigSet {
 
 	@Override
 	public List<String> getStrList(String path, List<String> def) {
-		return getStrList(path, def, config);
+		return getStrList(path, def, config, config, file);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class DatabaseConfig extends ConfigUT implements ConfigSet {
 
 	@Override
 	public String getStr(String path, String def) {
-		return getStr(path, def, config);
+		return getStr(path, def, config, config, file);
 	}
 
 	@Override
@@ -74,12 +74,12 @@ public class DatabaseConfig extends ConfigUT implements ConfigSet {
 
 	@Override
 	public int getInt(String path, int def) {
-		return getInt(path, def, config);
+		return getInt(path, def, config,file);
 	}
 
 	@Override
 	public Boolean getBool(String path, boolean def) {
-		return getBool(path, def, config);
+		return getBool(path, def, config,file);
 	}
 
 	@Override

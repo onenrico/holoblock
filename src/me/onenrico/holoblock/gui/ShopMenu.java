@@ -19,7 +19,8 @@ public class ShopMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "ShopMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -27,9 +28,12 @@ public class ShopMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
+	private static Boolean first = true;
 
 	public static void open(Player player) {
-		setup();
+		if(first) {
+			setup();
+		}
 		SoundManager.playSound(player, "ENTITY_PLAYER_BURP");
 		String title = Core.getThis().guiconfig.getStr("ShopMenu.Title", "&1&lHolo Shop");
 		Inventory inv = InventoryUT.createInventory(3, title);
@@ -37,8 +41,8 @@ public class ShopMenu {
 		pu.add("itemname", Core.getThis().configplugin.getStr("holo.item.displayname", "&cNot Configured"));
 		double cost = Core.getThis().configplugin.getDouble("holo.item.cost", 1000);
 		pu.add("cost", "" + cost);
-		HoloItem = pu.t(HoloItem);
-		InventoryUT.setItem(inv, 13, HoloItem).addClick("Buy:" + cost);
+		ItemStack tempHoloItem = pu.t(HoloItem.clone());
+		InventoryUT.setItem(inv, 13, tempHoloItem).addClick("Buy:" + cost);
 		player.openInventory(inv);
 	}
 }

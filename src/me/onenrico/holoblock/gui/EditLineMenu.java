@@ -32,7 +32,8 @@ public class EditLineMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "EditLineMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -40,9 +41,11 @@ public class EditLineMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
+	private static Boolean first = true;
 	public static void open(Player player, String rawloc, int page) {
-		setup();
+		if(first) {
+			setup();
+		}
 		int max = HoloBlockAPI.getMaxLine(player, Seriloc.Deserialize(rawloc).getWorld());
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		List<String> lines = data.getLines();
@@ -60,11 +63,11 @@ public class EditLineMenu {
 		pu.add("maxlines", "" + max);
 		String title = pu.t(Core.getThis().guiconfig.getStr("EditLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		PrevPageItem = pu.t(PrevPageItem);
-		NextPageItem = pu.t(NextPageItem);
-		AddLineItem = pu.t(AddLineItem);
+		ItemStack tempPrevPageItem = pu.t(PrevPageItem.clone());
+		ItemStack tempNextPageItem = pu.t(NextPageItem.clone());
+		ItemStack tempAddLineItem = pu.t(AddLineItem.clone());
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPage:" + rawloc + ":" + (page - 1));
+			InventoryUT.setItem(inv, 45, tempPrevPageItem).addClick("OpenPage:" + rawloc + ":" + (page - 1));
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
 			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
@@ -100,11 +103,11 @@ public class EditLineMenu {
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPage:" + rawloc + ":" + (page + 1));
+				InventoryUT.setItem(inv, 53, tempNextPageItem).addClick("OpenPage:" + rawloc + ":" + (page + 1));
 			}
 		}
 		for (int x = 0; x < 5; x++) {
-			InventoryUT.setItem(inv, x + 47, AddLineItem).addClick("AddLineMenu:" + rawloc);
+			InventoryUT.setItem(inv, x + 47, tempAddLineItem).addClick("AddLineMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

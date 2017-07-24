@@ -14,10 +14,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class ItemUT {
 	@SuppressWarnings("deprecation")
 	public static ItemStack getItem(String data) {
-		String[] datas = data.split(":");
-		Material material = Material.AIR;
-		short dat = 0;
 		try {
+			String[] datas = data.split(":");
+			Material material = Material.AIR;
+			short dat = 0;
 			if (datas.length > 1) {
 				dat = Short.parseShort(datas[1]);
 			}
@@ -28,10 +28,10 @@ public class ItemUT {
 			} else {
 				material = Material.getMaterial(mat);
 			}
+			return ItemUT.createItem(material, dat);
 		} catch (Exception ex) {
 			return ItemUT.createItem(Material.STONE, "&4&lError &cConfig!", ItemUT.createLore("&cUnknown &f" + data));
 		}
-		return ItemUT.createItem(material, dat);
 	}
 
 	public static ItemStack createItem(Material material) {
@@ -127,7 +127,7 @@ public class ItemUT {
 		List<String> theLore = new ArrayList<String>();
 		for (String l : Lore) {
 			String[] split = l.split("%n%");
-			if (split.length > 1) {
+			if (split.length > 0) {
 				for (String s : split) {
 					theLore.add(MessageUT.t(s));
 				}

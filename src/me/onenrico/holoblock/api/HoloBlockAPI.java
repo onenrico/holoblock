@@ -13,6 +13,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,6 +24,7 @@ import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.nms.actionbar.ActionBar;
 import me.onenrico.holoblock.nms.particle.ParticleManager;
 import me.onenrico.holoblock.utils.ItemUT;
+import me.onenrico.holoblock.utils.MathUT;
 import me.onenrico.holoblock.utils.MessageUT;
 import me.onenrico.holoblock.utils.PermissionUT;
 import me.onenrico.holoblock.utils.PlaceholderUT;
@@ -38,17 +40,6 @@ public class HoloBlockAPI {
 		ActionBar.setup();
 		ParticleManager.setup();
 		updateCheck();
-		PotionConfig pc = new PotionConfig(instance, "potions");
-
-		List<String> peftv = new ArrayList<>();
-		for (PotionEffectType peft : PotionEffectType.values()) {
-			if(peft != null) {
-				String potion = peft.toString().split(",")[1].trim().replace("]", "");
-				peftv.add("" + potion);
-			}
-		}
-		pc.getStrList("PotionList", peftv);
-		pc.save();
 	}
 
 	public static boolean isAllowCustomSkin(OfflinePlayer ofp, World world) {
@@ -66,9 +57,29 @@ public class HoloBlockAPI {
 	public static boolean isAllowItemLine(OfflinePlayer ofp, World world) {
 		return PermissionUT.has(ofp, "holoblock.use.itemline", world);
 	}
-
+	private static int getDynamic(int max,Player p, String key) {
+		int result = 0;
+		for(PermissionAttachmentInfo pai : p.getEffectivePermissions()) {
+			String perm = pai.getPermission();
+			if(perm.startsWith("holoblock."+key+".")) {
+				perm = perm.replace("holoblock."+key+".","");
+				if(perm.equals("*")) {
+					return max;
+				}else {
+					int min = MathUT.strInt(perm);
+					if(min > result) {
+						result = min;
+					}
+				}
+			}
+		}
+		return result;
+	}
 	public static int getMaxMember(OfflinePlayer offlineplayer, World world) {
 		int max = HoloBlockAPI.getMaxMember();
+		if(offlineplayer.isOnline()) {
+			return getDynamic(max,offlineplayer.getPlayer(),"maxmember");
+		}
 		for (int x = max; x > 0; x--) {
 			if (PermissionUT.has(offlineplayer, "holoblock.maxmember." + x, world)) {
 				return x;
@@ -79,6 +90,9 @@ public class HoloBlockAPI {
 
 	public static int getMaxLine(OfflinePlayer offlineplayer, World world) {
 		int max = HoloBlockAPI.getMaxLine();
+		if(offlineplayer.isOnline()) {
+			return getDynamic(max,offlineplayer.getPlayer(),"maxline");
+		}
 		for (int x = max; x > 0; x--) {
 			if (PermissionUT.has(offlineplayer, "holoblock.maxline." + x, world)) {
 				return x;
@@ -89,6 +103,9 @@ public class HoloBlockAPI {
 
 	public static int getMaxOwned(OfflinePlayer offlineplayer, World world) {
 		int max = HoloBlockAPI.getMaxOwned();
+		if(offlineplayer.isOnline()) {
+			return getDynamic(max,offlineplayer.getPlayer(),"maxowned");
+		}
 		for (int x = max; x > 0; x--) {
 			if (PermissionUT.has(offlineplayer, "holoblock.maxowned." + x, world)) {
 				return x;
@@ -168,7 +185,7 @@ public class HoloBlockAPI {
 					String pname = pdf.getName();
 					String pauthor = pdf.getAuthors().get(0);
 					String pversion = pdf.getVersion();
-					if (pname == "") {
+					if (name == "") {
 						return;
 					}
 					if (!pname.equals(name)) {
@@ -185,7 +202,7 @@ public class HoloBlockAPI {
 						MessageUT.cmessage("&bHoloBlock " + " &lPlugin Found Update !");
 						MessageUT.cmessage("&bHoloBlock " + " &lPlease Update To v" + version);
 					}
-				} catch (IOException e) {
+				} catch (Exception e) {
 					MessageUT.cmessage("&bHoloBlock " + " Couldn't check for update");
 				}
 			}

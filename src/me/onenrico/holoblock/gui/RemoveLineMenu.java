@@ -21,7 +21,8 @@ public class RemoveLineMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "RemoveLineMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -29,30 +30,33 @@ public class RemoveLineMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
+	private static Boolean first = true;
+	
 	public static void open(Player player, String rawloc, int line) {
-		setup();
+		if(first) {
+			setup();
+		}
 		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("line", "" + line);
 		String title = pu.t(Core.getThis().guiconfig.getStr("RemoveLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		YesItem = pu.t(YesItem);
-		NoItem = pu.t(NoItem);
+		ItemStack tempYesItem = pu.t(YesItem.clone());
+		ItemStack tempNoItem = pu.t(NoItem.clone());
 		for (int r = 0; r < 6; r++) {
 			for (int x = 0; x < 4; x++) {
 				if (r == 0) {
-					InventoryUT.setItem(inv, x, YesItem).addClick("RemoveLine:" + rawloc + "<<" + line);
+					InventoryUT.setItem(inv, x, tempYesItem).addClick("RemoveLine:" + rawloc + "<<" + line);
 				} else {
 					int y = x + (r * 9);
-					InventoryUT.setItem(inv, y, YesItem).addClick("RemoveLine:" + rawloc + "<<" + line);
+					InventoryUT.setItem(inv, y, tempYesItem).addClick("RemoveLine:" + rawloc + "<<" + line);
 				}
 			}
 			for (int x = 5; x < 9; x++) {
 				if (r == 0) {
-					InventoryUT.setItem(inv, x, NoItem).addClick("EditLineMenu:" + rawloc);
+					InventoryUT.setItem(inv, x, tempNoItem).addClick("EditLineMenu:" + rawloc);
 				} else {
 					int y = x + (r * 9);
-					InventoryUT.setItem(inv, y, NoItem).addClick("EditLineMenu:" + rawloc);
+					InventoryUT.setItem(inv, y, tempNoItem).addClick("EditLineMenu:" + rawloc);
 				}
 			}
 		}

@@ -76,7 +76,7 @@ public class HoloData {
 		}
 		particlename = particlename.toUpperCase();
 		if (members == null) {
-			members = new ArrayList<>();
+			members = new ArrayList<String>();
 		}
 		if (lines == null) {
 			lines = new ArrayList<>();
@@ -110,8 +110,9 @@ public class HoloData {
 				Collection<Entity> ens = realloc.getWorld().getNearbyEntities(realloc, 15, 15, 15);
 				for (Entity e : ens) {
 					if (e instanceof Player) {
-						if (members.contains(e) || owner.equals(e.getName())) {
+						if (members.contains(e.getName()) || owner.equals(e.getName())) {
 							for (PotionEffect pef : potioneffect) {
+								
 								((Player) e).addPotionEffect(pef, true);
 							}
 						}

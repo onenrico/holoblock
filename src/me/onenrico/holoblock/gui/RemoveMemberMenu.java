@@ -26,7 +26,8 @@ public class RemoveMemberMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "RemoveMemberMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -34,9 +35,12 @@ public class RemoveMemberMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
+	private static Boolean first = true;
 
 	public static void open(Player player, String rawloc, String member) {
-		setup();
+		if(first) {
+			setup();
+		}
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		if (!data.getOwner().equals(player.getName())) {
 			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
@@ -47,23 +51,23 @@ public class RemoveMemberMenu {
 		pu.add("member", "" + member);
 		String title = pu.t(Core.getThis().guiconfig.getStr("RemoveMemberMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		YesItem = pu.t(YesItem);
-		NoItem = pu.t(NoItem);
+		ItemStack tempYesItem = pu.t(YesItem.clone());
+		ItemStack tempNoItem = pu.t(NoItem.clone());
 		for (int r = 0; r < 6; r++) {
 			for (int x = 0; x < 4; x++) {
 				if (r == 0) {
-					InventoryUT.setItem(inv, x, YesItem).addClick("MinusMember:" + rawloc + "<<" + member);
+					InventoryUT.setItem(inv, x, tempYesItem).addClick("MinusMember:" + rawloc + "<<" + member);
 				} else {
 					int y = x + (r * 9);
-					InventoryUT.setItem(inv, y, YesItem).addClick("MinusMember:" + rawloc + "<<" + member);
+					InventoryUT.setItem(inv, y, tempYesItem).addClick("MinusMember:" + rawloc + "<<" + member);
 				}
 			}
 			for (int x = 5; x < 9; x++) {
 				if (r == 0) {
-					InventoryUT.setItem(inv, x, NoItem).addClick("EditMemberMenu:" + rawloc);
+					InventoryUT.setItem(inv, x, tempNoItem).addClick("EditMemberMenu:" + rawloc);
 				} else {
 					int y = x + (r * 9);
-					InventoryUT.setItem(inv, y, NoItem).addClick("EditMemberMenu:" + rawloc);
+					InventoryUT.setItem(inv, y, tempNoItem).addClick("EditMemberMenu:" + rawloc);
 				}
 			}
 		}

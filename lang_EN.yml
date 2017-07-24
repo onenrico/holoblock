@@ -3,6 +3,10 @@
 # Option List:
 # <center> : Center The Message on that line
 # <np> : Disable prefix on that line
+# <title> : send title to player
+# <subtitle> : send subtitle to player
+# <action> : send actionbar to player
+# use <title>Text<subtitle>text : to send title and subtitle at same time
 # 
 # Custom Placeholder Can be Used for Text Line hologram too
 # Use curly bracket { } to use placeholder in Text Line
@@ -43,62 +47,72 @@ custom-placeholder:
   
 messages:
   item_give:
+  - "<title>&6Holo Head &8&l[&ex{amount}&8&l]<subtitle>&7has been Given to {target} ! {done}"
   - "<np>{plusline}"
   - "<np>"
   - "<center>&eSuccessfully Given the &6Holo Head &bto {target} {done}"
   - "<np>"
   - "<np>{plusline}"
   item_get:
+  - "<title>&6Holo Head<subtitle>&7has been Received ! {done}"
   - "<np>{doneline}"
   - "<np>"
   - "<center>&eSuccessfully Get the &6Holo Head Item {done}"
   - "<np>"
   - "<np>{doneline}"
   item_gived:
+  - "<title>&6Holo Head &8&l[&ex{amount}&8&l]<subtitle>&7has been Received ! {done}"
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&eYou get the &6Holo Head Item &8&l[&ex{amount}&8&l] {done}"
+  - "<center>&eYou have been given a &6Holo Head &8&l[&ex{amount}&8&l] {done}"
   - "<np>"
   - "<np>{doneline}"
 
   add_holo:
-  - "&fSuccessfully Placed New Hologram &8[&e{holocount}&8/&e{maxholo}&8 {done}"
+  - "<title>&fPlaced a new Holo Head<subtitle>&8[&e{holocount}&8/&e{maxholo}&8] {done}"
+  - "<np>{doneline}"
+  - "<np>"
+  - "&fSuccessfully placed a new Holo Head &8[&e{holocount}&8/&e{maxholo}&8] {done}"
+  - "<np>"
+  - "<np>{doneline}"
   remove_holo:
+  - "<title>&fRemoved Holo Head<subtitle>&8[&e{holocount}&8/&e{maxholo}&8] {edit}"
   - "<np>{errline}"
   - "<np>"
-  - "<center>&eSuccessfully Destroy Hologram &8[&e{holocount}&8/&e{maxholo}&8] {not}"
+  - "<center>&eSuccessfully removed Holo Head &8[&e{holocount}&8/&e{maxholo}&8] {not}"
   - "<np>"
   - "<np>{errline}"
   exceeded_holo:
+  - "<title>&fYou Can't Place More<subtitle>&8[&e{holocount}&8/&e{maxholo}&8] {not}"
   - "<np>{errline}"
   - "<np>"
-  - "<center>&cYou can't Place More Hologram &8[&e{holocount}&8/&e{maxholo}&8] {not}"
+  - "<center>&cSorry you can't place More Holo Heads &8[&e{holocount}&8/&e{maxholo}&8] {not}"
   - "<np>"
   - "<np>{errline}"
   
   add_member:
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&aSuccessfully Add Member &b{member} {done}"
+  - "<center>&aSuccessfully added member &b{member} {done}"
   - "<np>"
   - "<np>{doneline}"
   remove_member:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&eSuccessfully Remove Member &b{member} {edit}"
+  - "<center>&eSuccessfully removed member &b{member} {edit}"
   - "<np>"
   - "<np>{errline}"
   exceeded_member:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&cYou Can't Add More Member {not}"
+  - "<center>&cYou can't add any more members {not}"
   - "<np>"
   - "<np>{errline}"
 
   add_line:
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&aSuccessfully Added &6Line {done}"
+  - "<center>&aSuccessfully added &6Line {done}"
   - "<np>"
   - "<np><center>&8[&r{msg}&8]"
   - "<np>"
@@ -106,7 +120,7 @@ messages:
   edit_line:
   - "<np>{plusline}"
   - "<np>"
-  - "<center>&eSuccessfully Edit &6Line {line} {edit}"
+  - "<center>&eSuccessfully edited &6Line {line} {edit}"
   - "<np>"
   - "<np><center>&8[&r{msg}&8]"
   - "<np>"
@@ -114,19 +128,19 @@ messages:
   remove_line:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&eSuccessfully Cleared &6Line {line} {not}"
+  - "<center>&eSuccessfully cleared &6Line {line} {not}"
   - "<np>"
   - "<np>{errline}"
   move_line:
   - "<np>{plusline}"
   - "<np>"
-  - "<center>&eSuccessfully Move &6Line {line} &eto &6Line &6{lineto} {edit}"
+  - "<center>&eSuccessfully move &6line {line} &eto &6Line &6{lineto} {edit}"
   - "<np>"
   - "<np>{plusline}"
   exceeded_line:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&cYou Can't Add More Line {not}"
+  - "<center>&cYou can't add any more lines {not}"
   - "<np>"
   - "<np>{errline}"
 
@@ -141,14 +155,14 @@ messages:
   - "<np>{plusline}"
   - "<np>"
   - "<np><center>&7Type {cancel} &7to cancel &aEditing line"
-  - "<np><center>&7Please Type Anything For The &fLine {edit}"
+  - "<np><center>&7Please type anything for the &fLine {edit}"
   - "<np>"
   - "<np>{plusline}"
   
   edit_offset:
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&eSuccessfully Edit &6Offset &eto &8[&r{offset}&8] {done}"
+  - "<center>&eSuccessfully edited &6Offset &eto &8[&r{offset}&8] {done}"
   - "<np>"
   - "<np>{doneline}"
   
@@ -156,22 +170,22 @@ messages:
   - "<np>{plusline}"
   - "<np>"
   - "<np><center>&7Type {cancel} &7to cancel &bEditing Offset"
-  - "<np><center>&7Please Type Number ! &8[&fRange &c-5.0 &fto &b5.0 &8] {edit}"
+  - "<np><center>&7Please type a number ! &8[&fRange &c-5.0 &fto &b5.0 &8] {edit}"
   - "<np>"
   - "<np>{plusline}"
   
   edit_skin:
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&eSuccessfully Edit &6Skin &eto &8[&r{skin}&8] {done}"
+  - "<center>&eSuccessfully edited &6Skin &eto &8[&r{skin}&8] {done}"
   - "<np>"
   - "<np>{doneline}"
   
   editing_skin:
   - "<np>{plusline}"
   - "<np>"
-  - "<np><center>&7Type {cancel} &7to cancel &bEditing Skin"
-  - "<np><center>&7Please Type Skin Name ! {edit}"
+  - "<np><center>&7Type {cancel} &7to cancel &bediting Skin"
+  - "<np><center>&7Please type skin name ! {edit}"
   - "<np>"
   - "<np>{plusline}"
   
@@ -185,37 +199,37 @@ messages:
   insufficient_money:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&cYou Don't Have Enough Money to use this {not}"
+  - "<center>&cYou don't have enough money to use this {not}"
   - "<np>"
   - "<np>{errline}"
   no_permission:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&cYou Don't Have Permission &8[&f{perm}&8] &cTo Use This {not}"
+  - "<center>&cYou don't have permission &8[&f{perm}&8] &cto use this {not}"
   - "<np>"
   - "<np>{errline}"
   not_permitted:
   - "<np>{errline}"
   - "<np>"
-  - "<center>&cYou Can't Do That To This &bHologram {not}"
+  - "<center>&cYou can't do that to this &bHologram {not}"
   - "<np>"
   - "<np>{errline}"
   config_reload:
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&bSuccessfully Reload The Config {done}"
+  - "<center>&bSuccessfully reload the config {done}"
   - "<np>"
   - "<np>{doneline}"
   
   success_buy:
   - "<np>{doneline}"
   - "<np>"
-  - "<center>&bSuccessfully Buy Holo Item {done}"
+  - "<center>&bSuccessfully Bought Holo Head {done}"
   - "<np>"
   - "<np>{doneline}"
   
   potion_format: 
-  - "&e- &6&l{potionname} &eLvl.&f{potionmodifier}"
+  - "&f- &6&l{potionname} &f&lLvl.&6{potionmodifier}"
   
   no_potion:
   - "&7No Potion Effect"

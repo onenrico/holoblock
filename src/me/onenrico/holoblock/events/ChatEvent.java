@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -24,17 +25,17 @@ import me.onenrico.holoblock.utils.PlaceholderUT;
 
 public class ChatEvent implements Listener {
 
-	@EventHandler
+	@EventHandler (priority = EventPriority.HIGHEST)
 	public void onChat(AsyncPlayerChatEvent event) {
 		Player player = event.getPlayer();
 		if (MetaUT.isThere(player, "EditLine:")) {
+			event.setCancelled(true);
 			String msg = event.getMessage();
 			if (msg.equalsIgnoreCase("cancel")) {
 				CloseEvent.mainMenuPlayers.remove(player);
 				player.removeMetadata("EditLine:", Core.getThis());
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("edit_canceled"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				event.setCancelled(true);
 				return;
 			}
 			msg = msg.replace("$ItemStack:", "");
@@ -72,16 +73,15 @@ public class ChatEvent implements Listener {
 				SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 				List<String> le = pu.t(ConfigPlugin.locale.getValue("edit_line"));
 				MessageUT.plmessage(player, le);
-				event.setCancelled(true);
 			}
 		} else if (MetaUT.isThere(player, "AddLine:")) {
+			event.setCancelled(true);
 			String msg = event.getMessage();
 			if (msg.equalsIgnoreCase("cancel")) {
 				CloseEvent.mainMenuPlayers.remove(player);
 				player.removeMetadata("AddLine:", Core.getThis());
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("edit_canceled"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				event.setCancelled(true);
 				return;
 			}
 			msg = msg.replace("$ItemStack:", "");
@@ -112,17 +112,15 @@ public class ChatEvent implements Listener {
 				SoundManager.playSound(player, "BLOCK_ANVIL_USE");
 				List<String> msgs = pu.t(ConfigPlugin.locale.getValue("add_line"));
 				MessageUT.plmessage(player, msgs);
-				event.setCancelled(true);
 			}
 		} else if (MetaUT.isThere(player, "EditOffSet:")) {
 			String msg = event.getMessage();
-
+			event.setCancelled(true);
 			if (msg.equalsIgnoreCase("cancel")) {
 				CloseEvent.mainMenuPlayers.remove(player);
 				player.removeMetadata("EditOffSet:", Core.getThis());
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("edit_canceled"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				event.setCancelled(true);
 				return;
 			}
 			Double num = 0d;
@@ -156,10 +154,10 @@ public class ChatEvent implements Listener {
 				});
 				List<String> msgs = pu.t(ConfigPlugin.locale.getValue("edit_offset"));
 				MessageUT.plmessage(player, msgs);
-				event.setCancelled(true);
 			}
 		} else if (MetaUT.isThere(player, "EditSkin:")) {
 			String msg = event.getMessage().split(" ")[0];
+			event.setCancelled(true);
 			int length = HoloBlockAPI.getMaxText();
 			if (msg.length() > length) {
 				msg = msg.substring(0, length - 1);
@@ -169,7 +167,6 @@ public class ChatEvent implements Listener {
 				player.removeMetadata("EditSkin:", Core.getThis());
 				MessageUT.plmessage(player, ConfigPlugin.locale.getValue("edit_canceled"));
 				SoundManager.playSound(player, "BLOCK_NOTE_PLING");
-				event.setCancelled(true);
 				return;
 			}
 			String data = MetaUT.getMetadata(player, "EditSkin:").asString();
@@ -188,7 +185,6 @@ public class ChatEvent implements Listener {
 				});
 				List<String> msgs = pu.t(ConfigPlugin.locale.getValue("edit_skin"));
 				MessageUT.plmessage(player, msgs);
-				event.setCancelled(true);
 			}
 		}
 	}

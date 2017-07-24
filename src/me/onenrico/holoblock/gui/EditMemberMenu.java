@@ -34,7 +34,8 @@ public class EditMemberMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "EditMemberMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -42,9 +43,11 @@ public class EditMemberMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
+	private static Boolean first = true;
 	public static void open(Player player, String rawloc, int page) {
-		setup();
+		if(first) {
+			setup();
+		}
 		int max = HoloBlockAPI.getMaxMember(player, Seriloc.Deserialize(rawloc).getWorld());
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		List<String> temp = data.getMembers();

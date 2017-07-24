@@ -33,7 +33,8 @@ public class ManageHologramMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "ManageHologramMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -41,10 +42,11 @@ public class ManageHologramMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
-	@SuppressWarnings("deprecation")
+	private static Boolean first = true;
 	public static void open(Player player, String target, int page) {
-		setup();
+		if(first) {
+			setup();
+		}
 		List<String> holos = Datamanager.getDB().getHoloFrom(target);
 		int current = holos.size();
 		int maxpage = (int) Math.ceil(current / 45.0);
@@ -58,11 +60,11 @@ public class ManageHologramMenu {
 		pu.add("player", "" + player.getName());
 		String title = pu.t(Core.getThis().guiconfig.getStr("ManageHologramMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		PrevPageItem = pu.t(PrevPageItem);
-		NextPageItem = pu.t(NextPageItem);
+		ItemStack tempPrevPageItem = pu.t(PrevPageItem.clone());
+		ItemStack tempNextPageItem = pu.t(NextPageItem.clone());
 		World world = Bukkit.getWorlds().get(0);
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPageHolo:" + (page - 1));
+			InventoryUT.setItem(inv, 45, tempPrevPageItem).addClick("OpenPageHolo:" + (page - 1));
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
 			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
@@ -110,7 +112,7 @@ public class ManageHologramMenu {
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPageHolo:" + (page + 1));
+				InventoryUT.setItem(inv, 53, tempNextPageItem).addClick("OpenPageHolo:" + (page + 1));
 			}
 		}
 		player.openInventory(inv);

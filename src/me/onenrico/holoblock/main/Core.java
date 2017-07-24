@@ -17,6 +17,7 @@ import me.onenrico.holoblock.commands.Holoblock;
 import me.onenrico.holoblock.config.ConfigPlugin;
 import me.onenrico.holoblock.config.DatabaseConfig;
 import me.onenrico.holoblock.config.GUIConfig;
+import me.onenrico.holoblock.config.PotionConfig;
 import me.onenrico.holoblock.database.Datamanager;
 import me.onenrico.holoblock.events.BreakEvent;
 import me.onenrico.holoblock.events.ChatEvent;
@@ -44,6 +45,7 @@ public class Core extends JavaPlugin {
 	public static Permission v_permission = null;
 	public Datamanager datamanager;
 	public ConfigPlugin configplugin;
+	public PotionConfig potionconfig;
 	public GUIConfig guiconfig;
 	public DatabaseConfig databaseconfig;
 	public vaultHook v_hook;
@@ -80,7 +82,6 @@ public class Core extends JavaPlugin {
 			em = new EffectManager(this);
 		}
 		getServer().getPluginCommand("HoloBlock").setExecutor(new Holoblock());
-		saveDefaultConfig();
 		setupConstructor();
 		if (!v_hook.setupEconomy()) {
 			MessageUT.cmessage(Locales.pluginPrefix + " &cPlease Install Vault and Economy Plugin !");
@@ -110,10 +111,13 @@ public class Core extends JavaPlugin {
 	private void setupConstructor() {
 		datamanager = new Datamanager();
 		configplugin = new ConfigPlugin();
+		potionconfig = new PotionConfig(instance, "potions");
 		guiconfig = new GUIConfig(this, "gui");
 		databaseconfig = new DatabaseConfig(this, "database");
 		v_hook = new vaultHook();
-		w_hook = new WorldGuardHook(this);
+		if(Core.getThis().getServer().getPluginManager().getPlugin("WorldGuard") != null) {
+			w_hook = new WorldGuardHook(this);
+		}
 		configplugin.setupSetting();
 		datamanager.setup();
 	}

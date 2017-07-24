@@ -24,6 +24,7 @@ public class AddLineMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
+		first = false;
 		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
@@ -32,21 +33,26 @@ public class AddLineMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
+	private static Boolean first = true;
 	public static void open(Player player, String rawloc) {
-		setup();
+		if(first) {
+			setup();
+		}
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		pu.add("player", "" + player.getName());
 		pu.add("owner", "" + data.getOwner());
-		CancelItem = pu.t(CancelItem);
-		TextLine = pu.t(TextLine);
-		ItemLine = pu.t(ItemLine);
+		ItemStack tempCancelItem = pu.t(CancelItem.clone());
+		ItemStack tempTextLine = pu.t(TextLine.clone());
+		ItemStack tempItemLine = pu.t(ItemLine.clone());
 		String title = pu.t(Core.getThis().guiconfig.getStr("AddLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(2, title);
-		InventoryUT.setItem(inv, 2, TextLine).addClick("AddLine:" + rawloc + "<<" + (data.getLines().size()));
-		InventoryUT.setItem(inv, 6, ItemLine).addClick("ItemLineMenu:" + rawloc + "<<" + (data.getLines().size()));
-		InventoryUT.setItem(inv, 13, CancelItem).addClick("EditLineMenu:" + rawloc);
+		InventoryUT.setItem(inv, 2, tempTextLine)
+		.addClick("AddLine:" + rawloc + "<<" + (data.getLines().size()));
+		InventoryUT.setItem(inv, 6, tempItemLine)
+		.addClick("ItemLineMenu:" + rawloc + "<<" + (data.getLines().size()));
+		InventoryUT.setItem(inv, 13, tempCancelItem)
+		.addClick("EditLineMenu:" + rawloc);
 		player.openInventory(inv);
 	}
 }

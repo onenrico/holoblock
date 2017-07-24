@@ -38,7 +38,8 @@ public class AddMemberMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "AddMemberMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -46,9 +47,11 @@ public class AddMemberMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
+	private static Boolean first = true;
 	public static void open(Player player, String rawloc, int page) {
-		setup();
+		if(first) {
+			setup();
+		}
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		if (!data.getOwner().equals(player.getName())) {
 			MessageUT.plmessage(player, ConfigPlugin.locale.getValue("not_permitted"));
@@ -74,11 +77,11 @@ public class AddMemberMenu {
 		pu.add("onlines", "" + current);
 		String title = pu.t(Core.getThis().guiconfig.getStr("AddMemberMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		PrevPageItem = pu.t(PrevPageItem);
-		NextPageItem = pu.t(NextPageItem);
-		CancelItem = pu.t(CancelItem);
+		ItemStack tempPrevPageItem = pu.t(PrevPageItem.clone());
+		ItemStack tempNextPageItem = pu.t(NextPageItem.clone());
+		ItemStack tempCancelItem = pu.t(CancelItem.clone());
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page - 1));
+			InventoryUT.setItem(inv, 45, tempPrevPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page - 1));
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
 			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
@@ -136,11 +139,11 @@ public class AddMemberMenu {
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page + 1));
+				InventoryUT.setItem(inv, 53, tempNextPageItem).addClick("OpenPagePlayer:" + rawloc + ":" + (page + 1));
 			}
 		}
 		for (int x = 0; x < 5; x++) {
-			InventoryUT.setItem(inv, x + 47, CancelItem).addClick("EditMemberMenu:" + rawloc);
+			InventoryUT.setItem(inv, x + 47, tempCancelItem).addClick("EditMemberMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

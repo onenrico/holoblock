@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.block.BlockFace;
@@ -84,7 +85,9 @@ public abstract class Database {
 		if (datacache.get(location) == null) {
 			return null;
 		}
-		return Arrays.asList(datacache.get(location).get(1).split("<#"));
+		List<String> result = new LinkedList<String>(
+				Arrays.asList(datacache.get(location).get(1).split("<#")));
+		return result;
 	}
 
 	public String getOwner(String location) {
@@ -119,7 +122,9 @@ public abstract class Database {
 		if (datacache.get(location) == null) {
 			return null;
 		}
-		return Arrays.asList(datacache.get(location).get(2).split("<#"));
+		List<String> result = new LinkedList<String>(
+				Arrays.asList(datacache.get(location).get(2).split("<#")));
+		return result;
 	}
 
 	public String getSkin(String location) {

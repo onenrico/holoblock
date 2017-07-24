@@ -31,7 +31,8 @@ public class MoveLineMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "MoveLineMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -39,9 +40,12 @@ public class MoveLineMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
+	private static Boolean first = true;
 
 	public static void open(Player player, String rawloc, int page, int currentline) {
-		setup();
+		if(first) {
+			setup();
+		}
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		List<String> lines = data.getLines();
 		int current = lines.size();
@@ -57,12 +61,12 @@ public class MoveLineMenu {
 		pu.add("lines", "" + current);
 		String title = pu.t(Core.getThis().guiconfig.getStr("MoveLineMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		PrevPageItem = pu.t(PrevPageItem);
-		NextPageItem = pu.t(NextPageItem);
-		CurrentPosition = pu.t(CurrentPosition);
-		CancelItem = pu.t(CancelItem);
+		ItemStack tempPrevPageItem = pu.t(PrevPageItem.clone());
+		ItemStack tempNextPageItem = pu.t(NextPageItem.clone());
+		ItemStack tempCurrentPosition = pu.t(CurrentPosition.clone());
+		ItemStack tempCancelItem = pu.t(CancelItem.clone());
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem)
+			InventoryUT.setItem(inv, 45, tempPrevPageItem)
 					.addClick("OpenPageMove:" + rawloc + ":" + (page - 1) + ":" + currentline);
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
@@ -75,10 +79,10 @@ public class MoveLineMenu {
 				}
 				pu.add("content", content);
 				if ((x + multiplier) == currentline) {
-					CurrentPosition = pu.t(CurrentPosition);
-					CurrentPosition = ItemUT.setGlowing(CurrentPosition, true);
-					CurrentPosition.setAmount(x + 1);
-					InventoryUT.setItem(inv, x, CurrentPosition);
+					tempCurrentPosition = pu.t(tempCurrentPosition);
+					tempCurrentPosition = ItemUT.setGlowing(tempCurrentPosition, true);
+					tempCurrentPosition.setAmount(x + 1);
+					InventoryUT.setItem(inv, x, tempCurrentPosition);
 				} else {
 					ItemStack line = ReplacePosition.clone();
 					line = pu.t(line);
@@ -97,10 +101,10 @@ public class MoveLineMenu {
 				}
 				pu.add("content", content);
 				if (x == currentline) {
-					CurrentPosition = pu.t(CurrentPosition);
-					CurrentPosition = ItemUT.setGlowing(CurrentPosition, true);
-					CurrentPosition.setAmount(x + 1);
-					InventoryUT.setItem(inv, x, CurrentPosition);
+					tempCurrentPosition = pu.t(tempCurrentPosition);
+					tempCurrentPosition = ItemUT.setGlowing(tempCurrentPosition, true);
+					tempCurrentPosition.setAmount(x + 1);
+					InventoryUT.setItem(inv, x, tempCurrentPosition);
 				} else {
 					ItemStack line = ReplacePosition.clone();
 					line = pu.t(line);
@@ -113,12 +117,12 @@ public class MoveLineMenu {
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem)
+				InventoryUT.setItem(inv, 53, tempNextPageItem)
 						.addClick("OpenPageMove:" + rawloc + ":" + (page + 1) + ":" + currentline);
 			}
 		}
 		for (int x = 0; x < 5; x++) {
-			InventoryUT.setItem(inv, x + 47, CancelItem).addClick("EditLineMenu:" + rawloc);
+			InventoryUT.setItem(inv, x + 47, tempCancelItem).addClick("EditLineMenu:" + rawloc);
 		}
 		player.openInventory(inv);
 	}

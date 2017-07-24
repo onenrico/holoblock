@@ -33,7 +33,8 @@ public class AdminHologramMenu {
 	}
 
 	private static ItemStack setupItem(String name) {
-		String prefix = "AdminHologramMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -41,10 +42,11 @@ public class AdminHologramMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
-	@SuppressWarnings("deprecation")
+	private static Boolean first = true;
 	public static void open(Player player, int page) {
-		setup();
+		if(first) {
+			setup();
+		}
 		List<String> members = new ArrayList<>();
 		members.addAll(Datamanager.loadedOwner);
 		int current = members.size();
@@ -58,11 +60,11 @@ public class AdminHologramMenu {
 		pu.add("player", "" + player.getName());
 		String title = pu.t(Core.getThis().guiconfig.getStr("AdminHologramMenu.Title", "Title &cNot Configured !"));
 		Inventory inv = InventoryUT.createInventory(6, title);
-		PrevPageItem = pu.t(PrevPageItem);
-		NextPageItem = pu.t(NextPageItem);
+		ItemStack tempPrevPageItem = pu.t(PrevPageItem.clone());
+		ItemStack tempNextPageItem = pu.t(NextPageItem.clone());
 		World world = Bukkit.getWorlds().get(0);
 		if (page > 1) {
-			InventoryUT.setItem(inv, 45, PrevPageItem).addClick("OpenPageAdmin:" + (page - 1));
+			InventoryUT.setItem(inv, 45, tempPrevPageItem).addClick("OpenPageAdmin:" + (page - 1));
 			int multiplier = 45 * (page - 1);
 			current = current - multiplier;
 			for (int x = 0; x < MathUT.clamp(current, 0, 45); x++) {
@@ -112,7 +114,7 @@ public class AdminHologramMenu {
 		}
 		if (maxpage > 1) {
 			if (page + 1 <= maxpage) {
-				InventoryUT.setItem(inv, 53, NextPageItem).addClick("OpenPageAdmin:" + (page + 1));
+				InventoryUT.setItem(inv, 53, tempNextPageItem).addClick("OpenPageAdmin:" + (page + 1));
 			}
 		}
 		player.openInventory(inv);

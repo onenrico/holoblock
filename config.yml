@@ -1,46 +1,46 @@
-# ────────────────────────────────────────────────────────────────
-# ─██████──██████─██████████████─██████─────────██████████████────
-# ─██░░██──██░░██─██░░░░░░░░░░██─██░░██─────────██░░░░░░░░░░██────
-# ─██░░██──██░░██─██░░██████░░██─██░░██─────────██░░██████░░██────
-# ─██░░██──██░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
-# ─██░░██████░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
-# ─██░░░░░░░░░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
-# ─██░░██████░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
-# ─██░░██──██░░██─██░░██──██░░██─██░░██─────────██░░██──██░░██────
-# ─██░░██──██░░██─██░░██████░░██─██░░██████████─██░░██████░░██────
-# ─██░░██──██░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██────
-# ─██████──██████─██████████████─██████████████─██████████████────
-# ────────────────────────────────────────────────────────────────
-# ────────────────────────────────────────────────────────────────────────────────
-# ─██████████████───██████─────────██████████████─██████████████─██████──████████─
-# ─██░░░░░░░░░░██───██░░██─────────██░░░░░░░░░░██─██░░░░░░░░░░██─██░░██──██░░░░██─
-# ─██░░██████░░██───██░░██─────────██░░██████░░██─██░░██████████─██░░██──██░░████─
-# ─██░░██──██░░██───██░░██─────────██░░██──██░░██─██░░██─────────██░░██──██░░██───
-# ─██░░██████░░████─██░░██─────────██░░██──██░░██─██░░██─────────██░░██████░░██───
-# ─██░░░░░░░░░░░░██─██░░██─────────██░░██──██░░██─██░░██─────────██░░░░░░░░░░██───
-# ─██░░████████░░██─██░░██─────────██░░██──██░░██─██░░██─────────██░░██████░░██───
-# ─██░░██────██░░██─██░░██─────────██░░██──██░░██─██░░██─────────██░░██──██░░██───
-# ─██░░████████░░██─██░░██████████─██░░██████░░██─██░░██████████─██░░██──██░░████─
-# ─██░░░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░░░░░░░░░██─██░░██──██░░░░██─
-# ─████████████████─██████████████─██████████████─██████████████─██████──████████─
-# ────────────────────────────────────────────────────────────────────────────────
-
-pluginPrefix: '&8&l<&bHoloBlock&8&l> &e'
+pluginPrefix: "&8&l<&bHoloBlock&8&l> &e"
 locales: EN
 worldguard-override: false
+
+#=====-----=====-----=====-----[      Holo Configuration      ]-----=====-----=====-----=====#
 holo:
-  default_offset: 1.8
+
+  default_offset: 1.6
+  #This is default hologram height offset
+  
   default_line:
-  - '&7Right-Click On My Head To Edit Me'
-  max_line: 100
-  max_owned: 10
-  max_member: 5
-  max_text: 1000
+  - "&7Right-Click On Head To Edit Me"
+  #Default Line When Hologram Placed On
+  
+  max_line: 1000
+  #This is Max Line for the hologram
+  #Permission per player holoblock.maxline.<number> | Example: holoblock.maxline.5 (For 5 line only)
+  #Permission holoblock.maxline.* will return max value
+  
+  max_owned: 1000
+  #This is Max Owned for the hologram
+  #Permission per player holoblock.maxowned.<number> | Example: holoblock.maxowned.1 (For 1 holo only
+  #Permission holoblock.maxowned.* will return max value
+  
+  max_member: 1000
+  #This is Max Member for the hologram
+  #Permission per player holoblock.maxmember.<number> | Example: holoblock.maxmember.2 (For 2 member only)
+  #Permission holoblock.maxmember.* will return max value
+  
+  max_text: 100
+  #This is Max Text For The Hologram
+  
   item:
-    cost: 1000
-    head: SecurityCamera
-    displayname: '&7&k||&r &6&lHologram Head &7&k||'
-    description:
+    cost: 2500
+    #cost of the holoblock
+
+    head: 'SecurityCamera'
+    #default skin name Used for the head
+    
+    displayname: '&7&k||&r &aHologram Head &7&k||'
+    #item name
+    
+    description: 
     - '&7&m------------------------------'
     - ''
     - '&eThis Is Portable &6Hologram Head'
@@ -48,6 +48,9 @@ holo:
     - '&ePlace It Anywhere You Want'
     - ''
     - '&7&m------------------------------'
+    #item lore
+
+#=====-----=====-----=====-----[      Line Items      ]-----=====-----=====-----=====#
 LineItems:
 - DIAMOND>2500
 - IRON_INGOT>1500
@@ -55,6 +58,86 @@ LineItems:
 - COAL>900
 - REDSTONE>2000
 - EMERALD>3000
+- 368>1000
+- 378>2000
+- 377>2000
+- 399>5000
+- 46>2500
+- 276>2000
+- 277>2000
+- 278>2000
+- 279>2000
+- BOW>2000
+- ARROW>2000
+- DIAMOND_HELMET>2500
+- DIAMOND_CHESTPLATE>2500
+- DIAMOND_LEGGINGS>2500
+- DIAMOND_BOOTS>2500
+- IRON_HELMET>2500
+- IRON_CHESTPLATE>2500
+- IRON_LEGGINGS>2500
+- IRON_BOOTS>2500
+- 30>1500
+- CHEST>2500
+- ENDER_CHEST>3000
+- CACTUS>1500
+- 103>1500
+- 86>1500
+- BOOK>1000
+- PAPER>500
+- 386>1500
+- 387>2500
+- 389>2000
+- 395>2000
+- 401>1500
+- 417>2000
+- 418>2000
+- 419>2000
+- SADDLE>2000
+- 420>2000
+- 323>2000
+- BARRIER>10000
+- 349>1000
+- BONE>1500
+- CAKE>1500
+- 357>1000
+- 359>1500
+- 325>2000
+- 326>3000
+- 327>4000
+- LEATHER>1000
+- 332>1000
+- 384>5000
+- 116>6000
+- anvil>2000
+- 31>10000
+- 6>1000
+- 6:1>1000
+- 6:2>1000
+- 6:3>1000
+- 6:4>1000
+- 6:5>1000
+- 155>1500
+- 425>2500
+- 349:1>1000
+- 349:2>1000
+- 349:3>1000
+- 351:0>500
+- 351:1>500
+- 351:2>500
+- 351:3>500
+- 351:4>500
+- 351:5>500
+- 351:6>500
+- 351:7>500
+- 351:8>500
+- 351:9>500
+- 351:10>500
+- 351:11>500
+- 351:12>500
+- 351:13>500
+- 351:14>500
+- 351:15>500
 - WOOL>500
 - WOOL:2>500
 - WOOL:3>500
@@ -102,39 +185,37 @@ LineItems:
 - STAINED_GLASS_PANE:13>500
 - STAINED_GLASS_PANE:14>500
 - STAINED_GLASS_PANE:15>500
+
+
+#=====-----=====-----=====-----[      Custom Skin      ]-----=====-----=====-----=====#
 CustomSkins:
   ARROW_LEFT:
     cost: 1000.0
     potions:
-    - "INCREASE_DAMAGE:0"
     - "FAST_DIGGING:0"
     type: name
     data: MHF_ArrowLeft
   ARROW_RIGHT:
     cost: 1000.0
     potions:
-    - "INCREASE_DAMAGE:0"
     - "FAST_DIGGING:0"
     type: name
     data: MHF_ArrowRight
   ARROW_UP:
     cost: 1000.0
     potions:
-    - "INCREASE_DAMAGE:0"
     - "FAST_DIGGING:0"
     type: name
     data: MHF_ArrowUP
   ARROW_DOWN:
     cost: 1000.0
     potions:
-    - "INCREASE_DAMAGE:0"
     - "FAST_DIGGING:0"
     type: name
     data: MHF_ArrowDown
   QUESTION:
     cost: 1000.0
     potions:
-    - "INCREASE_DAMAGE:0"
     - "FAST_DIGGING:0"
     type: name
     data: MHF_Question
@@ -142,46 +223,50 @@ CustomSkins:
     cost: 1000.0
     potions:
     - "INCREASE_DAMAGE:0"
-    - "FAST_DIGGING:0"
     type: name
     data: MHF_Exclamation
   MACHINE:
-    cost: 1000.0
+    cost: 6000.0
     potions:
-    - "INCREASE_DAMAGE:0"
-    - "FAST_DIGGING:0"
+    - "FAST_DIGGING:3"
     type: encode
     data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmRkZDRhMTJkYTFjYzJjOWY5ZDZjZDQ5ZmM3NzhlM2ExMWYzNzU3ZGU2ZGQzMTJkNzBhMGQ0Nzg4NTE4OWMwIn19fQ==\
   BURGER:
-    cost: 1000.0
+    cost: 8000.0
     potions:
-    - "INCREASE_DAMAGE:0"
-    - "FAST_DIGGING:0"
+    - "JUMP:0"
     type: encode
     data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmVmNjMzNDNkMWZmMWVmY2FkNTQyYTE5MTAyMzdkNTMzYjVlMWQ1NDIxY2EyMzVlNWQxZWZjMDllNzA1NyJ9fX0=
   SMILE_PUMPKIN:
-    cost: 1000.0
+    cost: 10000.0
     potions:
-    - "INCREASE_DAMAGE:0"
-    - "FAST_DIGGING:0"
+    - "CONFUSION:0"
+    - "BLINDNESS:0"
+    - "INVISIBILITY:0"
     type: encode
     data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTJlYTk2ZjU0MGYxNzFkNmY2ODQ0NjY5YjE3NTNjZjQ4YThmNDE1ZThiYzM3YzhlZThiZjU2MWNhNmUzMWYyOCJ9fX0=
-  BBQ:
-    cost: 1000.0
+  BOXING_GLOVE:
+    cost: 5000.0
     potions:
+    - "INCREASE_DAMAGE:1"
+    - "SPEED:0"
+    type: url
+    data: http://textures.minecraft.net/texture/97b416d36b75617398d7bb3ce8db8a74bd5e31418253778c7a6fe85498671
+  BBQ:
+    cost: 8000.0
+    potions:
+    - "NIGHT_VISION:0"
     - "INCREASE_DAMAGE:0"
-    - "FAST_DIGGING:0"
     type: url
     data: http://textures.minecraft.net/texture/a86f19bf23d248e662c9c8b7fa15efb8a1f1d5bdacd3b8625a9b59e93ac8a
   KEYPAD:
-    cost: 1000.0
+    cost: 8000.0
     potions:
-    - "INCREASE_DAMAGE:0"
-    - "FAST_DIGGING:0"
+    - "FAST_DIGGING:2"
     type: url
     data: http://textures.minecraft.net/texture/391b5e3a6db068a0331f31e87284e756e1f21a482d0731c2ef8ee6091f0433d
   MASTER_BALL:
-    cost: 1000.0
+    cost: 25000.0
     potions:
     - "INCREASE_DAMAGE:0"
     - "FAST_DIGGING:0"
@@ -189,3 +274,45 @@ CustomSkins:
     - "SPEED:3"
     type: url
     data: http://textures.minecraft.net/texture/556d2a1cdda8778ffd833c7a5f539b87f99eb83a5d19599e5fa8e6c966c37c2
+  MINING|_HEAD:
+    cost: 25000.0
+    potions:
+    - "FAST_DIGGING:1"
+    - "SPEED:2"
+    type: url
+    data: http://textures.minecraft.net/texture/891430f386468e9fae98465b4ccc5fcfb5cb1e4397e6e8a3436ba52f8cb5030
+  LAMP:
+    cost: 25000.0
+    potions:
+    - "NIGHT_VISION:3"
+    - "SPEED:1"
+    type: url
+    data: http://textures.minecraft.net/texture/e4cf94dbeef8acc415f3724ad623d49c877e936a3ff833981bf12b0ea
+  LAMP:
+    cost: 25000.0
+    potions:
+    - "NIGHT_VISION:3"
+    - "SPEED:1"
+    type: url
+    data: http://textures.minecraft.net/texture/e4cf94dbeef8acc415f3724ad623d49c877e936a3ff833981bf12b0ea
+  FREDDY:
+    cost: 25000.0
+    potions:
+    - "NIGHT_VISION:3"
+    - "BLINDNESS:0"
+    - "CONFUSION:0"
+    - "SPEED:1"
+    - "JUMP:1"
+    - "FAST_DIGGING:1"
+    type: url
+    data: http://textures.minecraft.net/texture/c95eaac21848755e10d0259e03fa5a2b9ccc5509d302c6d189ebfb03925c576
+  WATER_SHRINE:
+    cost: 25000.0
+    potions:
+    - "NIGHT_VISION:3"
+    - "WATER_BREATHING:0"
+    - "SPEED:1"
+    - "JUMP:1"
+    - "FAST_DIGGING:1"
+    type: url
+    data: http://textures.minecraft.net/texture/e68476c421f6c04960103dfc501e1d5ab5356cceb67abee9e7d2a1b4546cd0cc

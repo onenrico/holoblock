@@ -22,6 +22,11 @@ public class CloseEvent implements Listener {
 
 	@EventHandler
 	public void close(InventoryCloseEvent event) {
+		if(ClickEvent.MenuItems.keySet() != null) {
+			if(ClickEvent.MenuItems.keySet().contains(event.getInventory())) {
+				ClickEvent.MenuItems.remove(event.getInventory());
+			}
+		}
 		Player player = (Player) event.getPlayer();
 		if (MainMenu.animation.contains(player)) {
 			MainMenu.animation.remove(player);

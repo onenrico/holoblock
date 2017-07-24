@@ -39,8 +39,10 @@ public class MainMenu {
 		EditMemberItem = setupItem("MemberItem");
 	}
 
+	public static List<Player> animation = new ArrayList<>();
 	private static ItemStack setupItem(String name) {
-		String prefix = "MainMenu." + name + ".";
+		first = false;
+		String prefix = "AddLineMenu." + name + ".";
 		ItemStack result = ItemUT.getItem(Core.getThis().guiconfig.getStr(prefix + "Material", "STONE").toUpperCase());
 		ItemUT.changeDisplayName(result,
 				Core.getThis().guiconfig.getStr(prefix + "Displayname", "&6" + name + " &fName &cNot Configured !"));
@@ -48,12 +50,11 @@ public class MainMenu {
 				ItemUT.createLore("&6" + name + " &fDescription &cNot Configured !")));
 		return result;
 	}
-
-	public static List<Player> animation = new ArrayList<>();
-
-	@SuppressWarnings("deprecation")
+	private static Boolean first = true;
 	public static void open(Player player, String rawloc) {
-		setup();
+		if(first) {
+			setup();
+		}
 		Inventory inv = InventoryUT.createInventory(3,
 				Core.getThis().guiconfig.getStr("MainMenu.Title", "&c&lNot Configured !"));
 		if (!animation.contains(player)) {
@@ -66,61 +67,61 @@ public class MainMenu {
 		player.removeMetadata("EditSkin:", Core.getThis());
 		player.removeMetadata("AddLine:", Core.getThis());
 		player.removeMetadata("MoveLine:", Core.getThis());
-
-		new BukkitRunnable() {
-			int index = 0;
-			Boolean reverse = false;
-			String item = "DIAMOND";
-			Random r = new Random();
-			String[] items = { "DIAMOND", "EMERALD", "REDSTONE", "COAL", "GOLD_INGOT", "IRON_INGOT" };
-			int data = 0;
-
-			@Override
-			public void run() {
-				if (!animation.contains(player)) {
-					cancel();
-					return;
-				}
-				for (int x = 0; x < inv.getSize(); x++) {
-					if (x != 4 && x != 11 && x != 13 && x != 15 && x != 22) {
-						if (data > 15) {
-							data = 0;
-						}
-						InventoryUT.setItem(inv, x, ItemUT.changeDisplayName(ItemUT.getItem("160:" + data), "&r"));
-						data++;
-					}
-				}
-				if (reverse) {
-					if (index <= 0) {
-						item = items[r.nextInt(items.length)];
-						InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
-						reverse = false;
-					} else {
-						if (index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
-							InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
-						} else {
-							item = items[r.nextInt(items.length)];
-						}
-						index--;
-					}
-				} else {
-					if (index >= inv.getSize()) {
-						item = items[r.nextInt(items.length)];
-						reverse = true;
-						index--;
-						InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
-					} else {
-						if (index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
-							InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
-						} else {
-							item = items[r.nextInt(items.length)];
-						}
-						index++;
-					}
-				}
-
-			}
-		}.runTaskTimer(Core.getThis(), 0, 8);
+//
+//		new BukkitRunnable() {
+//			int index = 0;
+//			Boolean reverse = false;
+//			String item = "DIAMOND";
+//			Random r = new Random();
+//			String[] items = { "DIAMOND", "EMERALD", "REDSTONE", "COAL", "GOLD_INGOT", "IRON_INGOT" };
+//			int data = 0;
+//
+//			@Override
+//			public void run() {
+//				if (!animation.contains(player)) {
+//					cancel();
+//					return;
+//				}
+//				for (int x = 0; x < inv.getSize(); x++) {
+//					if (x != 4 && x != 11 && x != 13 && x != 15 && x != 22) {
+//						if (data > 15) {
+//							data = 0;
+//						}
+//						InventoryUT.setItem(inv, x, ItemUT.changeDisplayName(ItemUT.getItem("160:" + data), "&r"));
+//						data++;
+//					}
+//				}
+//				if (reverse) {
+//					if (index <= 0) {
+//						item = items[r.nextInt(items.length)];
+//						InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
+//						reverse = false;
+//					} else {
+//						if (index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
+//							InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
+//						} else {
+//							item = items[r.nextInt(items.length)];
+//						}
+//						index--;
+//					}
+//				} else {
+//					if (index >= inv.getSize()) {
+//						item = items[r.nextInt(items.length)];
+//						reverse = true;
+//						index--;
+//						InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&b&l<<<"));
+//					} else {
+//						if (index != 4 && index != 11 && index != 13 && index != 15 && index != 22) {
+//							InventoryUT.setItem(inv, index, ItemUT.changeDisplayName(ItemUT.getItem(item), "&a&l>>>"));
+//						} else {
+//							item = items[r.nextInt(items.length)];
+//						}
+//						index++;
+//					}
+//				}
+//
+//			}
+//		}.runTaskTimer(Core.getThis(), 0, 8);
 		PlaceholderUT pu = new PlaceholderUT(Locales.getPlaceholder());
 		HoloData data = Datamanager.getDataByLoc(rawloc);
 		String owner = data.getOwner();
@@ -155,50 +156,50 @@ public class MainMenu {
 		} else {
 			pu.add("skin", "&e" + skin);
 		}
-		EditInfoItem = pu.t(EditInfoItem);
-		EditLineItem = pu.t(EditLineItem);
-		EditOffSetItem = pu.t(EditOffSetItem);
-		EditSkinItem = pu.t(EditSkinItem);
-		EditMemberItem = pu.t(EditMemberItem);
-		if (EditInfoItem.getItemMeta() instanceof SkullMeta) {
-			SkullMeta meta = (SkullMeta) EditInfoItem.getItemMeta();
+		ItemStack tempEditInfoItem = pu.t(EditInfoItem.clone());
+		ItemStack tempEditLineItem = pu.t(EditLineItem.clone());
+		ItemStack tempEditOffSetItem = pu.t(EditOffSetItem.clone());
+		ItemStack tempEditSkinItem = pu.t(EditSkinItem.clone());
+		ItemStack tempEditMemberItem = pu.t(EditMemberItem.clone());
+		if (tempEditInfoItem.getItemMeta() instanceof SkullMeta) {
+			SkullMeta meta = (SkullMeta) tempEditInfoItem.getItemMeta();
 			meta.setOwner(owner);
-			EditInfoItem.setItemMeta(meta);
+			tempEditInfoItem.setItemMeta(meta);
 		}
-		if (EditSkinItem.getItemMeta() instanceof SkullMeta) {
-			SkullMeta meta = (SkullMeta) EditSkinItem.getItemMeta();
+		if (tempEditSkinItem.getItemMeta() instanceof SkullMeta) {
+			SkullMeta meta = (SkullMeta) tempEditSkinItem.getItemMeta();
 			if (custom) {
 				CustomSkin cs = new CustomSkin(skin);
 				ItemStack customskin = null;
 				switch (cs.getType().toLowerCase()) {
 				case "name":
 					meta.setOwner(cs.getData());
-					EditSkinItem.setItemMeta(meta);
+					tempEditSkinItem.setItemMeta(meta);
 					break;
 				case "url":
 					customskin = cs.getSkullitem();
-					customskin = ItemUT.changeDisplayName(customskin, pu.t(ItemUT.getName(EditSkinItem)));
-					customskin = ItemUT.changeLore(customskin, pu.t(ItemUT.getLore(EditSkinItem)));
-					EditSkinItem = customskin;
+					customskin = ItemUT.changeDisplayName(customskin, pu.t(ItemUT.getName(tempEditSkinItem)));
+					customskin = ItemUT.changeLore(customskin, pu.t(ItemUT.getLore(tempEditSkinItem)));
+					tempEditSkinItem = customskin;
 					break;
 				case "encode":
 					customskin = cs.getSkullitem();
-					customskin = ItemUT.changeDisplayName(customskin, pu.t(ItemUT.getName(EditSkinItem)));
-					customskin = ItemUT.changeLore(customskin, pu.t(ItemUT.getLore(EditSkinItem)));
-					EditSkinItem = customskin;
+					customskin = ItemUT.changeDisplayName(customskin, pu.t(ItemUT.getName(tempEditSkinItem)));
+					customskin = ItemUT.changeLore(customskin, pu.t(ItemUT.getLore(tempEditSkinItem)));
+					tempEditSkinItem = customskin;
 					break;
 				}
 			}
 			if (!custom) {
 				meta.setOwner(skin);
-				EditSkinItem.setItemMeta(meta);
+				tempEditSkinItem.setItemMeta(meta);
 			}
 		}
-		InventoryUT.setItem(inv, 4, EditInfoItem).addClick("Refresh:" + rawloc);
-		InventoryUT.setItem(inv, 11, EditLineItem).addClick("EditLineMenu:" + rawloc);
-		InventoryUT.setItem(inv, 13, EditOffSetItem).addClick("EditOffSet:" + rawloc);
-		InventoryUT.setItem(inv, 15, EditMemberItem).addClick("EditMemberMenu:" + rawloc);
-		InventoryUT.setItem(inv, 22, EditSkinItem).addRightClick("EditSkin:" + rawloc)
+		InventoryUT.setItem(inv, 4, tempEditInfoItem).addClick("Refresh:" + rawloc);
+		InventoryUT.setItem(inv, 11, tempEditLineItem).addClick("EditLineMenu:" + rawloc);
+		InventoryUT.setItem(inv, 13, tempEditOffSetItem).addClick("EditOffSet:" + rawloc);
+		InventoryUT.setItem(inv, 15, tempEditMemberItem).addClick("EditMemberMenu:" + rawloc);
+		InventoryUT.setItem(inv, 22, tempEditSkinItem).addRightClick("EditSkin:" + rawloc)
 				.addLeftClick("SkinMenu:" + rawloc);
 		player.openInventory(inv);
 	}

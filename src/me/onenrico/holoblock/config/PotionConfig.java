@@ -1,11 +1,13 @@
 package me.onenrico.holoblock.config;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 
 import me.onenrico.holoblock.main.Core;
 import me.onenrico.holoblock.utils.ConfigUT;
@@ -23,6 +25,15 @@ public class PotionConfig extends ConfigUT implements ConfigSet {
 			Core.getThis().saveResource(filen + ".yml", false);
 		}
 		reload();
+		List<String> peftv = new ArrayList<>();
+		for (PotionEffectType peft : PotionEffectType.values()) {
+			if(peft != null) {
+				String potion = peft.toString().split(",")[1].trim().replace("]", "");
+				peftv.add("" + potion);
+			}
+		}
+		getStrList("PotionList", peftv);
+		save();
 	}
 
 	public void reload() {
@@ -48,7 +59,7 @@ public class PotionConfig extends ConfigUT implements ConfigSet {
 
 	@Override
 	public List<String> getStrList(String path, List<String> def) {
-		return getStrList(path, def, config);
+		return getStrList(path, def, config, config, file);
 	}
 
 	@Override
@@ -58,7 +69,7 @@ public class PotionConfig extends ConfigUT implements ConfigSet {
 
 	@Override
 	public String getStr(String path, String def) {
-		return getStr(path, def, config);
+		return getStr(path, def, config, config, file);
 	}
 
 	@Override
@@ -73,17 +84,16 @@ public class PotionConfig extends ConfigUT implements ConfigSet {
 
 	@Override
 	public int getInt(String path, int def) {
-		return getInt(path, def, config);
+		return getInt(path, def, config,file);
 	}
 
 	@Override
 	public Boolean getBool(String path, boolean def) {
-		return getBool(path, def, config);
+		return getBool(path, def, config,file);
 	}
 
 	@Override
 	public Boolean getBool(String path) {
 		return getBool(path, config);
 	}
-
 }
